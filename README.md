@@ -58,7 +58,12 @@ Pronto! Agora nossa imagem já está no nosso repositório local e já podemos s
 docker run -d --name devldmusic -v "$(pwd)":/usr/src/app -p 5000:5000 ldmusicpy:latest
 ```
 Com o docker run -d iniciamos o nosso conteiner, e com o --name devldmusic damos nome para esse conteiner. 
+
 Com o parametro -v "$(pwd)":/usr/src/app dizemos para espelhar a nossa pasta raiz do sistema na pasta do container, assim toda mudança ou adição feita no diretório local será feita também dentro do conteiner, assim, persistiremos os dados alterados no container.
+
 Com -p 5000:5000 dizemos que a porta 5000 do conteiner se espelhará na porta 5000 do nosso localhost, assim ao acessar localhost:5000/cadastro poderemos acessar o nosso sistema que está rodando dentro do conteiner.
+
 E finalmente com o ldmusicpy:latest dizemos qual é a imagem base que esse conteiner utilizará!
+
+Acesse o http://localhost:5000/index e voílà!
 
