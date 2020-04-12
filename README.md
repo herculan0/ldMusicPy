@@ -6,7 +6,7 @@ Tutorial básico para compartilhamento e nivelamento de conhecimento para o dese
 
 #### **Git**
 
-Facilitar a entrega de pequenas modificações e adições de recursos localmente(no PC de cada um) para o repositório remoto no [Github](https://github.com/marconifj/ldMusic), e também fazer o versionamento do Sistema.
+Facilitar a entrega de pequenas modificações e adições de recursos localmente(no PC de cada um) para o repositório remoto no Github, e também fazer o versionamento do Sistema.
 
 #### **Flask**
 
@@ -57,11 +57,13 @@ Pronto! Agora nossa imagem já está no nosso repositório local e já podemos s
 ```powershell
 docker run -d --name devldmusic -v "$(pwd)":/usr/src/app -p 5000:5000 ldmusicpy:latest
 ```
-Com o docker run -d iniciamos o nosso conteiner, e com o --name devldmusic damos nome para esse conteiner. 
+Com o docker run -d iniciamos o nosso conteiner iniciar se desprender do nosso terminal, caso contrário ficariamos rodando o container e ele pararia assim que cortássemos o processo, desse modo o container fica rodando por "trás".
 
-Com o parametro -v "$(pwd)":/usr/src/app dizemos para espelhar a nossa pasta raiz do sistema na pasta do container, assim toda mudança ou adição feita no diretório local será feita também dentro do conteiner, assim, persistiremos os dados alterados no container.
+--name devldmusic damos nome para esse conteiner. 
 
-Com -p 5000:5000 dizemos que a porta 5000 do conteiner se espelhará na porta 5000 do nosso localhost, assim ao acessar localhost:5000/cadastro poderemos acessar o nosso sistema que está rodando dentro do conteiner.
+-v "$(pwd)":/usr/src/app dizemos para espelhar a nossa pasta raiz do sistema na pasta do container, assim toda mudança ou adição feita no diretório local será feita também dentro do conteiner, assim, persistiremos os dados alterados no container.
+
+-p 5000:5000 dizemos que a porta 5000 do conteiner se espelhará na porta 5000 do nosso localhost, assim ao acessar localhost:5000/cadastro poderemos acessar o nosso sistema que está rodando dentro do conteiner.
 
 E finalmente com o ldmusicpy:latest dizemos qual é a imagem base que esse conteiner utilizará!
 
