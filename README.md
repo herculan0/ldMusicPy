@@ -35,7 +35,7 @@ Pronto, o serviço Docker já foi inicializado e está pronto para subirmos noss
 
 Bora fazer um teste?
 
-Abra o CMD e digite:
+Abra o PowerShell e digite:
 
 ```powershell
 docker run hello-world
