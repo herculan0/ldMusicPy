@@ -37,5 +37,9 @@ def cadastro():
         nome = request.form.get("nome")
         email = request.form.get("email")
 
+        if nome and email:
+            admin = Administrador(nome, email)
+            db.session.add()
+
 if __name__=='__main__':
     app.run(debug=True, host='0.0.0.0')
