@@ -11,7 +11,10 @@ WORKDIR /usr/src/app
 
 COPY . ./
 
-RUN apt-get update && apt-get upgrade -y \ 
+RUN apk update \ 
+    apk upgrade \ 
+    apk add py-setuptools \
+    apk add py-pip \
     && pip install --no-cache-dir -r requirements.txt
 
 EXPOSE 5000
