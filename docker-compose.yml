@@ -1,13 +1,50 @@
-version: '3.1':
+version: '3'
 
 services:
-
+  
   db:
-    image:mysql
-  command: --default-authentication-plugin=mysql_native_password
-  restart: always
-  environment:
-    MYSQL_DATABASE=ldMusic
-    MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    image: mysql:latest
+    container_name: ldmusic_mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=ldMusic
+      - MYSQL_DATABASE=ldMusic
+      - MYSQL_USER=admin
+      - MYSQL_PASSWORD=ldMusic
+    networks:
+      - dev-network
+    volumes: 
+      - ./db-volumes:/var/lib/mysql
+    ports:
+      - "3306:3306"
 
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: ldmusic_phpmyadmin
+    links:
+      - db
+    environment:
+      PM_HOST: db
+      PMA_PORT: "3306"
+      PM_ARBITRARY: 1
+    restart: always
+    ports:
+      - "8183:80"
+  web:
+    build:
+      dockerfile: ./Dockerfile
+      context: .
+    image: ldmusic/latest-dev
+    container_name: web-flask
+    volumes: 
+      - .:/usr/src/app
+    ports:
+      - "5000:5000"
+    depends_on:
+      - "db"
+    networks:
+      - dev-network
+
+networks:
+  dev-network:
+    driver: bridge
 
