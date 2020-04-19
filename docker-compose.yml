@@ -29,6 +29,8 @@ services:
     restart: always
     ports:
       - "8183:80"
+    networks:
+      - dev-network
   web:
     build:
       dockerfile: ./Dockerfile
