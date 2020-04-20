@@ -132,7 +132,9 @@ networks:
 
 Para iniciar a aplicação e todos os contêineres que ela necessita para funcionar basta apenas um simples comando:
 
-``docker-compose up``
+``docker-compose up -d``
+
+Obs: Omita o -d caso queira ver os logs da aplicação no terminal
 
 E para encerrar a aplicação
 

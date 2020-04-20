@@ -6,10 +6,10 @@ services:
     image: mysql:latest
     container_name: ldmusic_mysql
     environment:
-      - MYSQL_ROOT_PASSWORD=ldMusic
+      - MYSQL_ROOT_PASSWORD=password
       - MYSQL_DATABASE=ldMusic
       - MYSQL_USER=admin
-      - MYSQL_PASSWORD=ldMusic
+      - MYSQL_PASSWORD=ldmusic
     networks:
       - dev-network
     volumes: 
@@ -49,4 +49,5 @@ services:
 networks:
   dev-network:
     driver: bridge
-
+volumes:
+  db-volumes:

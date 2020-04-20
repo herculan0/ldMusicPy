@@ -3,7 +3,9 @@ LABEL Author="Herculano"
 LABEL Email="lucasgherculano@gmail.com"
 LABEL version="0.0.1a"
 
-ENV FLASK_DEBUG True
+ENV FLASK_DEBUG=True
+ENV FLASK_ENV=development
+ENV FLASK_APP=ldm.py
 
 RUN mkdir /usr/src/app
 
@@ -19,4 +21,4 @@ RUN apk update \
 
 EXPOSE 5000
 
-CMD ["python", "app.py"]
+CMD ["python", "ldm.py"]
