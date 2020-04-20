@@ -16,21 +16,6 @@ services:
       - ./db-volumes:/var/lib/mysql
     ports:
       - "3306:3306"
-
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    container_name: ldmusic_phpmyadmin
-    links:
-      - db
-    environment:
-      PM_HOST: db
-      PMA_PORT: "3306"
-      PM_ARBITRARY: 1
-    restart: always
-    ports:
-      - "8183:80"
-    networks:
-      - dev-network
   web:
     build:
       dockerfile: ./Dockerfile
