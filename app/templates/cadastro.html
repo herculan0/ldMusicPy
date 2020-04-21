@@ -9,16 +9,23 @@
     <title>Página de Cadastro</title>
 </head>
 <body>
-    <h1>Página Cadastro LDMUSIC</h1>
-    <hr>
+<header>
+  {%include "main.html"%}
+  <h3>Página Cadastro LDMUSIC</h3>
+  <hr>
+</header>
     <form action="{{ url_for ('cadastro')}}" method="POST">
       <table>
+        <p>Selecione o tipo de Usuário</p><br>
+        <input type="radio" id="aluno" name="tipoUsuario" value="aluno">
+        <label for="male">Aluno</label><br>
+        <input type="radio" id="instrutor" name="tipoUsuario" value="instrutor">
+        <label for="female">Instrutor</label><br>
         <tr>
           <td>Nome</td>
           <td><input type="text" name="nome"></td>
         </tr>
         <tr>
-          <td><input type="radio" name="Aluno" value="aluno"></td>>
           <td>Email</td>
           <td><input type="text" name="email"></td>
         </tr>
