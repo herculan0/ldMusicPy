@@ -1,4 +1,8 @@
+pip
 Flask
 SQLAlchemy
 Flask-SQLAlchemy
+pymysql
+cryptography
 flask-login
+
