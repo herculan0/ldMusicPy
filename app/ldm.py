@@ -5,27 +5,39 @@ import pymysql
 app = Flask(__name__)
 
 
+# CONEXÃO DO DRIVER CONECTOR MYSQL #
+
+connection = pymysql.connect(host='db',
+                             user='admin',
+                             password='ldmusic',
+                             db='ldMusic',
+                             charset='utf8mb4')
+
+#CONEXÃO DO SQLALCHEMY (OBJECT RELATIONAL MODEL)#
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://admin:ldmusic@db:3306/ldMusic?charset=utf8mb4'
 app.config['SQLALCHEMY_ECHO'] = True
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+
 app.secret_key = 'ldmusic2020'
 
 db = SQLAlchemy(app)
 
+#CRIANDO CLASSE ALUNO#
+
 class Aluno(db.Model):
     __tablename__ = 'aluno'
-    __id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    _id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     nome = db.Column(db.String(64))
     email = db.Column(db.String(45))
     senha = db.Column(db.String(11))
-
+#MÉTODO CONSTRUTOR DA CLASSE ALUNO
     def __init__(self, nome, email, senha):
         self.nome = nome
         self.email = email
         self.senha = senha
 
-
+#CRIA O BANCO DE DADOS DE ACORDO COM O INSTRUÍDO NOS BLOCOS ACIMA:(PODERÁ SER DELETADO, CASO O BANCO DE DADOS JÁ ESTEJA PRONTO)#
 db.create_all()
 
 @app.route("/")
@@ -36,7 +48,7 @@ def index():
 def cadastrar():
     return render_template("cadastro.html")
 
-
+#ROTA PARA CREATE-RUD
 @app.route("/cadastro", methods=['GET','POST'])
 def cadastro():
     if request.method == "POST":
@@ -51,11 +63,21 @@ def cadastro():
             db.session.commit()
 
     return redirect(url_for("index"))
-
+#ROTA PARA C-READ-UD#
 @app.route("/lista")
 def lista():
     alunos = Aluno.query.all()
     return render_template("lista.html",alunos=alunos)
+
+#ROTA PARA CRU-DELETE#
+@app.route("/excluir/<int:id>")
+def excluir(id):
+    aluno = Aluno.query.filter_by(_id=id).first()
+    db.session.delete(aluno)
+    db.session.commit()
+
+    alunos = Aluno.query.all()
+    return render_template("lista.html", alunos=alunos)
 
 if __name__=='__main__':
     app.run(debug=True, host='0.0.0.0')
