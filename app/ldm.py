@@ -79,5 +79,25 @@ def excluir(id):
     alunos = Aluno.query.all()
     return render_template("lista.html", alunos=alunos)
 
+@app.route("/atualizar/<int:id>", methods=['GET', 'POST'])
+def atualizar(id):
+    aluno = Aluno.query.filter_by(_id=id).first()
+
+    if request.method == "POST":
+        nome = request.form.get("nome")
+        email = request.form.get("email")
+        senha = request.form.get("senha")
+
+        if nome and email and senha :
+            aluno.nome = nome
+            aluno.telefone = telefone
+            aluno.email = email 
+
+            db.session.commit()
+
+            return redirect(url_for("lista"))
+
+        return render_template("atualizar.html", alunos=aluno)
+
 if __name__=='__main__':
     app.run(debug=True, host='0.0.0.0')
