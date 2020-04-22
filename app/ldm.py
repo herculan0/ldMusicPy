@@ -26,6 +26,8 @@ db = SQLAlchemy(app)
 #CRIANDO CLASSE ALUNO#
 
 class Aluno(db.Model):
+
+#MODELO DO BANCO DA CLASSE ALUNO
     __tablename__ = 'aluno'
     _id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     nome = db.Column(db.String(64))
