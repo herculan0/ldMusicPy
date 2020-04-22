@@ -10,29 +10,25 @@
             Instrumentos
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="#">Violão</a>
-            <a class="dropdown-item" href="#">Bateria</a>
+            <a class="dropdown-item btn btn-light" href="#" disabled>Violão</a>
+            <a class="dropdown-item btn btn-light" href="#" disabled>Bateria</a>
         </div>
         <li class="nav-item">
-            <a class="nav-link" href="#">Instrutores</a>
-        </li>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Instrutores</a>
+            <a class="nav-link btn btn-light" href="#" disabled>Instrutores</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('lista')}}">Lista de Alunos</a>
+            <a class="nav-link btn btn-light" href="{{ url_for('lista')}}">Lista de Alunos</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">Login</a>
+            <a class="nav-link btn btn-light" href="#" disabled>Login</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('cadastrar') }}">Cadastre-se</a>
+            <a class="nav-link btn btn-light" href="{{ url_for('cadastrar') }}">Cadastre-se</a>
         </li>
     </ul>
     <form class="form-inline my-2 my-lg-0">
         <input class="form-control mr-sm-2" type="search" placeholder="Pesquisar" aria-label="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Pesquisar Instrumentos</button>
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit" disabled>Pesquisar Instrumentos</button>
     </form>
     </div>
 </nav>
