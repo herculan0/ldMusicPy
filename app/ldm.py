@@ -93,13 +93,13 @@ def atualizar(id):
         if nome and email and senha :
             aluno.nome = nome
             aluno.telefone = telefone
-            aluno.email = email 
+            aluno.email = email
 
             db.session.commit()
 
             return redirect(url_for("lista"))
 
-        return render_template("atualizar.html", alunos=aluno)
+        return render_template("atualizar.html", alunos=alunos)
 
 if __name__=='__main__':
     app.run(debug=True, host='0.0.0.0')
