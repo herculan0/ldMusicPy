@@ -20,7 +20,8 @@
                         <th scope=col>ID</th>
                         <th scope=col>Nome</th>
                         <th scope=col>Email</th>
-                        <th scope=col>Deletar</th>                
+                        <th scope=col>Deletar</th> 
+                        <th scope=col>Atualizar</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -30,6 +31,7 @@
                         <td>{{aluno.nome}}</td>
                         <td>{{aluno.email}}</td>
                         <td><a class="btn btn-danger" href="/excluir/{{ aluno._id }}" role="button">Excluir</a></td>
+                        <td><a class="btn btn-warning"href="/atualizar/{{ aluno._id }}" role="button">Atualizar</a></td>
                     </tr>
                 {% endfor %}
                 </tbody>
