@@ -99,7 +99,7 @@ def atualizar(id):
 
             return redirect(url_for("lista"))
 
-    return render_template("atualizar.html", alunos=alunos)
+    return render_template("atualizar.html", aluno=aluno)
 
 if __name__=='__main__':
     app.run(debug=True, host='0.0.0.0')
