@@ -92,7 +92,6 @@ def atualizar(id):
 
         if nome and email and senha :
             aluno.nome = nome
-            aluno.telefone = telefone
             aluno.email = email
 
             db.session.commit()
