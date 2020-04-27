@@ -29,4 +29,4 @@ ENV DEBIAN_FRONTEND=teletype
 EXPOSE 5000
 
 
-CMD ["python", "app/ldm.py"]
+CMD ["flask", "run","--host","0.0.0.0"]

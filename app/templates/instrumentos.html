@@ -1,0 +1,15 @@
+<div class="card" style="width: 18rem;">
+
+    {% for instrumento in instrumentos %}
+    
+    <img class="card-img-top" src={{ instrumento.foto() }} alt={{ nome_instrumento }}>
+    
+    <div class="card-body">
+        <h5 class="card-title">{{ nome_instrumento }}</h5>
+        <p class="card-text">{{ descricao_instrumento }}</p>
+        <a href="#" class="btn btn-primary">Aprender</a>
+    </div>
+
+    {% endfor %}
+
+</div>
