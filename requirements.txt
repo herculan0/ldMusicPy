@@ -1,8 +1,12 @@
+requests
 pip
 Flask
 SQLAlchemy
 Flask-SQLAlchemy
 pymysql
-cryptography
-flask-login
+itsdangerous
+Flask-login
+Flask-WTF
+Flask-Bootstrap4
+Flask-Mail
 
