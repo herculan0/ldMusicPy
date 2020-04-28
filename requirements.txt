@@ -7,6 +7,6 @@ pymysql
 itsdangerous
 Flask-login
 Flask-WTF
-Flask-Bootstrap4
+Flask-Bootstrap
 Flask-Mail
 
