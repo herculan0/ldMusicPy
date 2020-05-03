@@ -3,9 +3,9 @@ LABEL Author="Herculano"
 LABEL Email="lucasgherculano@gmail.com"
 LABEL version="0.0.1a"
 
-ENV FLASK_DEBUG=True
 ENV FLASK_ENV=development
-ENV FLASK_APP=ldm.py
+ENV FLASK_APP=ldmusic
+ENV SQLALCHEMY_TRACK_MODIFICATIONS=False
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -27,6 +27,5 @@ RUN pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt
 ENV DEBIAN_FRONTEND=teletype
 
 EXPOSE 5000
-
 
 CMD ["flask", "run","--host","0.0.0.0"]
