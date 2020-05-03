@@ -1,0 +1,15 @@
+DROP TABLE IF EXISTS usuario;
+DROP TABLE IF EXISTS funcao;
+
+CREATE TABLE usuario (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    primeiroNome VARCHAR(45) NOT NULL,
+    segundoNome VARCHAR(45),
+    email VARCHAR(64) NOT NULL,
+);
+
+CREATE TABLE funcao (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nome VARCHAR(16),
+    FOREIGN KEY (usuario_id) REFERENCES usuario (id)
+);
