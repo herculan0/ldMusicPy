@@ -9,4 +9,6 @@ Flask-login
 Flask-WTF
 Flask-Bootstrap
 Flask-Mail
+Flask-moment
+email_validator
 
