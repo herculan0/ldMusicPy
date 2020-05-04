@@ -11,4 +11,4 @@ Flask-Bootstrap
 Flask-Mail
 Flask-moment
 email_validator
-
+cryptography
