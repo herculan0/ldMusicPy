@@ -4,7 +4,7 @@ LABEL Email="lucasgherculano@gmail.com"
 LABEL version="0.0.1a"
 
 ENV FLASK_ENV=development
-ENV FLASK_APP=ldmusic
+ENV FLASK_APP=ldMusicPy
 ENV SQLALCHEMY_TRACK_MODIFICATIONS=False
 
 ENV DEBIAN_FRONTEND=noninteractive
