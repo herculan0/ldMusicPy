@@ -12,7 +12,47 @@ Facilitar a entrega de pequenas modificações e adições de recursos localment
 
 Agilizar e facilitar o processo de desenvolvimento  web com Python utilizando o Framework [Flask](https://flask-ptbr.readthedocs.io/en/latest/).
 
-#### **Docker**
+#### Python Ambiente Virtual
+
+Caso você não queira utilizar o Docker ou tenha problemas ao fazê-lo, serão necessárias algumas alterações nos arquivos do projeto.
+
+Poderemos então, para sanar esse problema utilizar o venv, criando um ambiente virtual do python.
+
+Dentro da pasta do projeto, na linha de comando digite:
+
+```bash
+python3 -m venv venv
+```
+
+**No Windows:**
+
+```powershell
+py -3 -m venv venv
+```
+
+Esse comando cria o ambiente virtual dentro da pasta do projeto.
+
+Para Ativar esse ambiente virtual:
+
+```bash
+. venv/bin/activate
+```
+
+**No Windows:**
+
+```powershell
+venv\Scripts\activate
+```
+
+Instale as Bibliotecas necessárias para o projeto(necessário rodar sempre que alguma biblioteca for adicionada ao arquivo requirements.txt)
+
+```bash
+pip install -r requirements.txt
+```
+
+
+
+#### Docker**
 
 Ferramenta para compartilhar o mesmo ambiente de desenvolvimento através de Contêineres e Imagens de Docker (evitando aquela famosa frase "mas na minha máquina funciona")
 
@@ -99,3 +139,4 @@ Obs: Omita o -d caso queira ver os logs da aplicação no terminal
 E para encerrar a aplicação
 
 ``docker-compose down``
+
