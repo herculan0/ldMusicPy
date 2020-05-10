@@ -1,8 +1,52 @@
-pip
+alembic
+bleach
+blinker
+click
+dominate
 Flask
-SQLAlchemy
+Flask-Bootstrap
+Flask-HTTPAuth
+Flask-Login
+Flask-Mail
+Flask-Migrate
+Flask-Moment
+Flask-PageDown
 Flask-SQLAlchemy
-pymysql
-cryptography
-flask-login
+Flask-WTF
+Jinja2
+Mako
+html5lib
+itsdangerous
+Markdown
+MarkupSafe
+python-dateutil
+python-dotenv
+python-editor
+six
+SQLAlchemy
+visitor
+webencodings
+Werkzeug
+WTForms
 
+## dev
+
+certifi
+chardet
+coverage
+faker
+httpie
+idna 
+pygments
+requests
+selenium
+urllib3
+
+# docker
+gunicorn
+pymysql
+
+# prod
+
+Flask-SSLify
+psycopg2
