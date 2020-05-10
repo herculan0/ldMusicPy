@@ -1,19 +1,23 @@
 FROM python:3.8-slim
-LABEL Author="Herculano"
+LABEL Author="Herculano,Diovane,Marconi"
 LABEL Email="lucasgherculano@gmail.com"
 LABEL version="0.0.1a"
 
-ENV FLASK_DEBUG=True
-ENV FLASK_ENV=development
-ENV FLASK_APP=ldm.py
+ENV FLASK_ENV prod
+ENV FLASK_APP ldm.py
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN mkdir /usr/src/app
+RUN adduser -D ldmusic
 
-WORKDIR /usr/src/app
+WORKDIR /home/ldmusic
 
-COPY . ./
+COPY requirements requirements
+RUN python -m venv venv
+
+COPY app app
+COPY migrations migrations
+COPY ldm.py config.py boot.sh ./
 
 RUN echo "Installing Apt-get packages..." \
     && apt-get update \
@@ -22,11 +26,10 @@ RUN echo "Installing Apt-get packages..." \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-RUN pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt
+RUN venv/bin/pip install --no-cache-dir -r requirements/docker.txt
 
 ENV DEBIAN_FRONTEND=teletype
 
 EXPOSE 5000
 
-
-CMD ["python", "app/ldm.py"]
+ENTRYPOINT ["./boot.sh"]
