@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% import "_macros.html" as macros %}
+
+{% block title %}ldMusic - Moderação de Comentários{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>Moderação de Comentários</h1>
+</div>
+{% set moderar = True %}
+{% include '_comentarios.html' %}
+{% if pagination %}
+<div class="pagination">
+    {{ macros.pagination_widget(pagination, '.moderar') }}
+</div>
+{% endif %}
+{% endblock %}
