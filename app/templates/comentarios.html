@@ -1,0 +1,35 @@
+<ul class="comments">
+    {% for comentario in comentarios %}
+    <li class="comment">
+        <div class="comment-thumbnail">
+            <a href="{{ url_for('.usuario', username=comentario.autor.username) }}">
+                <img class="img-rounded profile-thumbnail" src="{{ comentario.autor.gravatar(size=40) }}">
+            </a>
+        </div>
+        <div class="comment-content">
+            <div class="comment-date">{{ moment(comentario.timestamp).fromNow() }}</div>
+            <div class="comment-author"><a href="{{ url_for('.usuario', username=comentario.autor.username) }}">{{ comentario.autor.username }}</a></div>
+            <div class="comment-body">
+                {% if comentario.desabilitado %}
+                <p><i>Este comentário foi desabilitado pelo Moderador.</i></p>
+                {% endif %}
+                {% if moderar or not comentario.desabilitado%}
+                    {% if comentario.body_html %}
+                        {{ comentario.body_html | safe }}
+                    {% else %}
+                        {{ comentario.body }}
+                    {% endif %}
+                {% endif %}
+            </div>
+            {% if moderar %}
+                <br>
+                {% if comentario.desabilitado %}
+                <a class="btn btn-default btn-xs" href="{{ url_for('.moderar_habilitado', id=comentario.id, page=page) }}">Habilitar</a>
+                {% else %}
+                <a class="btn btn-danger btn-xs" href="{{ url_for('.moderar_desabilitado', id=comentario.id, page=page) }}">Desabilitar</a>
+                {% endif %}
+            {% endif %}
+        </div>
+    </li>
+    {% endfor %}
+</ul>

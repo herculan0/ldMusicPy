@@ -4,7 +4,7 @@ blinker
 click
 dominate
 Flask
-Flask-Bootstrap
+Flask_Bootstrap
 Flask-HTTPAuth
 Flask-Login
 Flask-Mail
@@ -36,7 +36,7 @@ chardet
 coverage
 faker
 httpie
-idna 
+idna
 pygments
 requests
 selenium
