@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}ldMusic - Confirmar Conta{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>
+        Olá, {{ current_user.username }}!
+    </h1>
+    <h3>Você ainda não confirmou sua Conta no Email.</h3>
+    <p>
+        Antes de vocẽ acessar o Site você precisa de confirmar sua Conta.
+        Verifique sua Caixa de Inbox no Email, você deve ter recebido uma mensagem com o link de Confirmação.
+    </p>
+    <p>
+        Precisa de outro email de confirmação?
+        <a href="{{ url_for('auth.reenviar_confirmacao') }}">Clique Aqui!</a>
+    </p>
+</div>
+{% endblock %}

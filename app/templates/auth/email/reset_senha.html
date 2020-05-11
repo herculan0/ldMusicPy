@@ -1,0 +1,8 @@
+<p>Olá {{ usuario.username }},</p>
+<p>Para resetar sua senha<a href="{{ url_for('auth.reset_senha', token=token, _external=True) }}">Clique Aqui</a>.</p>
+<p>Alternativamente você pode colar o link a seguir na sua barra de endereço:</p>
+<p>{{ url_for('auth.reset_senha', token=token, _external=True) }}</p>
+<p>Se você não tiver solicitado o reset de Senha você pode ignorar essa mensagem.</p>
+<p>Cordialmente,</p>
+<p>Equipe ldMusic</p>
+<p><small>Nota: respostas para esse email não são monitodas.</small></p>

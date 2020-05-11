@@ -1,0 +1,9 @@
+Olá {{ usuario.username }},
+
+Para confirmar o novo endereço de email clique no link.
+{{ url_for('auth.alterar_email', token=token, _external=True) }}
+
+Cordialmente,
+
+Equipe ldMusic.
+Nota: respostas para esse endereço de email não são monitoradas.

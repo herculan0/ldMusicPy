@@ -1,0 +1,12 @@
+Olá {{ usuario.username }},
+
+Para resetar sua senha clique no link a seguir:
+
+{{ url_for('auth.reset_senha', token=token, _external=True) }}
+
+Se você não tiver solicitado o reset de Senha ignore este email.
+Cordialmente,
+
+Equipe ldMusic
+
+Nota: Respostas para esse email não são monitorada.

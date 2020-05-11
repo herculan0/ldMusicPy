@@ -1,0 +1,13 @@
+Olá {{ usuario.username }},
+
+Bem vindo à ldMusic!
+
+Para confirmar seu email clique no link a seguir:
+
+{{ url_for('auth.confirmar', token=token, _external=True) }}
+
+Cordialmente,
+
+Equipe ldMusic
+
+Nota: respostas para esse email não são monitoradas.

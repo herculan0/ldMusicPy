@@ -32,10 +32,10 @@ class Funcao(db.Model):
     def inserir_funcoes():
         funcoes = {
             'Usuario': [Permissao.COMENTAR,
-                        Permissao.ESCREVER]
+                        Permissao.ESCREVER],
             'Moderador': [Permissao.COMENTAR,
                           Permissao.ESCREVER,
-                          Permissao.MODERAR]
+                          Permissao.MODERAR],
             'Administrador':[Permissao.COMENTAR,
                              Permissao.ESCREVER,
                              Permissao.ADMIN]
@@ -77,7 +77,7 @@ class Usuario(UserMixin, db.Model):
     __tablename__ = 'usuarios'
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(64), unique=True, index=True)
-    username = db.Column(db.String(64), unique=True index=True)
+    username = db.Column(db.String(64), unique=True, index=True)
     funcao_id = db.Column(db.Integer, db.ForeignKey('funcao.id'))
     senha_hash = db.Column(db.String(128))
     confirmado = db.Column(db.Boolean, default=False)
@@ -88,8 +88,8 @@ class Usuario(UserMixin, db.Model):
     ultima_visualizacao = db.Column(db.DateTime(), default=datetime.utcnow)
     avatar_hash = db.Column(db.String(32))
     comentarios = db.relationship('Comentario', backref='autor', lazy='dynamic')
-    tipo_usuario = db.Column(db.String(32))
-    @def __init__(self, **kwargs):
+#    tipo_usuario = db.Column(db.String(32))
+    def __init__(self, **kwargs):
         super(Usuario,self).__init__(**kwargs)
         if self.funcao is None:
             if self.email == current_app.config['FLASKY_ADMIN']:
@@ -100,7 +100,7 @@ class Usuario(UserMixin, db.Model):
             self.avatar_hash = self.gravatar_hash()
 
     @property
-    def password(self):
+    def senha(self):
         raise AttributeError('Senha não é um atributo legível.')
 
     @senha.setter
@@ -205,12 +205,13 @@ class Usuario(UserMixin, db.Model):
     def __repr__(self):
         return '<Usuario %r>' % self.username
 
-class UsuarioAnonimo(AnonymousUserMixin):
-    def can(self, permissoes):
-        return False
-    def eh_administrador:
-        return False
-login_manager.anonymous_user = UsuarioAnonimo
+# class UsuarioAnonimo(AnonymousUserMixin):
+#     def can(self, permissoes):
+#         return False
+#     def administrador:
+#         return False
+
+#login_manager.anonymous_user = UsuarioAnonimo
 
 @login_manager.user_loader
 def carrega_usuario(usuario_id):

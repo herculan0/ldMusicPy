@@ -1,0 +1,8 @@
+<p>Olá {{ usuario.username }},</p>
+<p>Para confirmar o seu endereço de Email<a href="{{ url_for('auth.altera_email', token=token, _external=True) }}">clique aqui</a>.</p>
+<p>Outra alternativa é colar o seguinte link na barra de endereço do seu navegador:</p>
+<p>{{ url_for('auth.alterar_email', token=token, _external=True) }}</p>
+<p>Cordialmente,</p>
+<p>Equipe ldMusic</p>
+<p><small>Nota: As respostas para esse email não são monitoradas.</small></p>
+
