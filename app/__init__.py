@@ -257,3 +257,26 @@ class CadastroForm(FlaskForm):
     def validar_username(self, field):
         if Usuario.query.filter_by(username=field.data.lower()).first():
             raise ValidationError('Usuario já cadastrado')
+
+
+class AlterarSenhaForm(FlaskForm):
+    senha_antiga = PasswordField('Senha Antiga', validators = [DataRequired()])
+    senha = PasswordField('Nova Senha', validators=[
+        DataRequired(), EqualTo('senha2', message='As senhas devem ser iguais.')])
+    senha2 = PasswordField('Confirmar Nova Senha',
+                           validators=[DataRequired()])
+    submit = SubmitField('Atualizar Senha')
+
+class RequisicaoResetaSenhaForm(FlaskForm):
+    email = StringField('Email', validators=[DataRequired(), Length(1,64),
+                                             Email()])
+    submit SubmitField('Resetar Senha')
+
+class SenhaResetaForm(FlaskForm):
+    senha = PasswordField('Nova Senha', validators=[
+        DataRequired(), EqualTo('senha2', message='As senhas devem ser iguais.')])
+    senha2 = PasswordField('Confirmar Nova Senha',
+                           validators=[DataRequired()])
+    submit = SubmitField('Resetar Senha')
+
+
