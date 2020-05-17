@@ -4,7 +4,7 @@ import bleach
 #from dotenv import load_dotenv
 #dotenv_path = os.path.join(os.path.dirname(__file__) '.env.')
 
-from flask import Flask, request, url_for, current_app, redirect, flash
+from flask import Flask, request, url_for, current_app, redirect, render_template, flash
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
@@ -46,6 +46,8 @@ bootstrap.init_app(app)
 mail.init_app(app)
 db.init_app(app)
 login_manager.init_app(app)
+moment.init_app(app)
+pagedown.init_app(app)
 ## MODELS ###
 
 ### cria classe para dar permissões aos usuários ###
@@ -293,7 +295,7 @@ class AlterarEmailForm(FlaskForm):
 ### cria uma rota para o / ou seja 127.0.0.1:5000 ou localhost:5000 ###
 @app.route('/')
 def index():
-    return "Olá, usuário!"
+    return render_template('index.html')
 
 
 @app.before_request
