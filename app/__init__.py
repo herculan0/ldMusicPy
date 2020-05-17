@@ -351,4 +351,24 @@ def cadastro():
         return redirect(url_for('login'))
     return render_template('cadastro.html', form=form)
 
+@app.route('/confirmado/<token>')
+@login_required
+def confirmar(token):
+    if current_user.confirmado:
+        return redirect(url_for('index'))
+    if current_user.confirmar(token):
+        db.session.commit()
+        flash('Conta confirmada com sucesso. Bem vindo!')
+    else:
+        flash:
+            flash('O Link de confirmação é inválido ou expirou.')
+    return redirect(url_for('index'))
 
+@app.route('/confirmar')
+@login_required
+def reenviar_confirmacao():
+    token = current_user.gerar_token_confirmar()
+    send_email(current_user.email, 'Confirme sua Conta', 'confirmar',
+            usuario=current_user, token=token)
+    flash('Um novo email de confirmação foi enviado para o seu email.')
+    return redirect(url_for('index'))
