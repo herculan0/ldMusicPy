@@ -325,7 +325,7 @@ def login()
     form = LoginForm()
     if form.validate_on_submit():
         usuario = Usuario.query.filter_by(email=form.email.data.lower()).first()
-        if usuario is not None and usuario.verifica_senha(form.password.data):
+        if usuario is not None and usuario.verifica_senha(form.senha.data):
             login_user(usuario, form.remember_me.data)
             next = request.args.get('next')
             if next is None or not next.startswith('/'):
@@ -341,3 +341,19 @@ def logout():
     flash('Você se deslogou com sucesso.')
     return redirect(url_for('index'))
 
+@app.route('/cadastro', methods=['GET', 'POST'])
+def cadastro():
+    form = CadastroForm()
+    if form.validate_on_submit():
+        usuario = Usuario(email =form.email.data.lower(),
+                          username=form.username.data,
+                          senha=form.senha.data
+                          nome=form.nome.data)
+        db.session.add(usuario)
+        db.session.commit()
+        token = usuario.gerar_token_confirmar()
+        send_email(usuario.email, 'Confirme sua conta',
+                   'confirmar', usuario=usuario, token=token)
+        flash('Um email de confirmação foi enviado para o seu email.')
+        return redirect(url_for('login'))
+    return render_template('cadastro.html', form=form)
