@@ -1,10 +1,15 @@
 import os
 import hashlib ## senha_hash
 
+from dotenv import load_dotenv
+dotenv_path = os.path.join(os.path.dirname(__file__) '.env.')
+
+
 from flask import Flask, request, url_for, current_app
 from flask_sqlalchemy import SQLAlchemy ## importar banco
 from flask_login import LoginManager, UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
+
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
 ### instancia um objeto da aplicação chamado app ##
@@ -87,3 +92,15 @@ class Usuario(UserMixin,db.Model):
         usuario.senha = nova_senha
         db.session.add(usuario)
         return True
+
+
+class UsuarioAnonimo(AnonymousUserMixin):
+    def can(self,permissoes):
+        return False
+    def administrador:
+        return False
+
+## método para carregar usuário ##
+@login_manager.user_loader
+def carrega_usuario(id):
+    return Usuario.query.get(int(id))
