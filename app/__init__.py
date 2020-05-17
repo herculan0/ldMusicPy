@@ -1,8 +1,8 @@
 import os
 import hashlib
 import bleach
-from dotenv import load_dotenv
-dotenv_path = os.path.join(os.path.dirname(__file__) '.env.')
+#from dotenv import load_dotenv
+#dotenv_path = os.path.join(os.path.dirname(__file__) '.env.')
 
 from flask import Flask, request, url_for, current_app
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -41,12 +41,6 @@ mail.init_app(app)
 db.init_app(app)
 
 
-#### ROTAS (/, /sobre, /login, /cadastro,  /<instrumento>, /<instrutor>, /<aluno>) ####
-
-### cria uma rota para o / ou seja 127.0.0.1:5000 ou localhost:5000 ###
-@app.route('/')
-def index():
-    return "Olá, usuário!"
 
 ## MODELS ###
 
@@ -221,7 +215,7 @@ class Usuario(UserMixin,db.Model):
 class UsuarioAnonimo(AnonymousUserMixin):
     def can(self,permissoes):
         return False
-    def administrador:
+    def administrador():
         return False
 
 login_manager.anonymous_user = UsuarioAnonimo
@@ -301,3 +295,41 @@ class AlterarEmailForm(FlaskForm):
     def validar_email(self, field):
         if Usuario.query.filter_by(field.data.lower()).first():
             raise ValidationError('Email já está Cadastrado.')
+
+
+#### ROTAS (/, /sobre, /login, /cadastro,  /<instrumento>, /<instrutor>, /<aluno>) ####
+
+### cria uma rota para o / ou seja 127.0.0.1:5000 ou localhost:5000 ###
+@app.route('/')
+def index():
+    return "Olá, usuário!"
+
+
+@app.antes_da_requisicao_app()
+def antes_requisicao():
+    if current_user.is_authenticated:
+        current_user.ping()
+        if not current_user.confirmado \
+                and request.endpoint \
+                and request.endpoint != 'static':
+            return redirect(url_for('nao_confirmado'))
+
+@app.route('/nao_confirmado')
+def nao_confirmado():
+    if current_user.is_anonymous or current_user.confirmado:
+        return redirect(url_for('index'))
+    return render_template('/nao_confirmado.html')
+
+@app.route('/login', methods=['GET', 'POST'])
+def login()
+    form = LoginForm()
+    if form.validate_on_submit():
+        usuario = Usuario.query.filter_by(email=form.email.data.lower()).first()
+        if usuario is not None and usuario.verifica_senha(form.password.data):
+            login_user(usuario, form.remember_me.data)
+            next = request.args.get('next')
+            if next is None or not next.startswith('/'):
+                next = url_for('index')
+            return redirect(next)
+        flash('Email ou senha inválido.')
+    return render_template('login.html', form=form)
