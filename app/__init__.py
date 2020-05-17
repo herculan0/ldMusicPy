@@ -143,6 +143,7 @@ class Usuario(UserMixin,db.Model):
         return s.dumps({'reset': self.id}).decode('utf-8')
 
     ### recriar senha usuário ###
+
     @staticmethod
     def reset_senha(token, nova_senha):
         s = Serializer(current_app.config['SECRET_KEY'])
@@ -156,6 +157,52 @@ class Usuario(UserMixin,db.Model):
         usuario.senha = nova_senha
         db.session.add(usuario)
         return True
+
+    ### cria um token para alteração do email ###
+    def gerar_altera_email_token(self, novo_email, expiration=3600):
+        s = Serializer(current_app.config['SECRET_KEY'], expiration)
+        return s.dumps(
+            {'altera_email': self.id, 'novo_email': novo_email}).decode('utf-8')
+
+    ### altera o email no banco ###
+    def altera_email(self, token):
+        s = Serializer(current_app.config['SECRET_KEY'])
+        try:
+            data = s.loads(token.encode('utf-8'))
+        except:
+            return False
+        if data.get('altera_email') != self.id:
+            return False
+        novo_email = data.get('novo_email')
+        if novo_email is None:
+            return False
+        if self.query.filter_by(email=novo_email).first() is not None:
+            return False
+        self.email = novo_email
+        self.avatar_hash = self.gravatar_hash()
+        db.session.add(self)
+        return True
+
+    ### adiciona permissão de admin ###
+    def perm(self, perm):
+        return self.can(Permissao.ADMIN)
+
+    ### atualiza a ultima_visualizacao do usuario no banco ###
+    def ping(self):
+        self.ultima_visualizacao = datetime.utcnow()
+        db.session.add(self)
+    
+    ### gera um hash para o avatar do usuario ###
+    def gravatar_hash(self):
+        return hashlib.md5(self.email.lower().encode('utf-8')).hexdigest()
+
+    ### gera um avatar ###
+    def gravatar(self, size=100, default='identicon', rating='g'):
+        hash = self.avatar_hash or self.gravatar_hash()
+        return '{url}/{hash}?s={size}&d={default}&r={rating}'.format(
+            url=url, hash=hash, size=size, default=default, rating=rating)
+
+
 
 ### cria usuário anônimo retornando falso para qualquer permissão ###
 class UsuarioAnonimo(AnonymousUserMixin):
