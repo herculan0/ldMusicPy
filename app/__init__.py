@@ -279,4 +279,12 @@ class SenhaResetaForm(FlaskForm):
                            validators=[DataRequired()])
     submit = SubmitField('Resetar Senha')
 
+class AlterarEmailForm(FlaskForm):
+    email = StringField('Novo Email', validators=[DataRequired(), Length(1,64),
+                                             Email()])
+    senha = PasswordField('Senha', validators=[DataRequired()])
+    submit = SubmitField('Atualizar Endereço de Email')
 
+    def validar_email(self, field):
+        if Usuario.query.filter_by(field.data.lower()).first():
+            raise ValidationError('Email já está Cadastrado.')
