@@ -1,5 +1,7 @@
 import os
+
 basedir = os.path.abspath(os.path.dirname(__file__))
+
 
 class Config(object):
     DEBUG = False
@@ -8,8 +10,10 @@ class Config(object):
     SECRET_KEY = 'ldmusic'
     SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
 
+
 class ProductionConfig(Config):
     DEBUG = False
+
 
 class DevelopmentConfig(Config):
     DEVELOPMENT = True
@@ -18,4 +22,4 @@ class DevelopmentConfig(Config):
 
 
 class TestingConfig(Config):
-   TESTING = True
+    TESTING = True
