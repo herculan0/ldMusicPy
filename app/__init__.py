@@ -232,3 +232,28 @@ class LoginForm(FlaskForm):
     senha = PasswordField('Sennha', validators=[DataRequired()])
     remember_me = BooleanField('Me mantenha Logado')
     submit = SubmitField('Entrar')
+
+class CadastroForm(FlaskForm):
+    email = StringField('Email', validators=[DataRequired(), Length(1,64),
+                                             Email()])
+    username = StringField('Usuario', validators=[
+        DataRequired(), Length(1,64),
+        Regexp('^[A-Za-z][A-Za-z0-9.]*$', 0,
+               'Nomes de Usuário devem conter somente letras, números ou pontos')
+    ])
+    senha = PasswordField('Senha', validators=[DataRequired(), EqualTo('senha2', message='Senhas não são iguais.')])
+    senha2 = PasswordField('Confirmar Senha', validators=[DataRequired()])
+    nome = StringField('Nome Completo', validators[
+        DataRequired(), Length(1, 64),
+        Regexp('^[A-Za-z]*$', 0,
+               'Nomes devem conter apenas texto.')])
+    submit = SubmitField('Cadastrar')
+    
+    ### valida se o email já existe ###
+    def validar_email(self, field):
+        if Usuario.query.filter_by(email=field.data.lower()).first():
+            raise ValidationError('Email já em está em uso.')
+    ### valida se o username ja foi cadastrado
+    def validar_username(self, field):
+        if Usuario.query.filter_by(username=field.data.lower()).first():
+            raise ValidationError('Usuario já cadastrado')
