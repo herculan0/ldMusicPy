@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}ldMusic - Entrar{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>Entrar</h1>
+</div>
+<div class="col-md-4">
+    {{ wtf.quick_form(form) }}
+    <br>
+    <p>Esqueceu sua Senha? <a href="{{ url_for('requisicao_reset_senha') }}">Clique aqui para Resetar sua Senha</a>.</p>
+    <p>É Novo Aqui? <a href="{{ url_for('cadastro') }}">Cadastre-se</a>.</p>
+</div>
+{% endblock %}
