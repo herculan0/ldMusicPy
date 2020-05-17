@@ -217,3 +217,18 @@ login_manager.anonymous_user = UsuarioAnonimo
 @login_manager.user_loader
 def carrega_usuario(id):
     return Usuario.query.get(int(id))
+
+
+#### formularios de login, cadastro e recupera/altera senha e reset email###
+
+from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms.validators import DataRequired, Length, Email, Regexp, EqualTo
+from wtforms import ValidationError
+
+class LoginForm(FlaskForm):
+    email = StringField('Email', validators=[DataRequired(), Length(1,64),
+                                             Email()])
+    senha = PasswordField('Sennha', validators=[DataRequired()])
+    remember_me = BooleanField('Me mantenha Logado')
+    submit = SubmitField('Entrar')
