@@ -4,16 +4,27 @@ import bleach
 from dotenv import load_dotenv
 dotenv_path = os.path.join(os.path.dirname(__file__) '.env.')
 
-
 from flask import Flask, request, url_for, current_app
-from flask_sqlalchemy import SQLAlchemy ## importar banco
-from flask_login import LoginManager, UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from datetime import datetime
 
+from flask_bootstrap import Bootstrap
+from flask_pagedown import PageDown
+from flask_sqlalchemy import SQLAlchemy ## importar banco
+from flask_login import LoginManager, UserMixin, AnonymousUserMixin
+from flask_mail import Mail
 
+from config import config
+
+### cria objetos das bibliotecas ###
+db = SQLAlchemy()
+bootstrap = Bootstrap()
+mail = Mail()
+moment = Moment()
+login_manager = LoginManager()
+pagedown = PageDown()
 
 ### instancia um objeto da aplicação chamado app ##
 app = Flask(__name__)
@@ -24,8 +35,10 @@ app = Flask(__name__)
 app.config.from_object(os.environ['APP_SETTINGS'])
 
 
-### instancia um objeto do SQLAlchemy(banco) chamado db ###
-db = SQLAlchemy(app)
+### instancia um objetos da aplicacao###
+bootstrap.init_app(app)
+mail.init_app(app)
+db.init_app(app)
 
 
 #### ROTAS (/, /sobre, /login, /cadastro,  /<instrumento>, /<instrutor>, /<aluno>) ####
