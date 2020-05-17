@@ -4,19 +4,25 @@ import bleach
 #from dotenv import load_dotenv
 #dotenv_path = os.path.join(os.path.dirname(__file__) '.env.')
 
-from flask import Flask, request, url_for, current_app
+from flask import Flask, request, url_for, current_app, redirect, flash
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from datetime import datetime
 
+
+from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms.validators import DataRequired, Length, Email, Regexp, EqualTo
+from wtforms import ValidationError
+
 from flask_bootstrap import Bootstrap
 from flask_pagedown import PageDown
 from flask_sqlalchemy import SQLAlchemy ## importar banco
-from flask_login import LoginManager, UserMixin, AnonymousUserMixin
+from flask_login import LoginManager, UserMixin, AnonymousUserMixin, login_user, logout_user, login_required, current_user
 from flask_mail import Mail
+from flask_moment import Moment
 
-from config import config
 
 ### cria objetos das bibliotecas ###
 db = SQLAlchemy()
@@ -39,9 +45,7 @@ app.config.from_object(os.environ['APP_SETTINGS'])
 bootstrap.init_app(app)
 mail.init_app(app)
 db.init_app(app)
-
-
-
+login_manager.init_app(app)
 ## MODELS ###
 
 ### cria classe para dar permissões aos usuários ###
@@ -49,7 +53,6 @@ class Permissao:
     COMENTAR = 2
     ESCREVER = 4
     ADMIN = 16 
-
 
 ### classe funcao, onde invoca permissoes para admin ou usuario comum ###
 class Funcao(db.Model):
@@ -113,7 +116,7 @@ class Usuario(UserMixin,db.Model):
     def __init__(self, **kwargs):
         super(Usuario, self).__init__(**kwargs)
     
-    @propriedade
+    @property
     def senha(self):
         raise AttributeError('Senha não é um atributo legível.')
 
@@ -209,8 +212,6 @@ class Usuario(UserMixin,db.Model):
         return '{url}/{hash}?s={size}&d={default}&r={rating}'.format(
             url=url, hash=hash, size=size, default=default, rating=rating)
 
-
-
 ### cria usuário anônimo retornando falso para qualquer permissão ###
 class UsuarioAnonimo(AnonymousUserMixin):
     def can(self,permissoes):
@@ -225,13 +226,7 @@ login_manager.anonymous_user = UsuarioAnonimo
 def carrega_usuario(id):
     return Usuario.query.get(int(id))
 
-
 #### formularios de login, cadastro e recupera/altera senha e reset email###
-
-from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
-from wtforms.validators import DataRequired, Length, Email, Regexp, EqualTo
-from wtforms import ValidationError
 
 class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Length(1,64),
@@ -250,10 +245,6 @@ class CadastroForm(FlaskForm):
     ])
     senha = PasswordField('Senha', validators=[DataRequired(), EqualTo('senha2', message='Senhas não são iguais.')])
     senha2 = PasswordField('Confirmar Senha', validators=[DataRequired()])
-    nome = StringField('Nome Completo', validators[
-        DataRequired(), Length(1, 64),
-        Regexp('^[A-Za-z]*$', 0,
-               'Nomes devem conter apenas texto.')])
     submit = SubmitField('Cadastrar')
     
     ### valida se o email já existe ###
@@ -277,7 +268,7 @@ class AlterarSenhaForm(FlaskForm):
 class RequisicaoResetaSenhaForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Length(1,64),
                                              Email()])
-    submit SubmitField('Resetar Senha')
+    submit = SubmitField('Resetar Senha')
 
 class SenhaResetaForm(FlaskForm):
     senha = PasswordField('Nova Senha', validators=[
@@ -305,8 +296,8 @@ def index():
     return "Olá, usuário!"
 
 
-@app.antes_da_requisicao_app()
-def antes_requisicao():
+@app.before_request
+def before_request():
     if current_user.is_authenticated:
         current_user.ping()
         if not current_user.confirmado \
@@ -321,7 +312,7 @@ def nao_confirmado():
     return render_template('/nao_confirmado.html')
 
 @app.route('/login', methods=['GET', 'POST'])
-def login()
+def login():
     form = LoginForm()
     if form.validate_on_submit():
         usuario = Usuario.query.filter_by(email=form.email.data.lower()).first()
@@ -347,7 +338,7 @@ def cadastro():
     if form.validate_on_submit():
         usuario = Usuario(email =form.email.data.lower(),
                           username=form.username.data,
-                          senha=form.senha.data
+                          senha=form.senha.data,
                           nome=form.nome.data)
         db.session.add(usuario)
         db.session.commit()
@@ -357,3 +348,5 @@ def cadastro():
         flash('Um email de confirmação foi enviado para o seu email.')
         return redirect(url_for('login'))
     return render_template('cadastro.html', form=form)
+
+
