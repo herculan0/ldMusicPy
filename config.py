@@ -15,6 +15,9 @@ class Config(object):
         ['true', 'on', '1']
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
+    LDM_MAIL_SUBJECT_PREFIX = '[ldMusic]'
+    LDM_MAIL_SENDER = 'ldMusic Admin <ldmusic00@gmail.com>'
+
 class ProductionConfig(Config):
     DEBUG = False
 

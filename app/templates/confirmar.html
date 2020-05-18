@@ -1,0 +1,8 @@
+<p>Olá {{ usuario.username }},</p>
+<p>Bem vindo à <b>ldMusic</b>!</p>
+<p>Para confirmar seu email:<a href="{{ url_for('confirmar', token=token, _external=True) }}">Clique aqui</a>.</p>
+<p>Você pode colar este link na sua barra de endereços também:</p>
+<p>{{ url_for('confirmar', token=token, _external=True) }}</p>
+<p>Cordialmente,</p>
+<p>Equipe ldMusic</p>
+<p><small>Nota: respostas para esse email não são monitoradas.</small></p>
