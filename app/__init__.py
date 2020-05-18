@@ -63,12 +63,12 @@ class Funcao(db.Model):
     nome = db.Column(db.String(64), unique=True)
     padrao = db.Column(db.Boolean, default=False, index=True)
     permissoes = db.Column(db.Integer)
-    usuario = db.relationship('Usuario', backref='funcao', lazy='dynamic')
+    usuarios = db.relationship('Usuario', backref='funcao', lazy='dynamic')
 
     def __init__(self, **kwargs):
         super(Funcao, self).__init__(**kwargs)
         if self.permissoes is None:
-            self.permissions = 0
+            self.permissoes = 0
 
     @staticmethod
     def inserir_funcoes():
@@ -84,7 +84,7 @@ class Funcao(db.Model):
             funcao = Funcao.query.filter_by(nome=f).first()
             if funcao is None:
                 funcao = Funcao(nome=f)
-            funcao.resetar_permissoes(perm)
+            funcao.reset_permissoes(perm)
             for perm in funcoes[f]:
                 funcao.add_permissao(perm)
             funcao.padrao = (funcao.nome == funcao_padrao)
@@ -105,16 +105,18 @@ class Funcao(db.Model):
         return '<Funcao %f>' % self.nome
 
 ### classe usuário ###
-class Usuario(UserMixin,db.Model):
+class Usuario(UserMixin, db.Model):
     __tablename__ = 'usuario'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     senha_hash = db.Column(db.String(128))
-    tipo_usuario = db.Column(db.String(25), nullable=False)
+    funcao_id = db.Column(db.String, db.ForeignKey('funcao.id'))
+#    tipo_usuario = db.Column(db.String(25), nullable=False)
     sobre_mim = db.Column(db.Text())
     data_cadastro = db.Column(db.DateTime(), default=datetime.utcnow)
-    confirmado = db.Column(db.Boolean, default=False)
+    confirmado = db.Column(db.Boolean, default=1)
+
     def __init__(self, **kwargs):
         super(Usuario, self).__init__(**kwargs)
     
@@ -220,6 +222,8 @@ class UsuarioAnonimo(AnonymousUserMixin):
         return False
     def administrador():
         return False
+with app.app_context():
+    db.create_all()
 
 login_manager.anonymous_user = UsuarioAnonimo
 
@@ -233,8 +237,8 @@ def carrega_usuario(id):
 class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Length(1,64),
                                              Email()])
-    senha = PasswordField('Sennha', validators=[DataRequired()])
-    remember_me = BooleanField('Me mantenha Logado')
+    senha = PasswordField('Senha', validators=[DataRequired()])
+    remember_me = BooleanField('Lembrar de mim')
     submit = SubmitField('Entrar')
 
 class CadastroForm(FlaskForm):
@@ -340,8 +344,7 @@ def cadastro():
     if form.validate_on_submit():
         usuario = Usuario(email =form.email.data.lower(),
                           username=form.username.data,
-                          senha=form.senha.data,
-                          nome=form.nome.data)
+                          senha=form.senha.data)
         db.session.add(usuario)
         db.session.commit()
         token = usuario.gerar_token_confirmar()
@@ -360,8 +363,7 @@ def confirmar(token):
         db.session.commit()
         flash('Conta confirmada com sucesso. Bem vindo!')
     else:
-        flash:
-            flash('O Link de confirmação é inválido ou expirou.')
+        flash('O Link de confirmação é inválido ou expirou.')
     return redirect(url_for('index'))
 
 @app.route('/confirmar')
@@ -372,3 +374,33 @@ def reenviar_confirmacao():
             usuario=current_user, token=token)
     flash('Um novo email de confirmação foi enviado para o seu email.')
     return redirect(url_for('index'))
+
+@app.route('/alterar-senha', methods=['GET', 'POST'])
+@login_required
+def alterar_senha():
+    form = AlterarSenhaForm()
+    if form.validate_on_submit():
+        if current_user.verifica_senha(form.senha_antiga.data):
+            current_user.senha = form.senha.data
+            db.session.add(current_user)
+            db.session.commit()
+            flash('Sua senha foi alterada com sucesso.')
+            return redirect(url_for('index'))
+        else:
+            flash('Senha inválida.')
+    return render_template("alterar_senha.html", form=form)
+
+@app.route('/reset', methods=['GET', 'POST'])
+def requisicao_reset_senha():
+    if not current_user.is_anonymous:
+        return redirect(url_for('index'))
+    form = RequisicaoResetaSenhaForm()
+    if form.validate_on_submit():
+        usuario = Usuario.query.filter_by(email=form.email.data.lower()).first()
+        if usuario:
+            token = usuario.gerar_reset_token()
+            send_email(usuario.email, 'Resetar sua senha', 'resetar_senha',
+                usuario=usuario, token=token)
+        flash('Um email contendo as instruções para o reset de senha foi enviado para você')
+        return redirect(url_for('login'))
+    return render_template('reset_senha.html', form=form)  
