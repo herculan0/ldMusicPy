@@ -20,7 +20,9 @@ from flask_bootstrap import Bootstrap
 from flask_pagedown import PageDown
 from flask_sqlalchemy import SQLAlchemy ## importar banco
 from flask_login import LoginManager, UserMixin, AnonymousUserMixin, login_user, logout_user, login_required, current_user
-from flask_mail import Mail
+from flask_mail import Mail, Message
+from threading import Thread
+
 from flask_moment import Moment
 
 
@@ -134,9 +136,9 @@ class Usuario(UserMixin, db.Model):
         return check_password_hash(self.senha_hash, senha)
 
     ### gerar token para confirmação de email ###
-    def gerar_token_confirmar(self, token):
+    def gerar_token_confirmar(self, expiration=3600):
         s = Serializer(current_app.config['SECRET_KEY'], expiration)
-        return s.dumps({'confirma': self.id}).decode('utf-8')
+        return s.dumps({'confirmar': self.id}).decode('utf-8')
     
     ### usuário precisa confirmar no email o cadastro ###
     def confirmar(self, token):
@@ -145,7 +147,7 @@ class Usuario(UserMixin, db.Model):
             data = s.loads(token.encode('utf-8'))
         except:
             return False
-        if data.get('confirmado') != self.id:
+        if data.get('confirmar') != self.id:
             return False
         self.confirmado = True
         db.session.add(self)
@@ -154,7 +156,7 @@ class Usuario(UserMixin, db.Model):
     ### gerar o token para reset de senha ###
     def gerar_reset_token(self, expiration=3600):
         s = Serializer(current_app.config['SECRET_KEY'], expiration)
-        return s.dumps({'reset': self.id}).decode('utf-8')
+        return s.dumps({'confirmar': self.id}).decode('utf-8')
 
     ### recriar senha usuário ###
 
@@ -293,6 +295,20 @@ class AlterarEmailForm(FlaskForm):
         if Usuario.query.filter_by(field.data.lower()).first():
             raise ValidationError('Email já está Cadastrado.')
 
+#### funções de envio de email####
+def send_async_email(app, msg):
+    with app.app_context():
+        mail.send(msg)
+
+def send_mail(to, subject, template, **kwargs):
+    app = current_app._get_current_object()
+    msg = Message(app.config['LDM_MAIL_SUBJECT_PREFIX'] + ' ' + subject, sender=app.config['LDM_MAIL_SENDER'],
+            recipients=[to])
+    msg.body = render_template(template + '.txt', **kwargs)
+    msg.html = render_template(template + '.html', **kwargs)
+    thr = Thread(target=send_async_email, args=[app, msg])
+    thr.start()
+    return thr
 
 #### ROTAS (/, /sobre, /login, /cadastro,  /<instrumento>, /<instrutor>, /<aluno>) ####
 
@@ -348,13 +364,13 @@ def cadastro():
         db.session.add(usuario)
         db.session.commit()
         token = usuario.gerar_token_confirmar()
-        send_email(usuario.email, 'Confirme sua conta',
+        send_mail(usuario.email, 'Confirme sua conta',
                    'confirmar', usuario=usuario, token=token)
         flash('Um email de confirmação foi enviado para o seu email.')
         return redirect(url_for('login'))
     return render_template('cadastro.html', form=form)
 
-@app.route('/confirmado/<token>')
+@app.route('/confirmar/<token>')
 @login_required
 def confirmar(token):
     if current_user.confirmado:
