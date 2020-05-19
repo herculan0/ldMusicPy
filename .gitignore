@@ -1,5 +1,5 @@
-./data-dev.sqlite
-./.idea
+.idea/
+data-dev.sqlite
 .vscode/
 db-volumes/
 # Byte-compiled / optimized / DLL files
