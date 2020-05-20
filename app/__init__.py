@@ -386,7 +386,7 @@ def confirmar(token):
 @login_required
 def reenviar_confirmacao():
     token = current_user.gerar_token_confirmar()
-    send_email(current_user.email, 'Confirme sua Conta', 'confirmar',
+    send_mail(current_user.email, 'Confirme sua Conta', 'confirmar',
             usuario=current_user, token=token)
     flash('Um novo email de confirmação foi enviado para o seu email.')
     return redirect(url_for('index'))
@@ -415,7 +415,7 @@ def requisicao_reset_senha():
         usuario = Usuario.query.filter_by(email=form.email.data.lower()).first()
         if usuario:
             token = usuario.gerar_reset_token()
-            send_email(usuario.email, 'Resetar sua senha', 'resetar_senha',
+            send_mail(usuario.email, 'Resetar sua senha', 'resetar_senha',
                 usuario=usuario, token=token)
         flash('Um email contendo as instruções para o reset de senha foi enviado para você')
         return redirect(url_for('login'))
