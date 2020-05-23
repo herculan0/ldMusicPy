@@ -6,16 +6,9 @@
 
 {% block page_content %}
 <div class="page-header">
-    <img class="img-rounded" src="{{ user.gravatar(size=256) }}">
     <div class="profile-header">
         <h1>{{ usuario.username }}</h1>
-        {% if usuario.sobre_mim %}<p> {{ usuario.sobre_mim }} </p>{% endif }
+        {% if usuario.sobre_mim %}<p> {{ usuario.sobre_mim }} </p>{% endif %}
     </div>
 </div>
-
-{% if pagination %}
-<div class="pagination">
-    {{ macros.pagination_widget(pagination, '.user', username=user.username) }}
-</div>
-{% endif %} 
-{% end block %}
+{% endblock %}
