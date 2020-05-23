@@ -195,7 +195,7 @@ class Usuario(UserMixin, db.Model):
         return True
 
     # cria um token para alteração do email #
-    def gerar_alterariemail_token(self, novo_email, expiration=3600):
+    def gerar_alterar_email_token(self, novo_email, expiration=3600):
         s = Serializer(current_app.config["SECRET_KEY"], expiration)
         return s.dumps(
             {"alterar_email": self.id, "novo_email": novo_email}
@@ -554,7 +554,7 @@ def requisicao_alterar_email():
             enviar_email(
                     novo_email,
                     'Confirme seu endereço de email',
-                    'alterar_email',
+                    'altera_email',
                     usuario=current_user,
                     token=token)
             flash(
@@ -565,10 +565,10 @@ def requisicao_alterar_email():
             return redirect(url_for('index'))
         else:
             flash('Email ou senha inválido.')
-    return render_template("alterar_email.html", form=form)
+    return render_template("/alterar_email.html", form=form)
 
 
-@app.route('alterar_email/<token>')
+@app.route('/alterar_email/<token>')
 @login_required
 def alterar_email(token):
     if current_user.alterar_email(token):
