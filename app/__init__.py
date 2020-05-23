@@ -12,8 +12,7 @@ from flask import (
     current_app,
     redirect,
     render_template,
-    flash,
-)
+    flash)
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
@@ -73,7 +72,7 @@ pagedown.init_app(app)
 # cria classe para dar permissões aos usuários #
 class Permissao:
     COMENTAR = 2
-    ESCREVER = 4
+    AVALIAR = 4
     ADMIN = 16
 
 
@@ -94,10 +93,10 @@ class Funcao(db.Model):
     @staticmethod
     def inserir_funcoes():
         funcoes = {
-            "Usuario": [Permissao.COMENTAR, Permissao.ESCREVER],
+            "Usuario": [Permissao.COMENTAR, Permissao.AVALIAR],
             "Administrador": [
                 Permissao.COMENTAR,
-                Permissao.ESCREVER,
+                Permissao.AVALIAR,
                 Permissao.ADMIN,
             ],
         }
@@ -106,10 +105,10 @@ class Funcao(db.Model):
             funcao = Funcao.query.filter_by(nome=f).first()
             if funcao is None:
                 funcao = Funcao(nome=f)
-            funcao.reset_permissoes(perm)
+            funcao.reset_permissoes()
             for perm in funcoes[f]:
                 funcao.add_permissao(perm)
-            funcao.padrao = funcao.nome == funcao_padrao
+            funcao.padrao = (funcao.nome == funcao_padrao)
             db.session.add(funcao)
         db.session.commit()
 
@@ -196,20 +195,20 @@ class Usuario(UserMixin, db.Model):
         return True
 
     # cria um token para alteração do email #
-    def gerar_altera_email_token(self, novo_email, expiration=3600):
+    def gerar_alterariemail_token(self, novo_email, expiration=3600):
         s = Serializer(current_app.config["SECRET_KEY"], expiration)
         return s.dumps(
-            {"altera_email": self.id, "novo_email": novo_email}
+            {"alterar_email": self.id, "novo_email": novo_email}
         ).decode("utf-8")
 
     # altera o email no banco #
-    def altera_email(self, token):
+    def alterar_email(self, token):
         s = Serializer(current_app.config["SECRET_KEY"])
         try:
             data = s.loads(token.encode("utf-8"))
         except:
             return False
-        if data.get("altera_email") != self.id:
+        if data.get("alterar_email") != self.id:
             return False
         novo_email = data.get("novo_email")
         if novo_email is None:
@@ -235,11 +234,11 @@ class Usuario(UserMixin, db.Model):
         return hashlib.md5(self.email.lower().encode("utf-8")).hexdigest()
 
     # gera um avatar #
-    def gravatar(self, size=100, default="identicon", rating="g"):
-        hash = self.avatar_hash or self.gravatar_hash()
-        return "{url}/{hash}?s={size}&d={default}&r={rating}".format(
-            url=url, hash=hash, size=size, default=default, rating=rating
-        )
+# def gravatar(self, size=100, default="identicon", rating="g"):
+# avatar_hash = self.avatar_hash or self.gravatar_hash()
+# return "{url}/{hash}?s={size}&d={default}&r={rating}".format(
+# url=url, hash=hash, size=size, default=default, rating=rating
+# )
 
 
 # cria usuário anônimo retornando falso para qualquer permissão #
@@ -256,8 +255,8 @@ with app.app_context():
 
 login_manager.anonymous_user = UsuarioAnonimo
 
-# método para carregar usuário #
 
+# método para carregar usuário #
 @login_manager.user_loader
 def carrega_usuario(id):
     return Usuario.query.get(int(id))
@@ -285,7 +284,8 @@ class CadastroForm(FlaskForm):
             Regexp(
                 "^[A-Za-z][A-Za-z0-9.]*$",
                 0,
-                "Nomes de Usuário devem conter somente letras, números ou pontos",
+                """Nomes de Usuário devem conter somente letras,\
+                        números ou pontos""",
             ),
         ],
     )
@@ -353,6 +353,13 @@ class AlterarEmailForm(FlaskForm):
         if Usuario.query.filter_by(field.data.lower()).first():
             raise ValidationError("Email já está Cadastrado.")
 
+# class EditarPerfilForm, EditarPerfilAdminForm, ComentarInstrutorForm
+
+# class EditarPerfilForm(FlaskForm):
+# nome = StringField('Nome', validators=[Length(0, 64)])
+# sobre_mim = TextAreaField('Sobre mim')
+# submit = SubmitField('Confirmar')
+
 
 # funções de envio de email#
 def send_async_email(app, msg):
@@ -360,7 +367,7 @@ def send_async_email(app, msg):
         mail.send(msg)
 
 
-def send_mail(to, subject, template, **kwargs):
+def enviar_email(to, subject, template, **kwargs):
     app = current_app._get_current_object()
     msg = Message(
         app.config["LDM_MAIL_SUBJECT_PREFIX"] + " " + subject,
@@ -439,7 +446,7 @@ def cadastro():
         db.session.add(usuario)
         db.session.commit()
         token = usuario.gerar_token_confirmar()
-        send_mail(
+        enviar_email(
             usuario.email,
             "Confirme sua conta",
             "confirmar",
@@ -468,7 +475,7 @@ def confirmar(token):
 @login_required
 def reenviar_confirmacao():
     token = current_user.gerar_token_confirmar()
-    send_mail(
+    enviar_email(
         current_user.email,
         "Confirme sua Conta",
         "confirmar",
@@ -506,7 +513,7 @@ def requisicao_reset_senha():
         ).first()
         if usuario:
             token = usuario.gerar_reset_token()
-            send_mail(
+            enviar_email(
                 usuario.email,
                 "Resetar sua senha",
                 "resetar_senha",
@@ -514,7 +521,65 @@ def requisicao_reset_senha():
                 token=token,
             )
         flash(
-            "Um email contendo as instruções para o reset de senha foi enviado para você"
+            """Um email contendo as instruções para\
+                    o reset de senha foi enviado para você"""
         )
         return redirect(url_for("login"))
     return render_template("reset_senha.html", form=form)
+
+
+@app.route('/reset/<token>', methods=['GET', 'POST'])
+def reset_senha(token):
+    if not current_user.is_anonymous:
+        return redirect(url_for('index'))
+    form = SenhaResetaForm()
+    if form.validate_on_submit():
+        if Usuario.reset_senha(token, form.senha.data):
+            db.session.commit()
+            flash('Sua senha foi atualizada com sucesso.')
+            return redirect(url_for('login'))
+        else:
+            return redirect(url_for('index'))
+    return render_template('/reset_senha.html', form=form)
+
+
+@app.route('/alterar_email', methods=['GET', 'POST'])
+@login_required
+def requisicao_alterar_email():
+    form = AlterarEmailForm()
+    if form.validate_on_submit():
+        if current_user.verifica_senha(form.senha.data):
+            novo_email = form.email.data.lower()
+            token = current_user.gerar_alterar_email_token(novo_email)
+            enviar_email(
+                    novo_email,
+                    'Confirme seu endereço de email',
+                    'alterar_email',
+                    usuario=current_user,
+                    token=token)
+            flash(
+                    'Enviamos Email contendo as instruções para confirmar'
+                    ' o novo endereço de email '
+                    ' foi enviado para você.'
+                    )
+            return redirect(url_for('index'))
+        else:
+            flash('Email ou senha inválido.')
+    return render_template("alterar_email.html", form=form)
+
+
+@app.route('alterar_email/<token>')
+@login_required
+def alterar_email(token):
+    if current_user.alterar_email(token):
+        db.session.commit()
+        flash('Seu email foi atualizado com sucesso.')
+    else:
+        flash("Requisição inválida.")
+    return redirect(url_for('index'))
+
+
+@app.route('/usuario/<username>')
+def usuario(username):
+    usuario = Usuario.query.filter_by(username=username).first_or_404()
+    return render_template('usuario.html', usuario=usuario)
