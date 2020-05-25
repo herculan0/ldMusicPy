@@ -12,15 +12,26 @@ from flask import (
     current_app,
     redirect,
     render_template,
-    flash)
+    flash,
+)
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from datetime import datetime
 
-
+from flask_script import Manager
 from flask_wtf import FlaskForm
+<<<<<<< HEAD
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField
+=======
+from wtforms import (
+    StringField,
+    PasswordField,
+    BooleanField,
+    SubmitField,
+    TextAreaField,
+)
+>>>>>>> 91ed14ea8b839208ffe969a189696791d38a8e5b
 from wtforms.validators import DataRequired, Length, Email, Regexp, EqualTo
 from wtforms import ValidationError
 
@@ -50,6 +61,7 @@ mail = Mail()
 moment = Moment()
 login_manager = LoginManager()
 pagedown = PageDown()
+manager = Manager()
 
 # instancia um objeto da aplicação chamado app #
 app = Flask(__name__)
@@ -67,6 +79,7 @@ db.init_app(app)
 login_manager.init_app(app)
 moment.init_app(app)
 pagedown.init_app(app)
+manager = Manager(app)
 # MODELS #
 
 
@@ -109,7 +122,7 @@ class Funcao(db.Model):
             funcao.reset_permissoes()
             for perm in funcoes[f]:
                 funcao.add_permissao(perm)
-            funcao.padrao = (funcao.nome == funcao_padrao)
+            funcao.padrao = funcao.nome == funcao_padrao
             db.session.add(funcao)
         db.session.commit()
 
@@ -291,6 +304,9 @@ class CadastroForm(FlaskForm):
         DataRequired(), EqualTo('senha2')
     ])
     senha2 = PasswordField("Confirmar Senha", validators=[DataRequired()])
+    endereco = TextAreaField(
+        "Endereço", validators=[DataRequired(), Length(1, 180)]
+    )
     submit = SubmitField("Cadastrar")
 
     # valida se o email já existe #
@@ -530,22 +546,22 @@ def requisicao_reset_senha():
     return render_template("reset_senha.html", form=form)
 
 
-@app.route('/reset/<token>', methods=['GET', 'POST'])
+@app.route("/reset/<token>", methods=["GET", "POST"])
 def reset_senha(token):
     if not current_user.is_anonymous:
-        return redirect(url_for('index'))
+        return redirect(url_for("index"))
     form = SenhaResetaForm()
     if form.validate_on_submit():
         if Usuario.reset_senha(token, form.senha.data):
             db.session.commit()
-            flash('Sua senha foi atualizada com sucesso.')
-            return redirect(url_for('login'))
+            flash("Sua senha foi atualizada com sucesso.")
+            return redirect(url_for("login"))
         else:
-            return redirect(url_for('index'))
-    return render_template('/reset_senha.html', form=form)
+            return redirect(url_for("index"))
+    return render_template("/reset_senha.html", form=form)
 
 
-@app.route('/alterar_email', methods=['GET', 'POST'])
+@app.route("/alterar_email", methods=["GET", "POST"])
 @login_required
 def requisicao_alterar_email():
     form = AlterarEmailForm()
@@ -554,34 +570,50 @@ def requisicao_alterar_email():
             novo_email = form.email.data.lower()
             token = current_user.gerar_alterar_email_token(novo_email)
             enviar_email(
-                    novo_email,
-                    'Confirme seu endereço de email',
-                    'altera_email',
-                    usuario=current_user,
-                    token=token)
+                novo_email,
+                "Confirme seu endereço de email",
+                "altera_email",
+                usuario=current_user,
+                token=token,
+            )
             flash(
-                    'Enviamos Email contendo as instruções para confirmar'
-                    ' o novo endereço de email '
-                    ' foi enviado para você.'
-                    )
-            return redirect(url_for('index'))
+                "Enviamos Email contendo as instruções para confirmar"
+                " o novo endereço de email "
+                " foi enviado para você."
+            )
+            return redirect(url_for("index"))
         else:
-            flash('Email ou senha inválido.')
+            flash("Email ou senha inválido.")
     return render_template("/alterar_email.html", form=form)
 
 
-@app.route('/alterar_email/<token>')
+@app.route("/alterar_email/<token>")
 @login_required
 def alterar_email(token):
     if current_user.alterar_email(token):
         db.session.commit()
-        flash('Seu email foi atualizado com sucesso.')
+        flash("Seu email foi atualizado com sucesso.")
     else:
         flash("Requisição inválida.")
-    return redirect(url_for('index'))
+    return redirect(url_for("index"))
 
 
-@app.route('/usuario/<username>')
+@app.route("/usuario/<username>")
 def usuario(username):
     usuario = Usuario.query.filter_by(username=username).first_or_404()
-    return render_template('usuario.html', usuario=usuario)
+    return render_template("usuario.html", usuario=usuario)
+
+
+@manager.command
+def create_db():
+    db.create_all()
+
+
+@manager.command
+def drop_db():
+    db.drop_all()
+
+
+@manager.command
+def create_admin():
+    db.session.add(Usuario("ad@min.com", "admin"))
