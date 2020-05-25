@@ -20,7 +20,7 @@ from datetime import datetime
 
 
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField
 from wtforms.validators import DataRequired, Length, Email, Regexp, EqualTo
 from wtforms import ValidationError
 
@@ -40,7 +40,8 @@ from flask_mail import Mail, Message
 from threading import Thread
 
 from flask_moment import Moment
-
+from geopy.geocoders import Nominatim
+from geopy import distance
 
 # cria objetos das bibliotecas #
 db = SQLAlchemy()
@@ -58,7 +59,7 @@ app = Flask(__name__)
 # ambiente necessárias #
 app.config.from_object(os.environ["APP_SETTINGS"])
 
-
+geolocalizacao = Nominatim(user_agent="ldm")
 # instancia um objetos da aplicacao#
 bootstrap.init_app(app)
 mail.init_app(app)
@@ -134,10 +135,12 @@ class Usuario(UserMixin, db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     senha_hash = db.Column(db.String(128))
     funcao_id = db.Column(db.String, db.ForeignKey("funcao.id"))
-    # tipo_usuario = db.Column(db.String(25), nullable=False)
     sobre_mim = db.Column(db.Text())
     data_cadastro = db.Column(db.DateTime(), default=datetime.utcnow)
     confirmado = db.Column(db.Boolean, default=1)
+    endereco = db.Column(db.Text())
+    latitude = db.Column(db.Float())
+    longitude = db.Column(db.Float())
 
     def __init__(self, **kwargs):
         super(Usuario, self).__init__(**kwargs)
@@ -194,6 +197,8 @@ class Usuario(UserMixin, db.Model):
         db.session.add(usuario)
         return True
 
+    
+
     # cria um token para alteração do email #
     def gerar_alterar_email_token(self, novo_email, expiration=3600):
         s = Serializer(current_app.config["SECRET_KEY"], expiration)
@@ -229,24 +234,13 @@ class Usuario(UserMixin, db.Model):
         self.ultima_visualizacao = datetime.utcnow()
         db.session.add(self)
 
-    # gera um hash para o avatar do usuario #
-    def gravatar_hash(self):
-        return hashlib.md5(self.email.lower().encode("utf-8")).hexdigest()
-
-    # gera um avatar #
-# def gravatar(self, size=100, default="identicon", rating="g"):
-# avatar_hash = self.avatar_hash or self.gravatar_hash()
-# return "{url}/{hash}?s={size}&d={default}&r={rating}".format(
-# url=url, hash=hash, size=size, default=default, rating=rating
-# )
-
 
 # cria usuário anônimo retornando falso para qualquer permissão #
 class UsuarioAnonimo(AnonymousUserMixin):
     def can(self, permissoes):
         return False
 
-    def administrador():
+    def admin():
         return False
 
 
@@ -289,13 +283,13 @@ class CadastroForm(FlaskForm):
             ),
         ],
     )
-    senha = PasswordField(
-        "Senha",
-        validators=[
-            DataRequired(),
-            EqualTo("senha2", message="Senhas não são iguais."),
-        ],
+    endereco = TextAreaField(
+        "Endereço completo",
+        validators=[DataRequired()],
     )
+    senha = PasswordField("Senha", validators=[
+        DataRequired(), EqualTo('senha2')
+    ])
     senha2 = PasswordField("Confirmar Senha", validators=[DataRequired()])
     submit = SubmitField("Cadastrar")
 
@@ -309,6 +303,7 @@ class CadastroForm(FlaskForm):
         if Usuario.query.filter_by(username=field.data.lower()).first():
             raise ValidationError("Usuario já cadastrado")
 
+        
 
 class AlterarSenhaForm(FlaskForm):
     senha_antiga = PasswordField("Senha Antiga", validators=[DataRequired()])
@@ -353,6 +348,7 @@ class AlterarEmailForm(FlaskForm):
         if Usuario.query.filter_by(field.data.lower()).first():
             raise ValidationError("Email já está Cadastrado.")
 
+
 # class EditarPerfilForm, EditarPerfilAdminForm, ComentarInstrutorForm
 
 # class EditarPerfilForm(FlaskForm):
@@ -380,6 +376,8 @@ def enviar_email(to, subject, template, **kwargs):
     thr.start()
     return thr
 
+def calcula_distancia(latLongAluno, latLongInstrutor):
+    latLongAluno
 
 # ROTAS (/, /sobre, /login, /cadastro,
 # /<instrumento>, /<instrutor>, /<aluno>) #
@@ -437,11 +435,15 @@ def logout():
 @app.route("/cadastro", methods=["GET", "POST"])
 def cadastro():
     form = CadastroForm()
+    
     if form.validate_on_submit():
         usuario = Usuario(
             email=form.email.data.lower(),
             username=form.username.data,
-            senha=form.senha.data,
+            endereco=form.endereco.data,
+            senha=form.senha.data, ## uai
+            latitude=geolocalizacao.geocode(endereco).latitude,
+            longitude=geolocalizacao.geocode(endereco).longitude
         )
         db.session.add(usuario)
         db.session.commit()
