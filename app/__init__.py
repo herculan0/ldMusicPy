@@ -286,10 +286,7 @@ class CadastroForm(FlaskForm):
             ),
         ],
     )
-    endereco = TextAreaField(
-        "Endereço completo",
-        validators=[DataRequired()],
-    )
+
     senha = PasswordField("Senha", validators=[
         DataRequired(), EqualTo('senha2')
     ])
@@ -430,6 +427,16 @@ def login():
     return render_template("login.html", form=form)
 
 
+def latitude(localizacao):
+    endereco = geolocalizacao.geocode(localizacao)
+    latitude = (endereco.latitude)
+    return latitude
+
+def longitude(localizacao):
+    endereco = geolocalizacao.geocode(localizacao)
+    longitude = (endereco.longitude)
+    return longitude
+
 @app.route("/logout")
 @login_required
 def logout():
@@ -448,8 +455,6 @@ def cadastro():
             username=form.username.data,
             endereco=form.endereco.data,
             senha=form.senha.data, ## uai
-            latitude=geolocalizacao.geocode(endereco).latitude,
-            longitude=geolocalizacao.geocode(endereco).longitude
         )
         db.session.add(usuario)
         db.session.commit()
