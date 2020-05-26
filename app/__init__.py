@@ -1,6 +1,6 @@
 import os
 import hashlib
-
+import logging
 # import bleach
 # from dotenv import load_dotenv
 # dotenv_path = os.path.join(os.path.dirname(__file__) '.env.')
@@ -76,6 +76,8 @@ moment.init_app(app)
 pagedown.init_app(app)
 manager = Manager(app)
 # MODELS #
+
+class PerfilAluno():
 
 
 # cria classe para dar permissões aos usuários #
@@ -288,7 +290,7 @@ class LoginForm(FlaskForm):
 
 class CadastroForm(FlaskForm):
     email = StringField(
-        "Email", validators=[DataRequired(), Length(1, 64), Email()]
+        "Email", validators=[DataRequired(), Length(1, 80), Email()]
     )
     username = StringField(
         "Usuario",
@@ -325,6 +327,8 @@ class CadastroForm(FlaskForm):
     def validar_username(self, field):
         if Usuario.query.filter_by(username=field.data.lower()).first():
             raise ValidationError("Usuario já cadastrado")
+
+    ## gerar geolocalizacao aqui:
 
 
 class AlterarSenhaForm(FlaskForm):
@@ -408,23 +412,23 @@ def index():
     return render_template("index.html")
 
 
-@app.before_request
-def before_request():
-    if current_user.is_authenticated:
-        current_user.ping()
-        if (
-            not current_user.confirmado
-            and request.endpoint
-            and request.endpoint != "static"
-        ):
-            return redirect(url_for("nao_confirmado"))
+# @app.before_request
+# def before_request():
+# if current_user.is_authenticated:
+# current_user.ping()
+# if (
+# not current_user.confirmado
+# and request.endpoint
+# and request.endpoint != "static"
+# ):
+# return redirect(url_for("nao_confirmado"))
 
 
-@app.route("/nao_confirmado")
-def nao_confirmado():
-    if current_user.is_anonymous or current_user.confirmado:
-        return redirect(url_for("index"))
-    return render_template("/nao_confirmado.html")
+# @app.route("/nao_confirmado")
+# def nao_confirmado():
+# if current_user.is_anonymous or current_user.confirmado:
+# return redirect(url_for("index"))
+# return render_template("nao_confirmado.html")
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -604,16 +608,25 @@ def usuario(username):
     return render_template("usuario.html", usuario=usuario)
 
 
-@manager.command
-def create_db():
-    db.create_all()
+@app.errorhandler(500)
+def server_error(e):
+    logging.exception('Ocorreu um erro durante a requisição.')
+    return """
+    Ocorreu um erro no servidor durante a requisição: <pre>{}</pre>
+    Analise os logs para entender o que aconteceu.
+    """.format(e), 500
 
 
-@manager.command
-def drop_db():
-    db.drop_all()
+# @manager.command
+# def create_db():
+# db.create_all()
 
 
-@manager.command
-def create_admin():
-    db.session.add(Usuario("ad@min.com", "admin"))
+# @manager.command
+# def drop_db():
+# db.drop_all()
+
+
+# @manager.command
+# def create_admin():
+# db.session.add(Usuario("ad@min.com", "admin"))
