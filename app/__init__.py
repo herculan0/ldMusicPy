@@ -72,7 +72,7 @@ pagedown.init_app(app)
 manager = Manager(app)
 # MODELS #
 
-class PerfilAluno():
+#class PerfilAluno():
 
 
 # cria classe para dar permissões aos usuários #
@@ -143,9 +143,9 @@ class Usuario(UserMixin, db.Model):
     sobre_mim = db.Column(db.Text())
     data_cadastro = db.Column(db.DateTime(), default=datetime.utcnow)
     confirmado = db.Column(db.Boolean, default=1)
-    endereco = db.Column(db.Text())
-    latitude = db.Column(db.Float())
-    longitude = db.Column(db.Float())
+# endereco = db.Column(db.Text())
+# latitude = db.Column(db.Float())
+# longitude = db.Column(db.Float())
 
     def __init__(self, **kwargs):
         super(Usuario, self).__init__(**kwargs)
