@@ -4,6 +4,7 @@
 
 {% block head %}
 {{ super() }}
+
 <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
 <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
@@ -23,7 +24,6 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li><a href="{{ url_for('index') }}">Home</a></li>
                 {% if current_user.is_authenticated %}
                 <li><a href="{{ url_for('usuario', username=current_user.username) }}">Meu Perfil</a></li>
                 {% endif %}
