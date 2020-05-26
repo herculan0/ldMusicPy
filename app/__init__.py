@@ -21,17 +21,7 @@ from datetime import datetime
 
 from flask_script import Manager
 from flask_wtf import FlaskForm
-<<<<<<< HEAD
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField
-=======
-from wtforms import (
-    StringField,
-    PasswordField,
-    BooleanField,
-    SubmitField,
-    TextAreaField,
-)
->>>>>>> 91ed14ea8b839208ffe969a189696791d38a8e5b
 from wtforms.validators import DataRequired, Length, Email, Regexp, EqualTo
 from wtforms import ValidationError
 
@@ -586,6 +576,9 @@ def requisicao_alterar_email():
             flash("Email ou senha inválido.")
     return render_template("/alterar_email.html", form=form)
 
+@app.route("/home/")
+def home():
+    return render_template("home.html")
 
 @app.route("/alterar_email/<token>")
 @login_required
