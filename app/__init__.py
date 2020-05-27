@@ -293,9 +293,15 @@ class CadastroForm(FlaskForm):
         DataRequired(), EqualTo('senha2')
     ])
     senha2 = PasswordField("Confirmar Senha", validators=[DataRequired()])
+<<<<<<< HEAD
     # endereco = TextAreaField(
     #     "Endereço", validators=[DataRequired(), Length(1, 180)]
     # )
+=======
+    #endereco = TextAreaField(
+    #    "Endereço", validators=[DataRequired(), Length(1, 180)]
+    #)
+>>>>>>> cc57515f6aaf852edc3e3f78979a59ef6f5a8377
     submit = SubmitField("Cadastrar")
 
     # valida se o email já existe #
@@ -456,7 +462,11 @@ def cadastro():
         usuario = Usuario(
             email=form.email.data.lower(),
             username=form.username.data,
+<<<<<<< HEAD
             # endereco=form.endereco.data,
+=======
+            #endereco=form.endereco.data,
+>>>>>>> cc57515f6aaf852edc3e3f78979a59ef6f5a8377
             senha=form.senha.data, ## uai
         )
         db.session.add(usuario)
