@@ -587,8 +587,8 @@ def requisicao_alterar_email():
 
 @app.route("/home/")
 def home():
-    form = Usuario.query.order_by(Usuario.email).all()
-    return render_template("home.html", form = form)
+    usuarios = Usuario.query.order_by(Usuario.username).all()
+    return render_template("home.html", usuarios = usuarios)
 
 @app.route("/alterar_email/<token>")
 @login_required
