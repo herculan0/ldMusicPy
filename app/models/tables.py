@@ -17,6 +17,11 @@ class Login(db.Model):
     email_login = db.Column(db.String(120), nullable=False, unique=True)
     senha_login = db.Column(db.String(120))
 
+instrutor_instrumento = db.Table('instrutor_instrumento',
+    db.Column('instrutor_id', db.Integer, db.ForeignKey('instrutor.id'), primary_key=True),
+    db.Column('instrumento_id', db.Integer, db.ForeignKey('instrumento.id'), primary_key=True)
+)
+
 class Instrutor(db.Model):
     __tablename__ = "instrutor"
 
@@ -28,6 +33,12 @@ class Instrutor(db.Model):
 
     login_id = db.Column(db.Integer, db.ForeignKey('login.id'))
     login = db.relationship('Login', backref='instrutor', lazy=True)
+    instrutor = db.relationship('Instrutor', secondary=instrutor_instrumento, backref='instrutor')
+
+aluno_instrumento = db.Table('aluno_instrumento',
+    db.Column('aluno_id', db.Integer, db.ForeignKey('aluno.id'), primary_key=True),
+    db.Column('instrumento_id', db.Integer, db.ForeignKey('instrumento.id'), primary_key=True)
+)
 
 class Aluno(db.Model):
     __tablename__ = "aluno"
@@ -39,22 +50,14 @@ class Aluno(db.Model):
     tel_aluno = db.Column(db.Integer, nullable=False, unique=True)
 
     login_id = db.Column(db.Integer, db.ForeignKey('login.id'))
-    login = db.relationship('Login', backref='aluno', lazy=True)
+    login = db.relationship('Login', secundary=auno_instrumento backref='aluno', lazy=True)
 
 class Instrumento(db.Model):
     __tablename = "instrumento"
     id = db.Column(db.Integer, primary_key=True)
     nome_instrumento = db.Column(db.string(20))
 
-aluno_instrumento = db.Table('aluno_instrumento',
-    db.Column('aluno_id', db.Integer, db.ForeignKey('aluno.id'), primary_key=True),
-    db.Column('instrumento_id', db.Integer, db.ForeignKey('instrumento.id'), primary_key=True)
-)
 
-instrutor_instrumento = db.Table('instrutor_instrumento',
-    db.Column('instrutor_id', db.Integer, db.ForeignKey('instrutor.id'), primary_key=True),
-    db.Column('instrumento_id', db.Integer, db.ForeignKey('instrumento.id'), primary_key=True)
-)
 
 
 class Localizacao(db.Model):
