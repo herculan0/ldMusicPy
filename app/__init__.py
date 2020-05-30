@@ -45,7 +45,7 @@ from geopy.geocoders import Nominatim
 from geopy import distance
 
 # cria objetos das bibliotecas #
-db = SQLAlchemy()
+db = SQLAlchemy(app)
 bootstrap = Bootstrap()
 mail = Mail()
 moment = Moment()
