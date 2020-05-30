@@ -46,8 +46,15 @@ class Instrumento(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nome_instrumento = db.Column(db.string(20))
 
-class Aluno_instrumento(db.Model):
-    __tablename__ = "aluno_instrumento"
+aluno_instrumento = db.Table('aluno_instrumento',
+    db.Column('aluno_id', db.Integer, db.ForeignKey('aluno.id'), primary_key=True),
+    db.Column('instrumento_id', db.Integer, db.ForeignKey('instrumento.id'), primary_key=True)
+)
+
+instrutor_instrumento = db.Table('instrutor_instrumento',
+    db.Column('instrutor_id', db.Integer, db.ForeignKey('instrutor.id'), primary_key=True),
+    db.Column('instrumento_id', db.Integer, db.ForeignKey('instrumento.id'), primary_key=True)
+)
 
 class Instrutor_instrumento(db.Model):
     __tablename__ = "instrutor_instrumento"
