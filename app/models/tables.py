@@ -56,8 +56,6 @@ instrutor_instrumento = db.Table('instrutor_instrumento',
     db.Column('instrumento_id', db.Integer, db.ForeignKey('instrumento.id'), primary_key=True)
 )
 
-class Instrutor_instrumento(db.Model):
-    __tablename__ = "instrutor_instrumento"
 
 class Localizacao(db.Model):
     __tablename__ "localizacao"
