@@ -26,6 +26,9 @@ class Instrutor(db.Model):
     email_instrutor = db.Column(db.String(120), nullable=False, unique=True)
     tel_instrutor = db.Column(db.Integer, nullable=False, unique=True)
 
+    login_id = db.Column(db.Integer, db.ForeignKey('login.id'))
+    login = db.relationship('Login', backref='instrutor', lazy=True)
+
 class Aluno(db.Model):
     __tablename__ = "aluno"
 
@@ -34,6 +37,9 @@ class Aluno(db.Model):
     lastName = db.Column(db.String(45), nullable=False)
     email_aluno = db.Column(db.String(120), nullable=False, unique=True)
     tel_aluno = db.Column(db.Integer, nullable=False, unique=True)
+
+    login_id = db.Column(db.Integer, db.ForeignKey('login.id'))
+    login = db.relationship('Login', backref='aluno', lazy=True)
 
 class Instrumento(db.Model):
     __tablename = "instrumento"
