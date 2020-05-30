@@ -45,7 +45,7 @@ from geopy.geocoders import Nominatim
 from geopy import distance
 
 # cria objetos das bibliotecas #
-db = SQLAlchemy()
+db = SQLAlchemy(app)
 bootstrap = Bootstrap()
 mail = Mail()
 moment = Moment()
@@ -293,9 +293,9 @@ class CadastroForm(FlaskForm):
         DataRequired(), EqualTo('senha2')
     ])
     senha2 = PasswordField("Confirmar Senha", validators=[DataRequired()])
-    endereco = TextAreaField(
-        "Endereço", validators=[DataRequired(), Length(1, 180)]
-    )
+    # endereco = TextAreaField(
+    #     "Endereço", validators=[DataRequired(), Length(1, 180)]
+    # )
     submit = SubmitField("Cadastrar")
 
     # valida se o email já existe #
@@ -456,7 +456,7 @@ def cadastro():
         usuario = Usuario(
             email=form.email.data.lower(),
             username=form.username.data,
-            endereco=form.endereco.data,
+            # endereco=form.endereco.data,
             senha=form.senha.data, ## uai
         )
         db.session.add(usuario)
@@ -584,9 +584,11 @@ def requisicao_alterar_email():
             flash("Email ou senha inválido.")
     return render_template("/alterar_email.html", form=form)
 
+
 @app.route("/home/")
 def home():
-    return render_template("home.html")
+    usuarios = Usuario.query.order_by(Usuario.username).all()
+    return render_template("home.html", usuarios = usuarios)
 
 @app.route("/alterar_email/<token>")
 @login_required
