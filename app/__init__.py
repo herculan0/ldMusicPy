@@ -43,6 +43,7 @@ from threading import Thread
 from flask_moment import Moment
 from geopy.geocoders import Nominatim
 from geopy import distance
+app = Flask(__name__)
 
 # cria objetos das bibliotecas #
 db = SQLAlchemy(app)
@@ -54,7 +55,6 @@ pagedown = PageDown()
 manager = Manager()
 
 # instancia um objeto da aplicação chamado app #
-app = Flask(__name__)
 
 
 # configuração importada em .env e config.py onde colocaremos as variáveis de
