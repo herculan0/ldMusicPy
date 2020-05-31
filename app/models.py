@@ -4,17 +4,15 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 from flask import current_app
-from flask_login import UserMixin
-from . import db
+from flask_login import UserMixin, AnonymousUserMixin
 from geopy.geocoders import Nominatim as geolocalizacao
+from . import db
 from functools import partial
-# from geopy import distance
 
 geolocalizacao = geolocalizacao(user_agent="app")
 geocode = partial(geolocalizacao.geocode, language="pt")
 
 
-# cria classe para dar permissões aos usuários #
 class Permissao:
     COMENTAR = 2
     AVALIAR = 4
@@ -125,6 +123,14 @@ class Usuario(UserMixin, db.Model):
         db.session.add(self)
 
 
+class UsuarioAnonimo(AnonymousUserMixin):
+    def can(self, permissoes):
+        return False
+
+    def admin():
+        return False
+
+
 # cria usuário anônimo retornando falso para qualquer permissão #
 class Funcao(db.Model):
     __tablename__ = "funcao"
@@ -177,66 +183,46 @@ class Funcao(db.Model):
 
 class Administrador(db.Model):
     __tablename__ = "administrador"
-
     id = db.Column(db.Integer, primary_key=True)
     nome_adm = db.Column(db.String(50), nullable=False)
-    email_adm = db.Column(db.String(120), nullable=False, unique=True)
-    login_id = db.Column(db.Integer, db.ForeignKey('login.id'))
-    login = db.relationship('Login', backref='administrador', lazy=True)
 
 
-class Login(db.Model):
-    __tablename__ = "login"
-    id = db.Column(db.Integer, primary_key=True)
-    email_login = db.Column(db.String(120), nullable=False, unique=True)
-    senha_login = db.Column(db.String(120))
+# class Instrutor(Usuario, db.Model):
+# __tablename__ = "instrutor"
+# id = db.Column(db.Integer, primary_key=True)
+# usuario_id = db.relationship(db.Integer, db.ForeignKey('usuario.id'))
 
 
-class Instrutor(db.Model):
-    __tablename__ = "instrutor"
-    id = db.Column(db.Integer, primary_key=True)
-    firstName = db.Column(db.String(45), nullable=False)
-    lastName = db.Column(db.String(45), nullable=False)
-    email_instrutor = db.Column(db.String(120), nullable=False, unique=True)
-    tel_instrutor = db.Column(db.Integer, nullable=False, unique=True)
-    login_id = db.Column(db.Integer, db.ForeignKey('login.id'))
-    login = db.relationship('Login', backref='instrutor', lazy=True)
+# class Aluno(Usuario, db.Model):
+# __tablename__ = "aluno"
+# usuario_id = db.relationship(db.Integer, db.ForeignKey('usuario.id'))
 
 
-class Aluno(db.Model):
-    __tablename__ = "aluno"
-    firstName = db.Column(db.String(45), nullable=False)
-    lastName = db.Column(db.String(45), nullable=False)
-    email_aluno = db.Column(db.String(120), nullable=False, unique=True)
-    tel_aluno = db.Column(db.Integer, nullable=False, unique=True)
-    login = db.relationship('Login', backref='aluno', lazy=True)
+# class Instrumento(db.Model):
+# __tablename = "instrumento"
+# id = db.Column(db.Integer, primary_key=True)
+# nome_instrumento = db.Column(db.String(20))
 
 
-class Instrumento(db.Model):
-    __tablename = "instrumento"
-    id = db.Column(db.Integer, primary_key=True)
-    nome_instrumento = db.Column(db.string(20))
+# class Aluno_instrumento(db.Model):
+# __tablename__ = "aluno_instrumento"
 
 
-class Aluno_instrumento(db.Model):
-    __tablename__ = "aluno_instrumento"
+# class Instrutor_instrumento(db.Model):
+# __tablename__ = "instrutor_instrumento"
 
 
-class Instrutor_instrumento(db.Model):
-    __tablename__ = "instrutor_instrumento"
+# class Localizacao(db.Model):
+# __tablename__ = "localizacao"
+# latitude = db.Column(db.Float, nullable=False)
+# longitude = db.Column(db.Float, nullable=False)
 
+# def latitude(localizacao):
+# endereco = geolocalizacao.geocode(localizacao)
+# latitude = (endereco.latitude)
+# return latitude
 
-class Localizacao(db.Model):
-    __tablename__ = "localizacao"
-    latitude = db.Column(db.Float, nullable=False)
-    longitude = db.Column(db.Float, nullable=False)
-
-    def latitude(localizacao):
-        endereco = geolocalizacao.geocode(localizacao)
-        latitude = (endereco.latitude)
-        return latitude
-
-    def longitude(localizacao):
-        endereco = geolocalizacao.geocode(localizacao)
-        longitude = (endereco.longitude)
-        return longitude
+# def longitude(localizacao):
+# endereco = geolocalizacao.geocode(localizacao)
+# longitude = (endereco.longitude)
+# return longitude

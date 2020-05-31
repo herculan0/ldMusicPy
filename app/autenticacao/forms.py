@@ -9,7 +9,7 @@ from wtforms import (
 )
 from wtforms.validators import DataRequired, Length, Email, Regexp, EqualTo
 from wtforms import ValidationError
-from .models import Usuario
+from ..models import Usuario
 
 
 class LoginForm(FlaskForm):
@@ -101,10 +101,3 @@ class AlterarEmailForm(FlaskForm):
     def validar_email(self, field):
         if Usuario.query.filter_by(field.data.lower()).first():
             raise ValidationError("Email já está Cadastrado.")
-
-
-# class EditarPerfilForm, EditarPerfilAdminForm, ComentarInstrutorForm
-# class EditarPerfilForm(FlaskForm):
-# nome = StringField('Nome', validators=[Length(0, 64)])
-# sobre_mim = TextAreaField('Sobre mim')
-# submit = SubmitField('Confirmar')

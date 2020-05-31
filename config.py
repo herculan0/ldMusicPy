@@ -6,7 +6,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 class Config(object):
     DEBUG = False
     TESTING = False
-    #CSRF_ENABLED = True
+    # CSRF_ENABLED = True
     SECRET_KEY = os.environ.get('SECRET_KEY')
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
     MAIL_SERVER = os.environ.get('MAIL_SERVER', 'smtp.googlemail.com')
@@ -17,6 +17,7 @@ class Config(object):
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
     LDM_MAIL_SUBJECT_PREFIX = '[ldMusic]'
     LDM_MAIL_SENDER = 'ldMusic Admin <ldmusic00@gmail.com>'
+
 
 class ProductionConfig(Config):
     DEBUG = False

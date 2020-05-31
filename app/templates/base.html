@@ -22,7 +22,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="{{ url_for('index') }}">ldMusic</a>
+            <a class="navbar-brand" href="{{ url_for('main.index') }}">ldMusic</a>
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
@@ -44,8 +44,8 @@
                     </ul>
                 </li>
                 {% else %}
-                <li><a href="{{ url_for('login') }}">Entrar</a></li>
-                <li><a href="{{ url_for('cadastro') }}">Cadastrar</a></li>
+                <li><a href="{{ url_for('autenticacao.login') }}">Entrar</a></li>
+                <li><a href="{{ url_for('autenticacao.cadastro') }}">Cadastrar</a></li>
                 {% endif %}
             </ul>
         </div>

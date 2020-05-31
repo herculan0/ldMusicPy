@@ -1,80 +1,44 @@
 import os
-from flask import Flask, current_app, render_template
+from flask import Flask
 from flask_script import Manager
 from flask_bootstrap import Bootstrap
 from flask_pagedown import PageDown
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager, AnonymousUserMixin
-from flask_mail import Mail, Message
-from threading import Thread
-
+from flask_login import LoginManager
+from flask_mail import Mail
 from flask_moment import Moment
-
-from .models import Usuario
 
 # cria objetos das bibliotecas #
 db = SQLAlchemy()
 bootstrap = Bootstrap()
 mail = Mail()
 moment = Moment()
-login_manager = LoginManager()
 pagedown = PageDown()
 manager = Manager()
 
-app = Flask(__name__)
-
-app.config.from_object(os.environ["APP_SETTINGS"])
-
-bootstrap.init_app(app)
-mail.init_app(app)
-db.init_app(app)
-login_manager.init_app(app)
-moment.init_app(app)
-pagedown.init_app(app)
-manager = Manager(app)
+login_manager = LoginManager()
+login_manager.login_view = 'autenticacao.login'
 
 
-with app.app_context():
-    db.create_all()
+def create_app(config_name):
+    app = Flask(__name__)
+    app.config.from_object(os.environ["APP_SETTINGS"])
+    bootstrap.init_app(app)
+    mail.init_app(app)
+    db.init_app(app)
+    login_manager.init_app(app)
+    moment.init_app(app)
+    pagedown.init_app(app)
+    # manager = Manager(app)
 
-
-class UsuarioAnonimo(AnonymousUserMixin):
-    def can(self, permissoes):
-        return False
-
-    def admin():
-        return False
-
-
-login_manager.anonymous_user = UsuarioAnonimo
-
-
-@login_manager.user_loader
-def carrega_usuario(id):
-    return Usuario.query.get(int(id))
-
-
-def send_async_email(app, msg):
+    from .main import main as main_blueprint
+    app.register_blueprint(main_blueprint)
+    from .autenticacao import autenticacao as autenticacao_blueprint
+    app.register_blueprint(autenticacao_blueprint)
     with app.app_context():
-        mail.send(msg)
+        db.create_all()
 
-
-def enviar_email(to, subject, template, **kwargs):
-    app = current_app._get_current_object()
-    msg = Message(
-        app.config["LDM_MAIL_SUBJECT_PREFIX"] + " " + subject,
-        sender=app.config["LDM_MAIL_SENDER"],
-        recipients=[to],
-    )
-    msg.body = render_template(template + ".txt", **kwargs)
-    msg.html = render_template(template + ".html", **kwargs)
-    thr = Thread(target=send_async_email, args=[app, msg])
-    thr.start()
-    return thr
-
-
-# def calcula_distancia(latLongAluno, latLongInstrutor):
-# latLongAluno
+    return app
 
 # @manager.command
 # def create_db():
