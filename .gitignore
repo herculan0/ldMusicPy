@@ -1,10 +1,6 @@
-<<<<<<< HEAD
+.envrc
 data-dev.sqlite
 .idea/
-=======
-.idea/
-data-dev.sqlite
->>>>>>> 06c7285c39bb70fa9569e5df1e862aabe1ba9a40
 .vscode/
 db-volumes/
 # Byte-compiled / optimized / DLL files
