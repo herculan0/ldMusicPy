@@ -95,9 +95,9 @@ class Usuario(db.Model):
     data_cadastro = db.Column(db.DateTime(), default=datetime.utcnow)
     confirmado = db.Column(db.Boolean, default=1)
 
-    aluno = db.relationship('Aluno', backref='usuario', lazy=True)
-    instrutor = db.relationship('Adminsitrador', backref='usuario', lazy=True)
-    administrador = db.relationship('Aluno', backref='usuario', lazy=True)
+    aluno = db.relationship('Aluno', backref='usuario')
+    instrutor = db.relationship('Adminsitrador', backref='usuario')
+    administrador = db.relationship('Aluno', backref='usuario')
 
 class Aluno(db.Model):
     __tablename__ = "aluno"
@@ -123,7 +123,7 @@ class Adminsitrador(db.Model):
 class Instrumento(db.Model):
     __tablename = "instrumento"
     id = db.Column(db.Integer, primary_key=True)
-    nome_instrumento = db.Column(db.string(20))
+    nome_instrumento = db.Column(db.String(20))
     usuario_id = db.Column(db.Integer, db.ForeignKey('usuario.id'))
 
 
