@@ -21,11 +21,12 @@ class Permissao:
 
 class Usuario(UserMixin, db.Model):
     __tablename__ = "usuario"
+    __table_args__ = {'useexisting': True}
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     senha_hash = db.Column(db.String(128))
-    funcao_id = db.Column(db.String, db.ForeignKey("funcao.id"))
+    funcao_id = db.Column(db.Integer, db.ForeignKey("funcao.id"))
     sobre_mim = db.Column(db.Text())
     data_cadastro = db.Column(db.DateTime(), default=datetime.utcnow)
     confirmado = db.Column(db.Boolean, default=1)
@@ -130,8 +131,11 @@ class UsuarioAnonimo(AnonymousUserMixin):
     def admin():
         return False
 
+    def confirmado():
+        Usuario.confirmado = None
+        return
 
-# cria usuário anônimo retornando falso para qualquer permissão #
+
 class Funcao(db.Model):
     __tablename__ = "funcao"
     id = db.Column(db.Integer, primary_key=True)
@@ -181,10 +185,10 @@ class Funcao(db.Model):
         return "<Funcao %f>" % self.nome
 
 
-class Administrador(db.Model):
-    __tablename__ = "administrador"
-    id = db.Column(db.Integer, primary_key=True)
-    nome_adm = db.Column(db.String(50), nullable=False)
+# class Administrador(db.Model):
+# __tablename__ = "administrador"
+# id = db.Column(db.Integer, primary_key=True)
+# nome_adm = db.Column(db.String(50), nullable=False)
 
 
 # class Instrutor(Usuario, db.Model):

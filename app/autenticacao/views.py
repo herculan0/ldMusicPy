@@ -19,14 +19,14 @@ def before_request():
     if not current_user.confirmado \
             and request.endpoint \
             and request.endpoint != "static":
-        return redirect(url_for("nao_confirmado"))
+        return redirect(url_for("autenticacao.nao_confirmado"))
 
 
 @autenticacao.route("/nao_confirmado")
 def nao_confirmado():
     if current_user.is_anonymous or current_user.confirmado:
         return redirect(url_for("main.index"))
-    return render_template("nao_confirmado.html")
+    return render_template("autenticacao/nao_confirmado.html")
 
 
 @autenticacao.route("/login", methods=["GET", "POST"])
@@ -43,7 +43,7 @@ def login():
                 next = url_for("main.index")
             return redirect(next)
         flash("Email ou senha inválido.")
-    return render_template("login.html", form=form)
+    return render_template("autenticacao/login.html", form=form)
 
 
 @autenticacao.route("/logout")
@@ -70,13 +70,13 @@ def cadastro():
         enviar_email(
             usuario.email,
             "Confirme sua conta",
-            "confirmar",
+            "autenticacao.confirmar",
             usuario=usuario,
             token=token,
         )
         flash("Um email de confirmação foi enviado para o seu email.")
-        return redirect(url_for("login"))
-    return render_template("cadastro.html", form=form)
+        return redirect(url_for("autenticacao.login"))
+    return render_template("autenticacao/cadastro.html", form=form)
 
 
 @autenticacao.route("/confirmar/<token>")
@@ -120,7 +120,7 @@ def alterar_senha():
             return redirect(url_for("main.index"))
         else:
             flash("Senha inválida.")
-    return render_template("alterar_senha.html", form=form)
+    return render_template("autenticacao/alterar_senha.html", form=form)
 
 
 @autenticacao.route("/reset", methods=["GET", "POST"])
@@ -137,7 +137,7 @@ def requisicao_reset_senha():
             enviar_email(
                 usuario.email,
                 "Resetar sua senha",
-                "resetar_senha",
+                "autenticacao_resetar_senha",
                 usuario=usuario,
                 token=token,
             )
@@ -145,8 +145,8 @@ def requisicao_reset_senha():
             """Um email contendo as instruções para\
                     o reset de senha foi enviado para você"""
         )
-        return redirect(url_for("login"))
-    return render_template("reset_senha.html", form=form)
+        return redirect(url_for("autenticacao.login"))
+    return render_template("autenticacao/reset_senha.html", form=form)
 
 
 @autenticacao.route("/reset/<token>", methods=["GET", "POST"])
@@ -158,10 +158,10 @@ def reset_senha(token):
         if Usuario.reset_senha(token, form.senha.data):
             db.session.commit()
             flash("Sua senha foi atualizada com sucesso.")
-            return redirect(url_for("login"))
+            return redirect(url_for("autenticacao.login"))
         else:
             return redirect(url_for("main.index"))
-    return render_template("/reset_senha.html", form=form)
+    return render_template("autenticacao/reset_senha.html", form=form)
 
 
 @autenticacao.route("/alterar_email", methods=["GET", "POST"])
@@ -175,7 +175,7 @@ def requisicao_alterar_email():
             enviar_email(
                 novo_email,
                 "Confirme seu endereço de email",
-                "altera_email",
+                "autenticacao.altera_email",
                 usuario=current_user,
                 token=token,
             )
@@ -187,4 +187,4 @@ def requisicao_alterar_email():
             return redirect(url_for("main.index"))
         else:
             flash("Email ou senha inválido.")
-    return render_template("/alterar_email.html", form=form)
+    return render_template("autenticacao/alterar_email.html", form=form)

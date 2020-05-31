@@ -1,4 +1,6 @@
 import os
+import pymysql
+import cryptography
 from flask import Flask
 from flask_script import Manager
 from flask_bootstrap import Bootstrap
