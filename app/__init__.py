@@ -46,7 +46,7 @@ from geopy import distance
 app = Flask(__name__)
 
 # cria objetos das bibliotecas #
-db = SQLAlchemy(app)
+db = SQLAlchemy()
 bootstrap = Bootstrap()
 mail = Mail()
 moment = Moment()
@@ -293,9 +293,9 @@ class CadastroForm(FlaskForm):
         DataRequired(), EqualTo('senha2')
     ])
     senha2 = PasswordField("Confirmar Senha", validators=[DataRequired()])
-    # endereco = TextAreaField(
-    #     "Endereço", validators=[DataRequired(), Length(1, 180)]
-    # )
+    #endereco = TextAreaField(
+    #    "Endereço", validators=[DataRequired(), Length(1, 180)]
+    #)
     submit = SubmitField("Cadastrar")
 
     # valida se o email já existe #
@@ -385,10 +385,14 @@ def enviar_email(to, subject, template, **kwargs):
 def calcula_distancia(latLongAluno, latLongInstrutor):
     latLongAluno
 
-# ROTAS (/, /sobre, /login, /cadastro,
+# ROTAS (/administrador, /sobre, /login, /cadastro,
 # /<instrumento>, /<instrutor>, /<aluno>) #
 
 # cria uma rota para o / ou seja 127.0.0.1:5000 ou localhost:5000 #
+@app.route("/administrador")
+def administrador():
+        return render_template("administrador.html")
+
 @app.route("/")
 def index():
     return render_template("index.html")
@@ -444,7 +448,7 @@ def longitude(localizacao):
 @login_required
 def logout():
     logout_user()
-    flash("Você se deslogou com sucesso.")
+    flash("Obrigado pelo acesso, aguardamos seu retorno!")
     return redirect(url_for("index"))
 
 
@@ -456,7 +460,7 @@ def cadastro():
         usuario = Usuario(
             email=form.email.data.lower(),
             username=form.username.data,
-            # endereco=form.endereco.data,
+            #endereco=form.endereco.data,
             senha=form.senha.data, ## uai
         )
         db.session.add(usuario)
@@ -584,11 +588,9 @@ def requisicao_alterar_email():
             flash("Email ou senha inválido.")
     return render_template("/alterar_email.html", form=form)
 
-
 @app.route("/home/")
 def home():
-    usuarios = Usuario.query.order_by(Usuario.username).all()
-    return render_template("home.html", usuarios = usuarios)
+    return render_template("home.html")
 
 @app.route("/alterar_email/<token>")
 @login_required
