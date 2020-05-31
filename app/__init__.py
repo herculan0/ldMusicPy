@@ -389,6 +389,11 @@ def calcula_distancia(latLongAluno, latLongInstrutor):
 # /<instrumento>, /<instrutor>, /<aluno>) #
 
 # cria uma rota para o / ou seja 127.0.0.1:5000 ou localhost:5000 #
+@app.route("/admin")
+def admin():
+    return render_template("admin.html")
+    
+
 @app.route("/")
 def index():
     return render_template("index.html")
