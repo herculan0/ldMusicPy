@@ -385,14 +385,13 @@ def enviar_email(to, subject, template, **kwargs):
 def calcula_distancia(latLongAluno, latLongInstrutor):
     latLongAluno
 
-# ROTAS (/, /sobre, /login, /cadastro,
+# ROTAS (/administrador, /sobre, /login, /cadastro,
 # /<instrumento>, /<instrutor>, /<aluno>) #
 
 # cria uma rota para o / ou seja 127.0.0.1:5000 ou localhost:5000 #
-@app.route("/admin")
-def admin():
-    return render_template("admin.html")
-    
+@app.route("/administrador")
+def administrador():
+        return render_template("administrador.html")
 
 @app.route("/")
 def index():
@@ -449,7 +448,7 @@ def longitude(localizacao):
 @login_required
 def logout():
     logout_user()
-    flash("Você se deslogou com sucesso.")
+    flash("Obrigado pelo acesso, aguardamos seu retorno!")
     return redirect(url_for("index"))
 
 

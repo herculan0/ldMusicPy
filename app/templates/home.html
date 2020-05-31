@@ -3,7 +3,18 @@
 {% import "_macros.html" as macros %}
 
 {% block title %}ldMusic{% endblock %}
-
+{% block instrumentos %}
+<li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        Instrumentos<b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu">
+        <li><a href="">Bateria</a></li>
+        <li><a href="">Violao</a></li>
+        <li><a href="">Guitarra</a></li>
+    </ul>
+</li>
+{% endblock  %}
 {% block content %}
 <main role="main">
 
@@ -11,6 +22,7 @@
     <div class="album py-5 bg-light">
         <div class="container">
 
+<<<<<<< HEAD
             <div class="row">
                 <div class="card mb-3" style="max-width: 540px;">
                     <div class="row no-gutters">
@@ -154,9 +166,27 @@
                                     lead-in to additional content. This content is a little bit longer.</p>
                                 <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
                             </div>
+=======
+            {% for usuarios in usuarios %}
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row no-gutters">
+                    <div class="col-md-4">
+                        <img src="../static/images/cara.jpg" class="card-img img-thumbnail alt="...">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ usuarios.email }}</h5>
+                            <p class="card-text">This is a wider card with supporting text below as a natural
+                                lead-in to additional content. This content is a little bit longer.</p>
+                            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+>>>>>>> 103654be17a51f4b45398f7c388ce2a9718f1f6c
                         </div>
                     </div>
                 </div>
+            </div>
+            {% endfor %}
+                
+            
             </div>
         </div>
     </div>
