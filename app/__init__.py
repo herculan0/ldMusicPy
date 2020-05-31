@@ -5,6 +5,7 @@ import logging
 # from dotenv import load_dotenv
 # dotenv_path = os.path.join(os.path.dirname(__file__) '.env.')
 
+
 from flask import (
     Flask,
     request,
@@ -389,6 +390,11 @@ def calcula_distancia(latLongAluno, latLongInstrutor):
 # /<instrumento>, /<instrutor>, /<aluno>) #
 
 # cria uma rota para o / ou seja 127.0.0.1:5000 ou localhost:5000 #
+
+@app.route("/relatorio")
+def  relatorio ():
+    return render_template("relatorio.html")
+
 @app.route("/administrador")
 def administrador():
         return render_template("administrador.html")
