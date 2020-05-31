@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "_macros.html" as macros %}
+
+
+{% block page_content %}
+
+<form class="form-inline my-2 my-lg-0">
+    <label for="">Instrumento</label>
+    <input class="form-control mr-sm-2" type="search" placeholder="Pesquisar" aria-label="Search">
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Pesquisar</button>
+</form>
+<form class="form-inline my-2 my-lg-0">
+    <label for="">Nome</label>
+    <input class="form-control mr-sm-2" type="search" placeholder="Pesquisar" aria-label="Search">
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Pesquisar</button>
+</form>
+<form class="form-inline my-2 my-lg-0">
+    <label for="">Cidade</label>
+    <input class="form-control mr-sm-2" type="search" placeholder="Pesquisar" aria-label="Search">
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Pesquisar</button>
+</form>
+<div class="dropdown">
+    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Instrutor
+    <ul class="dropdown-menu">
+        <li><a href="#">Por Nome</a></li>
+        <li><a href="#">Por Cidade</a></li>
+        <li><a href="#">Por Instrumento</a>
+    </ul>
+    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Aluno
+        <ul class="dropdown-menu">
+            <li><a href="#">Por Nome</a></li>
+            <li><a href="#">Por Cidade</a></li>
+            <li><a href="#">Por Cidadeor Instruento</a></li>
+        </ul>
+</div>
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">id</th>
+        <th scope="col">Nome</th>
+        <th scope="col">e-mail</th>
+        <th scope="col">Perfil</th>
+    </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">1</th>
+        <td>João</td>
+        <td>Silva</td>
+        <td></td>
+      </tr>
+      <tr>
+        <th scope="row">2</th>
+        <td>Antônio</td>
+        <td>Jose</td>
+        <td></td>
+      </tr>
+      <tr>
+        <th scope="row">3</th>
+        <td>Ana</td>
+        <td>the Bird</td>
+        <td>@twitter</td>
+      </tr>
+    </tbody>
+  </table>
+{% endblock %}
