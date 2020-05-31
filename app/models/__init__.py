@@ -40,3 +40,6 @@ class Instrumento(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nome_instrumento = db.Column(db.string(20))
     usuario_id = db.Column(db.Integer, db.ForeignKey('usuario.id'))
+
+
+db.create_all()
