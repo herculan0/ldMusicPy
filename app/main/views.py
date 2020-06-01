@@ -16,6 +16,7 @@ def carrega_usuario(id):
 def index():
     return render_template("index.html")
 
+
 @main.route("/administrador/")
 def administrador():
     return render_template("administrador.html")
