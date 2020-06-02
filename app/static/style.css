@@ -1,0 +1,20 @@
+.cards {
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-auto-rows: auto;
+    grid-gap: 1rem;     
+    margin: 50px;
+}
+     
+     
+.card {     
+    border: 2px solid #e7e7e7;
+    border-radius: 4px;
+    padding: .5rem;     
+}
+
+ul {
+    display: flex;
+    list-style: none;
+    justify-content: space-around;
+}
