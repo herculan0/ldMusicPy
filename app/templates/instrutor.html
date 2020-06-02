@@ -4,60 +4,13 @@
 
 {% block title %}ldMusic{% endblock %}
 {% block instrumentos %}
-<li class="dropdown">
-    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-        Instrumentos<b class="caret"></b>
-    </a>
-    <ul class="dropdown-menu">
-        <li><a href="">Bateria</a></li>
-        <li><a href="">Violao</a></li>
-        <li><a href="">Guitarra</a></li>
-    </ul>
-</li>
+
 {% endblock  %}
 {% block content %}
 
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-        </div>
-
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                        aria-expanded="false">Instrumento <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Bateria</a></li>
-                        <li><a href="#">Violão</a></li>
-                        <li><a href="#">Guitarra</a></li>
-                    </ul>
-                </li>
-            </ul>
-            <form class="navbar-form navbar-left">
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Search">
-                </div>
-                <button type="submit" class="btn btn-default">Submit</button>
-            </form>
-
-            </ul>
-        </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
-</nav>
-
 <div class="body conteudo-cards">
     <div class="cards">
+        <h1>Contatos Solicitados</h1>
         <div class="card">
             <ul>
                 <li>distancia</li>
@@ -128,13 +81,10 @@
         </div>
     </div>
     <div class="avaliacoes">
+        <h1> Avalicoes recebidas</h1>
         <div class="avaliacao">
             <ul>
-                <label for="">Instrutor</label>
-                <input type="text" name="" id="">
-                <br>
-                <label for="">instrumento</label>
-                <input type="text" name="" id="">
+               <h3>Nome do Instrutor</h3>
             </ul>
             <hr>
             <span class="fa fa-star checked"></span>

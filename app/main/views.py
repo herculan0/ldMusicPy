@@ -27,7 +27,10 @@ def home():
     usuarios = Usuario.query.order_by(Usuario.username).all()
     return render_template("home.html", usuarios=usuarios)
 
-
+@main.route("/instrutor/")
+def instrutor():
+    return render_template("instrutor.html")
+    
 @main.route("/alterar_email/<token>")
 @login_required
 def alterar_email(token):

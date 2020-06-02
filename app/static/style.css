@@ -1,20 +1,39 @@
-.cards {
+.body {
     display: grid;
-    grid-template-columns: auto auto;
-    grid-auto-rows: auto;
-    grid-gap: 1rem;     
-    margin: 50px;
+    margin: 15px;
+    gap: 25px;
 }
      
-     
-.card {     
-    border: 2px solid #e7e7e7;
-    border-radius: 4px;
-    padding: .5rem;     
+.conteudo-cards {
+    grid-template: "cards avaliacoes" ;
+    grid-template-columns: 50% 45%;
 }
-
-ul {
+     
+.cards {    
+    grid-area: cards; 
+}
+.avaliacoes {
+    grid-area: avaliacoes;
+}
+.card {
+    border: 1px solid gray;
+    border-radius: 10px;
+    width: 90%;
+    margin-top: 5px;
+}
+div > h1 {
+    text-align: center;
+}
+.card ul {
     display: flex;
     list-style: none;
     justify-content: space-around;
+} 
+
+/* Nota */
+
+.avaliacao {
+    border: 1px solid gray;
+    border-radius: 10px;
+    text-align: center;
 }
