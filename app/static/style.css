@@ -1,17 +1,13 @@
 .body {
     display: grid;
-    margin: 15px;
+    margin: 30px;
     gap: 25px;
-}
-     
+} 
 .conteudo-cards {
-    grid-template: "cards avaliacoes" ;
-    grid-template-columns: 50% 45%;
+    grid-template-columns: auto auto;
+    
 }
-     
-.cards {    
-    grid-area: cards; 
-}
+    
 .avaliacoes {
     grid-area: avaliacoes;
 }
@@ -36,4 +32,18 @@ div > h1 {
     border: 1px solid gray;
     border-radius: 10px;
     text-align: center;
+}
+
+.titulo-instrutor {
+    text-align: center;
+}
+
+/* Gerencia Perfil */
+.alinhamento {
+    display: grid;
+    grid-template-columns: 20% 50% 20% ;
+    grid-template-areas: ". formulario .";
+}
+.forms {
+    grid-area: formulario;
 }
