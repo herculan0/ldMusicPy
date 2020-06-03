@@ -5,13 +5,10 @@
 }
      
 .conteudo-cards {
-    grid-template: "cards avaliacoes" ;
-    grid-template-columns: 50% 45%;
+    grid-template-columns: auto auto;
+    
 }
-     
-.cards {    
-    grid-area: cards; 
-}
+    
 .avaliacoes {
     grid-area: avaliacoes;
 }
