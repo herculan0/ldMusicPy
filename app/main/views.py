@@ -24,9 +24,9 @@ def perfil_usuario():
 def perfil_administrador():
     return render_template("perfil_administrador.html")
 
-@main.route("/administrador/")
-def administrador():
-    return render_template("administrador.html")
+@main.route("/relatorio/")
+def relatorio():
+    return render_template("relatorio.html")
 
 
 @main.route("/home/")
