@@ -20,6 +20,10 @@ def index():
 def perfil_usuario():
     return render_template("perfil_usuario.html")
 
+@main.route("/perfil_administrador/")
+def perfil_administrador():
+    return render_template("perfil_administrador.html")
+
 @main.route("/administrador/")
 def administrador():
     return render_template("administrador.html")
