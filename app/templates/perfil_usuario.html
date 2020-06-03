@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "_macros.html" as macros %}
+
+{% block title %}ldMusic{% endblock %}
+{% block instrumentos %}
+<li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        Instrumentos<b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu">
+        <li><a href="">Bateria</a></li>
+        <li><a href="">Violao</a></li>
+        <li><a href="">Guitarra</a></li>
+    </ul>
+</li>
+{% endblock  %}
+{% block content %}
+
+<div class="titulo-isntrutor">
+    <h1>Gerenciar Perfil</h1>
+</div>
+
+<div class="body">
+    <div class="alinhamento">
+        <div class="forms">
+            
+            <form >
+                <legend>Form title</legend>
+                <div class="form-group">
+                    <label for="">Nome</label>
+                    <input type="text" class="form-control" id="" placeholder="Input field">
+                    <label for="">Sobrenome</label>
+                    <input type="text" class="form-control" id="" placeholder="Input field">
+                    <label for="">Username</label>
+                    <input type="text" class="form-control" id="" placeholder="Input field">
+                    <label for="">Email</label>
+                    <input type="text" class="form-control" id="" placeholder="Input field">
+                    <label for="">Endereco</label>
+                    <input type="text" class="form-control" id="" placeholder="Input field">
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+            
+        </div>
+    </div>
+</div>
+{% endblock %}
