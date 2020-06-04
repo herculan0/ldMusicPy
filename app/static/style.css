@@ -47,3 +47,9 @@ div > h1 {
 .forms {
     grid-area: formulario;
 }
+.total-relatorio {
+    margin-top: 5px;
+}
+.select-relatorio {
+    margin-top: 10px;
+}
