@@ -24,9 +24,10 @@ def perfil_usuario():
 def perfil_administrador():
     return render_template("perfil_administrador.html")
 
-@main.route("/relatorio/")
+@main.route("/relatorio/", methods=['GET', 'POST'])
 def relatorio():
-    return render_template("relatorio.html")
+    # relatorio = Relatorio()
+    return render_template("relatorio.html") 
 
 
 @main.route("/home/")
