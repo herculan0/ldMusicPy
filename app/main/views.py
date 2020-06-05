@@ -3,7 +3,7 @@ from flask_login import current_user, login_required
 from ..models import UsuarioAnonimo, Usuario
 from .. import db, login_manager
 from . import main
-from .forms import EditarPerfilForm
+from .forms import Relatorio, EditarPerfilForm
 login_manager.anonymous_user = UsuarioAnonimo
 
 
