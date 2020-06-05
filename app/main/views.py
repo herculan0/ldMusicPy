@@ -26,8 +26,11 @@ def perfil_administrador():
 
 @main.route("/relatorio/", methods=['GET', 'POST'])
 def relatorio():
-    # relatorio = Relatorio()
-    return render_template("relatorio.html") 
+    relatorio = Relatorio()
+    if relatorio.validate_on_submit():
+        filtro = relatorio.filtro.data,
+        busca = relatorio.busca.data
+    return render_template("relatorio.html", relatorio=relatorio) 
 
 
 @main.route("/home/")

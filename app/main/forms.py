@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, TextAreaField, SubmitField
+from wtforms import StringField, TextAreaField, SubmitField, SelectField
 from wtforms.validators import DataRequired, Length
 
 
@@ -9,5 +9,6 @@ class EditarPerfilForm(FlaskForm):
     sobre_mim = TextAreaField('Sobre mim')
     submit = SubmitField('Atualizar')
 
-# class Relatorio(FlaskForm):
-#     filtro = StringField('filtro', validator=[DataRequired()])
+class Relatorio(FlaskForm):
+    filtro = SelectField('Filtro', choices=[('n', 'Nome'),('instrumento', 'Instrumento'),('cidade', 'Cidade')])
+    busca = StringField('Busca', validators=[Length(1, 180)])
