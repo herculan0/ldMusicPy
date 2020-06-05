@@ -3,7 +3,7 @@ from flask_login import current_user, login_required
 from ..models import UsuarioAnonimo, Usuario
 from .. import db, login_manager
 from . import main
-from .forms import EditarPerfilForm
+from .forms import Relatorio, EditarPerfilForm
 login_manager.anonymous_user = UsuarioAnonimo
 
 
@@ -26,8 +26,11 @@ def perfil_administrador():
 
 @main.route("/relatorio/", methods=['GET', 'POST'])
 def relatorio():
-    # relatorio = Relatorio()
-    return render_template("relatorio.html") 
+    relatorio = Relatorio()
+    if relatorio.validate_on_submit():
+        filtro = relatorio.filtro.data,
+        busca = relatorio.busca.data
+    return render_template("relatorio.html", relatorio=relatorio) 
 
 
 @main.route("/home/")
