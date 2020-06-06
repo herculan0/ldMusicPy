@@ -33,7 +33,8 @@ class CadastroForm(FlaskForm):
             Regexp(
                 "^[A-Za-z][A-Za-z0-9.]*$",
                 0,
-                "Nomes de Usuário devem conter somente letras,números ou pontos",
+                """Nomes de Usuário devem conter somente letras,\
+                        números ou pontos""",
             ),
         ],
     )
