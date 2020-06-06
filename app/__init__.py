@@ -9,6 +9,14 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_mail import Mail
 from flask_moment import Moment
+from pymysql import connect
+
+
+connection = pymysql.connect(host=os.getenv('DB_URL'),
+                             user=os.getenv('DB_USER'),
+                             password=os.getenv('DB_PASS'),
+                             db='ldmusic',
+                             charset='utf8mb4')
 
 # cria objetos das bibliotecas #
 db = SQLAlchemy()
