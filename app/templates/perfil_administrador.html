@@ -17,7 +17,7 @@
 {% endblock  %}
 {% block content %}
 
-<div class="titulo-isntrutor">
+<div class="titulo-instrutor">
     <h1>Gerenciar Perfil</h1>
 </div>
 
@@ -29,19 +29,19 @@
                 <legend>Editar Perfil Administrador</legend>
                 <div class="form-group">
                     {{ administrador.name.label }}
-                    {{ administrador.name }}
+                    {{ administrador.name(class="form-control") }}
                     
                     {{ administrador.sobrenome.label }}
-                    {{ administrador.sobrenome }}
+                    {{ administrador.sobrenome(class="form-control") }}
                     <br>
                     {{ administrador.username.label }}
-                    {{ administrador.username }}
+                    {{ administrador.username(class="form-control") }}
                     <br>
                     {{ administrador.email.label }}
-                    {{ administrador.email }}
+                    {{ administrador.email(class="form-control") }}
                     <br>
                     {{ administrador.endereco.label }}
-                    {{ administrador.endereco }}
+                    {{ administrador.endereco(class="form-control") }}
                     
                 </div>
                 <hr>
