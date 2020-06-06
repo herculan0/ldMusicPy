@@ -28,16 +28,20 @@
             <form>
                 <legend>Form title</legend>
                 <div class="form-group">
-                    <label for="">Nome</label>
-                    <input type="text" class="form-control" id="" placeholder="Input field">
-                    <label for="">Sobrenome</label>
-                    <input type="text" class="form-control" id="" placeholder="Input field">
-                    <label for="">Username</label>
-                    <input type="text" class="form-control" id="" placeholder="Input field">
-                    <label for="">Email</label>
-                    <input type="text" class="form-control" id="" placeholder="Input field">
-                    <label for="">Endereco</label>
-                    <input type="text" class="form-control" id="" placeholder="Input field">
+                    {{ usuario.name.label }}
+                    {{ usuario.name(class="form-control") }}
+                    
+                    {{ usuario.sobrenome.label }}
+                    {{ usuario.sobrenome(class="form-control") }}
+                    <br>
+                    {{ usuario.username.label }}
+                    {{ usuario.username(class="form-control") }}
+                    <br>
+                    {{ usuario.email.label }}
+                    {{ usuario.email(class="form-control") }}
+                    <br>
+                    {{ usuario.endereco.label }}
+                    {{ usuario.endereco(class="form-control") }}
                 </div>
                 <hr>
             </form>
@@ -45,30 +49,15 @@
             <br>
             <label for="">Selecionar Instrumento</label>
             <div class="btn-group" role="group">
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">
-                    Selecionar
-                    <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a href="#">Bateria</a></li>
-                    <li><a href="#">Violao</a></li>
-                </ul>
+               {{ usuario.instrumento }}
             </div>
             <div>
                 <form action="/action_page.php">
-                    <label for="">Nível de Conhecimento</label><br>
-                    <input type="radio" id="male" name="gender" value="nenhum">
-                    <label for="male">Nenhum</label><br>
-                    <input type="radio" id="female" name="gender" value="basico">
-                    <label for="female">Básico</label><br>
-                    <input type="radio" id="other" name="gender" value="medio">
-                    <label for="other">Médico</label><br>
-                    <input type="radio" id="other" name="gender" value="avancado">
-                    <label for="other">Avançado</label>
+                    {{ usuario.nivel_conhecimento.label }}
+                    {{ usuario.nivel_conhecimento }}
                 </form>
             </div>
-            
+            <br>
             <div class="btn-group btn-group-justified" role="group" aria-label="...">
                 <div class="btn-group" role="group">
                   <button type="button" class="btn btn-default">Adicionar</button>
