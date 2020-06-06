@@ -11,6 +11,7 @@ class EditarPerfilForm(FlaskForm):
 
 class Relatorio(FlaskForm):
     filtro = SelectField('Filtro', choices=[('nome', 'Nome'),('instrumento', 'Instrumento'),('cidade', 'Cidade')])
+    usuario = SelectField('Usuario', choices=[('aluno', 'aluno'),('instrutor', 'instrutor')])
     busca = StringField('Busca', validators=[Length(1, 180)])
 
 class PerfilAdministrador(FlaskForm):
