@@ -23,8 +23,8 @@ class Usuario(UserMixin, db.Model):
     __tablename__ = "usuario"
     __table_args__ = {'useexisting': True}
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True, nullable=False)
-    email = db.Column(db.String(120), unique=True, nullable=False)
+    username = db.Column(db.String(80), nullable=False)
+    email = db.Column(db.String(120), nullable=False)
     senha_hash = db.Column(db.String(128))
     funcao_id = db.Column(db.Integer, db.ForeignKey("funcao.id"))
     sobre_mim = db.Column(db.Text())
