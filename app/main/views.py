@@ -20,7 +20,7 @@ def index():
 def perfil_usuario():
     return render_template("perfil_usuario.html")
 
-@main.route("/perfil_administrador/")
+@main.route("/perfil_administrador/", methods=['GET', 'POST'])
 def perfil_administrador():
     administrador = PerfilAdministrador()
     return render_template("perfil_administrador.html", administrador = administrador)

@@ -2,13 +2,27 @@
     display: grid;
     margin: 30px;
     gap: 25px;
-    display: flex; /*Organiza as informações lado a lado*/
-    justify-content:space-around; /*Distribui, de forma organizada, os espaçamentos entre as informações*/
+    display: grid; /*Organiza as informações lado a lado*/
+    /* justify-content:space-around; Distribui, de forma organizada, os espaçamentos entre as informações */
 } 
-.conteudo-cards {
-    grid-template-columns: auto auto;
+
     
+@media (max-width: 481px) /*and (max-width: 1024px)*/ {
+    .conteudo-cards {
+        grid-template-columns: auto;   
+        margin: 0 auto;
+        min-width: 481px;
+    }
 }
+@media (min-width: 1024px) {
+    .conteudo-cards {
+        grid-template-columns: auto auto;   
+        max-width: 1024px;
+        margin: 0 auto;
+    }
+}
+        
+
     
 .avaliacoes {
     grid-area: avaliacoes;
