@@ -2,6 +2,8 @@
     display: grid;
     margin: 30px;
     gap: 25px;
+    display: flex; /*Organiza as informações lado a lado*/
+    justify-content:space-around; /*Distribui, de forma organizada, os espaçamentos entre as informações*/
 } 
 .conteudo-cards {
     grid-template-columns: auto auto;
