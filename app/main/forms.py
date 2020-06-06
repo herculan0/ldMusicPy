@@ -16,7 +16,6 @@ class Relatorio(FlaskForm):
 class PerfilAdministrador(FlaskForm):
     name = StringField('Nome', validators=[DataRequired()])
     sobrenome = StringField('Sobrenome', validators=[DataRequired()])
-    endereco = StringField('Endereço', validators=[Length(1, 180)])
     username = StringField(
         "Usuario",
         validators=[

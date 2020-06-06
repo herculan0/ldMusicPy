@@ -28,16 +28,21 @@
             <form>
                 <legend>Editar Perfil Administrador</legend>
                 <div class="form-group">
-                    <label for="">Nome</label>
-                    <input type="text" class="form-control" id="" placeholder="Input field">
-                    <label for="">Sobrenome</label>
-                    <input type="text" class="form-control" id="" placeholder="Input field">
-                    <label for="">Username</label>
-                    <input type="text" class="form-control" id="" placeholder="Input field">
-                    <label for="">Email</label>
-                    <input type="text" class="form-control" id="" placeholder="Input field">
-                    <label for="">Endereco</label>
-                    <input type="text" class="form-control" id="" placeholder="Input field">
+                    {{ administrador.name.label }}
+                    {{ administrador.name }}
+                    
+                    {{ administrador.sobrenome.label }}
+                    {{ administrador.sobrenome }}
+                    <br>
+                    {{ administrador.username.label }}
+                    {{ administrador.username }}
+                    <br>
+                    {{ administrador.email.label }}
+                    {{ administrador.email }}
+                    <br>
+                    {{ administrador.endereco.label }}
+                    {{ administrador.endereco }}
+                    
                 </div>
                 <hr>
             </form>
