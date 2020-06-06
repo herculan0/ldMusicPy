@@ -61,7 +61,7 @@ def cadastro():
         usuario = Usuario(
             email=form.email.data.lower(),
             username=form.username.data,
-            # endereco=form.endereco.data,
+            endereco=form.endereco.data,
             senha=form.senha.data,
         )
         db.session.add(usuario)
@@ -70,7 +70,7 @@ def cadastro():
         enviar_email(
             usuario.email,
             "Confirme sua conta",
-            "autenticacao.confirmar",
+            "autenticacao/email/confirmar",
             usuario=usuario,
             token=token,
         )
