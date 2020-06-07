@@ -63,7 +63,7 @@ def cadastro():
             username=form.username.data,
             endereco=form.endereco.data,
             senha=form.senha.data,
-        )
+            tipoUsuario=form.tipoUsuario.data)
         db.session.add(usuario)
         db.session.commit()
         token = usuario.gerar_token_confirmar()
@@ -72,8 +72,7 @@ def cadastro():
             "Confirme sua conta",
             "autenticacao/email/confirmar",
             usuario=usuario,
-            token=token,
-        )
+            token=token)
         flash("Um email de confirmação foi enviado para o seu email.")
         return redirect(url_for("autenticacao.login"))
     return render_template("autenticacao/cadastro.html", form=form)

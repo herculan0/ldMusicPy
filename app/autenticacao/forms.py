@@ -47,7 +47,7 @@ class CadastroForm(FlaskForm):
     )
     tipoUsuario = RadioField(
         "Você é Aluno ou Instrutor?",
-        choices=[("Aluno", "aluno"), ("Instrutor", "instrutor")],
+        choices=[("aluno", "Aluno"), ("instrutor", "Instrutor")],
     )
     submit = SubmitField("Cadastrar")
 
