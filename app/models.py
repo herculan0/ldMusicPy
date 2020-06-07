@@ -19,18 +19,45 @@ class Permissao:
     ADMIN = 16
 
 
+usuario_instrumento = db.Table(
+    "usuario_instrumento",
+    db.Column(
+        "usuario_id", db.Integer, db.ForeignKey("usuario.id"), primary_key=True
+    ),
+    db.Column(
+        "instrumento_id",
+        db.Integer,
+        db.ForeignKey("instrumento.id"),
+        primary_key=True,
+    ),
+)
+
+
 class Usuario(UserMixin, db.Model):
     __tablename__ = "usuario"
-    __table_args__ = {'useexisting': True}
+    __table_args__ = {"useexisting": True}
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), nullable=False)
-    email = db.Column(db.String(120), nullable=False)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    nome = db.Column(db.String(120))
     senha_hash = db.Column(db.String(128))
     funcao_id = db.Column(db.Integer, db.ForeignKey("funcao.id"))
     sobre_mim = db.Column(db.Text())
     data_cadastro = db.Column(db.DateTime(), default=datetime.utcnow)
     confirmado = db.Column(db.Boolean, default=1)
     endereco = db.Column(db.Text())
+    tipoUsuario = db.Column(db.String(30), nullable=False)
+    localizacao = db.relationship(
+        "Localizacao",
+        backref="usuario",
+        uselist=False
+    )
+    instrumentos = db.relationship(
+        "Instrumento",
+        secondary=usuario_instrumento,
+        lazy="subquery",
+        backref=db.backref("usuarios", lazy=True),
+    )
 
     def __init__(self, **kwargs):
         super(Usuario, self).__init__(**kwargs)
@@ -185,48 +212,28 @@ class Funcao(db.Model):
         return "<Funcao %f>" % self.nome
 
 
-# class Administrador(db.Model):
-# __tablename__ = "administrador"
-# id = db.Column(db.Integer, primary_key=True)
-# nome_adm = db.Column(db.String(50), nullable=False)
+class Instrumento(db.Model):
+    __tablename__ = "instrumento"
+    id = db.Column(db.Integer, primary_key=True)
+    nome = db.Column(db.String(20))
 
 
-# class Instrutor(Usuario, db.Model):
-# __tablename__ = "instrutor"
-# id = db.Column(db.Integer, primary_key=True)
-# usuario_id = db.relationship(db.Integer, db.ForeignKey('usuario.id'))
+class Localizacao(db.Model):
+    __tablename__ = "localizacao"
+    id = db.Column(db.Integer, primary_key=True)
+    endereco = db.Column(db.Text(120))
+    latitude = db.Column(db.Float, nullable=False)
+    longitude = db.Column(db.Float, nullable=False)
+    usuario_id = db.Column(db.Integer, db.ForeignKey('usuario.id'))
 
+    def latitude(localizacao):
+        endereco = geolocalizacao.geocode(localizacao)
+        latitude = endereco.latitude
+        return latitude
 
-# class Aluno(Usuario, db.Model):
-# __tablename__ = "aluno"
-# usuario_id = db.relationship(db.Integer, db.ForeignKey('usuario.id'))
+    def longitude(localizacao):
+        endereco = geolocalizacao.geocode(localizacao)
+        longitude = endereco.longitude
+        return longitude
 
-
-# class Instrumento(db.Model):
-# __tablename = "instrumento"
-# id = db.Column(db.Integer, primary_key=True)
-# nome_instrumento = db.Column(db.String(20))
-
-
-# class Aluno_instrumento(db.Model):
-# __tablename__ = "aluno_instrumento"
-
-
-# class Instrutor_instrumento(db.Model):
-# __tablename__ = "instrutor_instrumento"
-
-
-# class Localizacao(db.Model):
-# __tablename__ = "localizacao"
-# latitude = db.Column(db.Float, nullable=False)
-# longitude = db.Column(db.Float, nullable=False)
-
-# def latitude(localizacao):
-# endereco = geolocalizacao.geocode(localizacao)
-# latitude = (endereco.latitude)
-# return latitude
-
-# def longitude(localizacao):
-# endereco = geolocalizacao.geocode(localizacao)
-# longitude = (endereco.longitude)
-# return longitude
+    # def calculaDistancia():
