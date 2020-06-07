@@ -1,5 +1,6 @@
-.idea/
+.envrc
 data-dev.sqlite
+.idea/
 .vscode/
 db-volumes/
 # Byte-compiled / optimized / DLL files

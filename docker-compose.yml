@@ -8,34 +8,11 @@ services:
     environment:
       - MYSQL_ROOT_HOST=%
       - MYSQL_ROOT_PASSWORD=password
-      - MYSQL_DATABASE=ldMusic
+      - MYSQL_DATABASE=ldmusic
       - MYSQL_USER=admin
       - MYSQL_PASSWORD=ldmusic
-    networks:
-      - dev-network
     volumes: 
       - ./db-volumes:/var/lib/mysql
     ports:
       - "3306:3306"
     command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
-  
-  web:
-    build:
-      dockerfile: ./Dockerfile
-      context: .
-    image: ldmusic/latest-dev
-    container_name: web-flask
-    volumes: 
-      - .:/usr/src/app
-    ports:
-      - "5000:5000"
-    depends_on:
-      - "db"
-    networks:
-      - dev-network
-
-networks:
-  dev-network:
-    driver: bridge
-volumes:
-  db-volumes:

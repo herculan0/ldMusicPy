@@ -1,0 +1,97 @@
+.body {
+    display: grid;
+    margin: 30px;
+    gap: 25px;
+    display: grid; /*Organiza as informações lado a lado*/
+    /* justify-content:space-around; Distribui, de forma organizada, os espaçamentos entre as informações */
+} 
+
+    
+@media (min-width: 481px) and (max-width: 1024px) {
+    .conteudo-cards {
+        grid-template-columns: auto;   
+        margin: 0 auto;
+        min-width: 481px;
+        max-width: 1024px;
+    }
+}
+@media (min-width: 1024px) {
+    .conteudo-cards {
+        grid-template-columns: auto auto;   
+        max-width: 1024px;
+        margin: 0 auto;
+    }
+}
+        
+
+    
+.avaliacoes {
+    grid-area: avaliacoes;
+}
+.card {
+    border: 1px solid gray;
+    border-radius: 10px;
+    width: 90%;
+    margin-top: 5px;
+}
+div > h1 {
+    text-align: center;
+}
+.card ul {
+    display: flex;
+    list-style: none;
+    justify-content: space-around;
+} 
+
+/* Nota */
+
+.avaliacao {
+    border: 1px solid gray;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.titulo-instrutor {
+    text-align: center;
+}
+
+/* Gerencia Perfil */
+.alinhamento {
+    display: grid;
+    grid-template-columns: 20% 50% 20% ;
+    grid-template-areas: ". formulario .";
+}
+.forms {
+    grid-area: formulario;
+}
+.total-relatorio {
+    margin-top: 5px;
+}
+.select-relatorio {
+    margin-top: 10px;
+}
+
+/* Perfil Instrutor */
+.video-flex { 
+    position: relative; 
+    padding-bottom: 56.25%; 
+    padding-top: 0px; 
+    height: 0; 
+    overflow: hidden;
+  }
+  
+  .video-flex iframe, .video-flex object, .video-flex embed {
+    position: absolute; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%;
+  }
+  
+.alinhamento-centro {
+    margin: 0 auto;
+}
+
+.comentario > h3 {
+    background-color: green;
+}

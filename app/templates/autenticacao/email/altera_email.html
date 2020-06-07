@@ -1,0 +1,7 @@
+<p>Caro {{ usuario.username }},</p>
+<p>Para alterar seu endereço de email <a href="{{ url_for('alterar_email', token=token, _external=True) }}">Clique aqui</a>.</p>
+<p>Uma outra alternativa é copiar e colar o seguinte link na sua barra de endereços:</p>
+<p>{{ url_for('alterar_email', token=token, _external=True) }}</p>
+<p>Cordialmente,</p>
+<p>Equipe ldMusic</p>
+<p><small>Nota: as respostas para esse endereço de email não são monitoradas.</small></p>

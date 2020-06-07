@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "_macros.html" as macros %}
+
+{% block title %}ldMusic{% endblock %}
+
+{% block page_content %}
+<div class="page-header" align="center">
+    <h2>Seja bem vindo ao ldMusic, {% if current_user.is_authenticated %}{{ current_user.username }}{% else %}sinta-se a vontade{% endif %}!</h2>
+   <div>
+    <br><br><br><img src="../static/images/instrum.png" width="320" class="img-rounded" alt="Conectando Pessoas">
+</div>
+    <br><br><h4><a href="{{ url_for('autenticacao.cadastro') }}">Cadastre-se </a> em nosso site e <br>conecte com instrutores bem perto de você!!!</h4></p> 
+</div>
+{% if pagination %}
+<div class="pagination">
+    {{ macros.pagination_widget(pagination, '.index') }}
+</div>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+{{ pagedown.include_pagedown() }}
+{% endblock %}

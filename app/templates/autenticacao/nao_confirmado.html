@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}ldMusic - Confirme sua Conta{% endblock %}
+
+{% block page_content %}
+<div class="page-reader">
+    <h1> Olá, {{ current_user.username }}!</h1>
+    <h3>Confirme seu endereço de email conforme a mensagem enviada na sua Caixa de Entrada do Email fornecido no Cadastro</h3>
+    <p> Antes de você acessar o nosso site precisamos que você confirme seu endereço de email 
+        Verifique sua Caixa de Entrada, você deve ter recebido um email de confirmação
+    </p>
+    <p>Precisa de outro email de confirmação? 
+        <a href="{{ url_for('autenticacao.reenviar_confirmacao') }}">Clique Aqui</a>
+    </p>
+</div>
+{% endblock %}
