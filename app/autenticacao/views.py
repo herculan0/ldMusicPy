@@ -60,6 +60,7 @@ def cadastro():
     if form.validate_on_submit():
         usuario = Usuario(
             email=form.email.data.lower(),
+            nome=form.nome.data,
             username=form.username.data,
             endereco=form.endereco.data,
             senha=form.senha.data,

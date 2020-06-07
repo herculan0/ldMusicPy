@@ -25,6 +25,7 @@ class CadastroForm(FlaskForm):
     email = StringField(
         "Email", validators=[DataRequired(), Length(1, 80), Email()]
     )
+    nome = StringField("Nome", validators=[Length(1, 180)])
     username = StringField(
         "Usuario",
         validators=[
