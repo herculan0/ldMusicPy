@@ -10,6 +10,7 @@ from flask_login import LoginManager
 from flask_mail import Mail
 from flask_moment import Moment
 from pymysql import connect
+from flask_migrate import Migrate
 
 
 connection = pymysql.connect(host=os.getenv('DB_URL'),
@@ -20,6 +21,7 @@ connection = pymysql.connect(host=os.getenv('DB_URL'),
 
 # cria objetos das bibliotecas #
 db = SQLAlchemy()
+migrate = Migrate()
 bootstrap = Bootstrap()
 mail = Mail()
 moment = Moment()
@@ -36,17 +38,18 @@ def create_app(config_name):
     bootstrap.init_app(app)
     mail.init_app(app)
     db.init_app(app)
+    migrate.init_app(app, db)
     login_manager.init_app(app)
     moment.init_app(app)
     pagedown.init_app(app)
-    # manager = Manager(app)
+    # manager = manager(app)
 
     from .main import main as main_blueprint
     app.register_blueprint(main_blueprint)
     from .autenticacao import autenticacao as autenticacao_blueprint
     app.register_blueprint(autenticacao_blueprint)
-    with app.app_context():
-        db.create_all()
+# with app.app_context():
+# db.create_all()
 
     return app
 
