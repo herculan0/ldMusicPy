@@ -221,7 +221,7 @@ class Instrumento(db.Model):
 class Localizacao(db.Model):
     __tablename__ = "localizacao"
     id = db.Column(db.Integer, primary_key=True)
-    endereco = db.Column(db.Text(120))
+    # endereco = db.Column(db.String, ForeignKey('usuario.endereco'))
     latitude = db.Column(db.Float, nullable=False)
     longitude = db.Column(db.Float, nullable=False)
     usuario_id = db.Column(db.Integer, db.ForeignKey('usuario.id'))
