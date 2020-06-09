@@ -3,7 +3,7 @@ from flask_login import current_user, login_required
 from ..models import UsuarioAnonimo, Usuario
 from .. import db, login_manager
 from . import main
-from .forms import PerfilUsuario, PerfilAdministrador, Relatorio, EditarPerfilForm
+from .forms import Instrumentos, PerfilUsuario, PerfilAdministrador, Relatorio, EditarPerfilForm
 login_manager.anonymous_user = UsuarioAnonimo
 
 
@@ -42,7 +42,8 @@ def home():
 
 @main.route("/instrutor/")
 def instrutor():
-    return render_template("instrutor.html")
+    instrumentos = Instrumentos()
+    return render_template("instrutor.html", instrumentos=instrumentos)
     
 @main.route("/alterar_email/<token>")
 @login_required
@@ -53,6 +54,10 @@ def alterar_email(token):
     else:
         flash("Requisição inválida.")
     return redirect(url_for("main.index"))
+
+@main.route("/perfil/")
+def perfil():
+    return render_template("perfil.html")
 
 
 @main.route("/usuario/<username>")

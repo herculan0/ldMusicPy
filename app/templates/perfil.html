@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "_macros.html" as macros %}
+
+{% block title %}ldMusic{% endblock %}
+{% block content %}
+
+<div class="perfil-imagens">
+    <div class="aluno">
+        <h1>Aluno</h1>
+        <a href="{{ url_for('autenticacao.cadastro') }}"><img src="../static/images/aluno.png" width="400px"></a>
+    </div>
+    <div class="instrutor">
+        <h1>Instrutor</h1>
+        <a href=""><img src="../static/images/instrutor.png" width="490px"></a>
+    </div>
+</div>
+
+
+{% endblock %}
