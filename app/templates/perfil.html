@@ -6,11 +6,11 @@
 {% block content %}
 
 <div class="perfil-imagens">
-    <div>
+    <div class="aluno">
         <h1>Aluno</h1>
-        <a href="../templates/autenticacao/cadastro.html"><img src="../static/images/aluno.png" width="400px"></a>
+        <a href="{{ url_for('autenticacao.cadastro') }}"><img src="../static/images/aluno.png" width="400px"></a>
     </div>
-    <div>
+    <div class="instrutor">
         <h1>Instrutor</h1>
         <a href=""><img src="../static/images/instrutor.png" width="490px"></a>
     </div>
