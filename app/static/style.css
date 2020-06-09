@@ -95,3 +95,13 @@ div > h1 {
 .comentario > h3 {
     background-color: green;
 }
+
+.perfil-imagens {
+    display: grid;
+    grid-template-columns: auto auto;
+
+
+}
+.perfil-imagens div {
+    text-align: center;
+}
