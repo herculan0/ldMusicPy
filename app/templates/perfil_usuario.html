@@ -25,51 +25,47 @@
     <div class="alinhamento">
         <div class="forms">
 
-            <form>
+            <form> 
                 <legend>Form title</legend>
                 <div class="form-group">
                     {{ usuario.name.label }}
                     {{ usuario.name(class="form-control") }}
-                    
-                    {{ usuario.sobrenome.label }}
-                    {{ usuario.sobrenome(class="form-control") }}
-                    <br>
-                    {{ usuario.username.label }}
-                    {{ usuario.username(class="form-control") }}
-                    <br>
-                    {{ usuario.email.label }}
-                    {{ usuario.email(class="form-control") }}
-                    <br>
+
                     {{ usuario.endereco.label }}
                     {{ usuario.endereco(class="form-control") }}
+
+                    {{ form.sobre_mim.label }}
+                    {{ form.sobre_mim(class="form-control") }}
                 </div>
+
                 <hr>
-            </form>
-            <h3>Adicionar Instrumento</h3>
-            <br>
-            <label for="">Selecionar Instrumento</label>
-            <div class="btn-group" role="group">
-               {{ usuario.instrumento }}
-            </div>
-            <div>
-                <form action="/action_page.php">
+
+                <h3>Adicionar Instrumento</h3>
+
+                <br>
+
+                <label for="">Selecionar Instrumento</label>
+                <div class="btn-group" role="group">
+                    {{ usuario.instrumento }}
+                </div>
+                <div>
                     {{ usuario.nivel_conhecimento.label }}
                     {{ usuario.nivel_conhecimento }}
-                </form>
-            </div>
-            <br>
-            <div class="btn-group btn-group-justified" role="group" aria-label="...">
-                <div class="btn-group" role="group">
-                  <button type="button" class="btn btn-default">Adicionar</button>
-                </div>
-              
-                <div class="btn-group" role="group">
-                  <button type="button" class="btn btn-default">Cancelar</button>
-                </div>
-              </div>
-           
-        </div>
 
+                    <br><br>
+                    
+                    <div class="btn-group btn-group-justified" role="group" aria-label="...">
+                        <div class="btn-group" role="group">
+                            <button type="submit" class="btn btn-default">Adicionar</button>
+                        </div>
+
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-default">Cancelar</button>
+                        </div>
+                    </div>
+            </form>
+
+        </div>
     </div>
 </div>
 </div>
