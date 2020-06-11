@@ -5,9 +5,8 @@ from wtforms.validators import DataRequired, Length, Regexp, Email
 
 class EditarPerfilForm(FlaskForm):
     name = StringField('Nome', validators=[DataRequired()])
-    endereco = StringField('Endereço', validators=[Length(1, 180)])
+    endereco = TextAreaField('Endereço')
     sobre_mim = TextAreaField('Sobre mim')
-    submit = SubmitField('Atualizar')
 
 class Relatorio(FlaskForm):
     filtro = SelectField('Filtro', choices=[('nome', 'Nome'),('instrumento', 'Instrumento'),('cidade', 'Cidade')])
