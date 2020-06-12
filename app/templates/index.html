@@ -9,48 +9,50 @@
     <div class="page-header" align="center">
         <h2>Seja bem vindo ao ldMusic, {% if current_user.is_authenticated %}{{ current_user.username }}{% else %}sinta-se a vontade{% endif %}!</h2>
 
+        <!--Criando cards de apresentação da tela inicial-->
         <div class="row mb_4">
            
             <div class="col-sm-6">
-                <div class="card">
-                    <img class="card-img-top" src="../static/images/percussao1.jpg">
+                <div class="card" style="width: auto;">
+                    <img class="card-img-top" src="../static/images/percussao1.jpg"> <!--Adicionando imagen ao card-->
                     <div class="card_body">
-                        <h4 class="card-title"><b>Instrumento de percussão</b></h4><br>
+                        <h4 class="card-title"><b>Instrumento de percussão</b></h4>
                                         
-                    <p class="card-text">
-                        Os instrumentos de percussão estão no início de tudo, eu não diria nem que são os avós e sim 
-                        os ancestrais de toda a família dos instrumentos musicais. Literalmente são do tempo das cavernas. 
-                        Para se ter uma ideia, em muitos campos arqueológicos são encontradas representações ,de pessoas dançando em 
-                        torno de um tambor. E ainda, muitos objetos musicais também são encontrados, como toras de árvore fossilizadas, 
-                        possivelmente usadas como tambores primitivos, e diversas versões de litofones, rochas de diversos tamanhos que 
-                        eram dispostas sobre um tronco ou buraco no chão, usadas para produzir música melódica por percussão.
-                    </p>
+                        <p class="card-text">
+                            “Instrumento de percussão é um instrumento musical cujo som é obtido através da percussão (impacto), 
+                            raspagem ou agitação, com ou sem o auxílio de baquetas”. É o mais simples e o mais complexo. 
+                            Isso porque, das formas de classificação de Instrumentos Musicais, o de percussão é o menos preciso, 
+                            e o que possui maior variedade, de modelos, formatos, timbres e cores.<br> A grande maioria desses instrumentos 
+                            possui função rítmica. Contudo, existem instrumentos como o xilofone, que possuem funções harmônicas e melódicas.
+                            Embora haja uma variedade de instrumentos produzidos especificamente com essa finalidade, qualquer batuque, 
+                            mesmo o mais ‘rustico’, feito com objetos comuns pode ser considerado como percussão...
+                        </p>
         
                     </div>
-                    <div class="card-footer ">
-                        Fonte: <a href="#"> https://similimusica.com.br/blog/conheca-os-principais-instrumentos-de-percussao/</a>
+                    <div class="card-footer "><!--TARGET="blank" linka a página em outra aba no navegador-->
+                        Fonte: <a href="https://similimusica.com.br/blog/conheca-os-principais-instrumentos-de-percussao/" target="blank">Saiba mais!</a>
                     </div>
 
                 </div>
             </div>
 
             <div class="col-sm-6">
-                <div class="card">
+                <div class="card" style="width: auto;">
                     <img class="card-img-top" src="../static/images/corda.jpg">
                     <div class="card_body">
                         <h4 class="card-title"><b>Instrumento de corda</b></h4>
-                        
-                    <p class="card-text">
-                        Os instrumentos de cordas são aqueles cujo o som é produzido pela vibração de uma corda presa em suas extremidades.
-                        Quanto mais longa e mais grossa a corda, mais grave é o som emitido e vice-versa. A quantidade de cordas nos 
-                        instrumentos desta família varia muito, podendo ter uma, como o berimbau, ou mais de quarenta, como a harpa.
-                        Os instrumentos desta família são muito diversificados e podem ser tocados de diferentes maneiras. São usados 
-                        em apresentações solo, em conjuntos pequenos e grandes orquestras, entre outros. O representante mais conhecido 
-                        desta família é o violino, considerado um dos instrumentos mais importantes da cultura ocidental. Há três principais 
-                        maneiras de fazer a corda vibrar: quando dedilhada, quando percutida ou quando friccionada.
-                     </p>
+                            
+                        <p class="card-text">
+                            Os instrumentos de cordas são aqueles cujo o som é produzido pela vibração de uma corda presa em suas extremidades.
+                            Quanto mais longa e mais grossa a corda, mais grave é o som emitido e vice-versa. A quantidade de cordas nos 
+                            instrumentos desta família varia muito, podendo ter uma, como o berimbau, ou mais de quarenta, como a harpa.
+                            Os instrumentos desta família são muito diversificados e podem ser tocados de diferentes maneiras. São usados 
+                            em apresentações solo, em conjuntos pequenos e grandes orquestras, entre outros. O representante mais conhecido 
+                            desta família é o violino, considerado um dos instrumentos mais importantes da cultura ocidental. Há três principais 
+                            maneiras de fazer a corda vibrar: quando dedilhada, quando percutida ou quando friccionada...
+                        </p>
                      <div class="card-footer ">
-                        Fonte: <a href="#">https://musicabrasilis.org.br/instrumentos/familia/cordas/</a>
+                        Fonte: <a href="https://musicabrasilis.org.br/instrumentos/familia/cordas/" target="blank">Saiba mais!</a>
                     </div>
                     </div>
 
@@ -58,41 +60,43 @@
             </div>
     
             <div class="col-sm-6">
-                <div class="card">
+                <div class="card" style="width: auto;">
                     <img class="card-img-top" src="../static/images/sopro2.jpg">
                     <div class="card_body">
                         <h4 class="card-title"><b>Instrumento de Sopro</b></h4>
                         
-                    <p class="card-text">
-                        Um instrumento de sopro é o que produz sons quando alguém sopra através dele. 
-                        A trompeta, a flauta e saxofone são instrumentos de sopro.
-                        O corpo do instrumento de sopro é formado por um tubo, longo ou curto. 
-                        Ao soprar no tubo, o ar vibra e quanto mais comprido é o tubo, mais grave será o tom. 
-                        A maioria dos instrumentos de sopro tem botões ou buracos no tubo, que é o local onde se colocam os dedos quando se toca o instrumento. 
-                        
-                    </p>
+                        <p class="card-text">
+                            Um instrumento de sopro é o que produz sons quando alguém sopra através dele. 
+                            A trompeta, a flauta e saxofone são instrumentos de sopro.
+                            O corpo do instrumento de sopro é formado por um tubo, longo ou curto. 
+                            Ao soprar no tubo, o ar vibra e quanto mais comprido é o tubo, mais grave será o tom. 
+                            A maioria dos instrumentos de sopro tem botões ou buracos no tubo, que é o local onde se 
+                            colocam os dedos quando se toca o instrumento...
+                            
+                        </p>
                     <div class="card-footer ">
-                        Fonte: <a href="#">https://beira.pt/coolkids/pais-e-profs/o-que-e-um-instrumento-de-sopro/</a>
-                    </div>
+                        Fonte: <a href="https://beira.pt/coolkids/pais-e-profs/o-que-e-um-instrumento-de-sopro/" target="blank">Saiba mais!</a>
+                    </div><br>
                     </div>
 
                 </div>
-            </div>
-            <div class="col-sm-6">
-                <div class="card">
+            </div><br>
+            <div class="col-sm-6 mb-4">
+                <div class="card" style="width: auto;"><br>
                     <img class="card-img-top" src="../static/images/teclado.jpg">
                     <div class="card_body">
                         <h4 class="card-title"><b>Instrumento de Teclas</b></h4>
                         
-                    <p class="card-text" align = "center"><br>
-                        Um instrumento de teclas é qualquer instrumento musical que é tocado utilizando-se um teclado musical. 
-                        O mais conhecido destes é o piano, que é utilizado em praticamente todas as formas da música ocidental. 
-                        Outros instrumentos de teclado amplamente utilizados incluem o órgão, instrumentos mecânicos, eletromecânicos e eletrônicos. 
-                        Na linguagem popular o termo é usado, na maioria, das vezes para se referir aos modelos de teclados sintetizadores.
-                    </p><br>
+                        <p class="card-text" align = "center"><br>
+                            Um instrumento de teclas é qualquer instrumento musical que é tocado utilizando-se um teclado musical. 
+                            O mais conhecido destes é o piano, que é utilizado em praticamente todas as formas da música ocidental. 
+                            Outros instrumentos de teclado amplamente utilizados incluem o órgão, instrumentos mecânicos, eletromecânicos e eletrônicos. 
+                            Na linguagem popular o termo é usado, na maioria, das vezes para se referir aos modelos de teclados sintetizadores...
+                            <br>
+                        </p><br>
                     <div class="card-footer ">
-                        Fonte: <a href="#"> https://pt.wikipedia.org/wiki/Instrumento_de_teclas/</a>
-                    </div>
+                        Fonte: <a href="https://pt.wikipedia.org/wiki/Instrumento_de_teclas/" target="blank">Saiba mais!</a>
+                    </div><br>
                     </div>
 
                 </div>
@@ -106,8 +110,9 @@
         <h4><a href="/perfil/">Cadastre-se </a> em nosso site e <br>conecte com instrutores bem perto de você!!!</h4></p>
     </div>
     <div class="col-sm-6" align = "center">
-       <h4><a href="#">www.ldmusic.com.br</a> 
-            <br>Entre em contato conosco!</h4></p>
+       
+        <h4><p>Entre em contato conosco!<br>
+            <a href="mailto:ldmusic@gmail.com" target="blank">ldmusic@gmail.com</a></h4></p>
     </div>
 </div>
     
