@@ -10,6 +10,10 @@ from .forms import (LoginForm,
                     RequisicaoResetaSenhaForm,
                     SenhaResetaForm)
 from .. import db
+from functools import partial
+from geopy.geocoders import Nominatim as geolocalizacao
+geolocalizacao = geolocalizacao(user_agent="app")
+geocode = partial(geolocalizacao.geocode, language="pt")
 
 
 @autenticacao.before_request
@@ -58,13 +62,16 @@ def logout():
 def cadastro():
     form = CadastroForm()
     if form.validate_on_submit():
+        localizacao, _= geolocalizacao.geocode("'{}'".format(form.endereco.data)),
         usuario = Usuario(
             email=form.email.data.lower(),
             nome=form.nome.data,
             username=form.username.data,
-            endereco=form.endereco.data,
             senha=form.senha.data,
-            tipoUsuario=form.tipoUsuario.data)
+            tipoUsuario=form.tipoUsuario.data,
+            endereco=localizacao,
+            latitude=localizacao.latitude,
+            longitude=localizacao.longitude)
         db.session.add(usuario)
         db.session.commit()
         token = usuario.gerar_token_confirmar()
