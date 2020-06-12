@@ -18,8 +18,15 @@ def index():
 
 @main.route("/perfil_usuario/", methods=['GET', 'POST'])
 def perfil_usuario():
-    usuario = PerfilUsuario()
-    return render_template("perfil_usuario.html", usuario = usuario)
+    form = EditarPerfilForm()
+    if form.validate_on_submit():
+        current_user.name = form.name.data
+        current_user.endereco = form.endereco.data
+        db.session.add(current_user)
+        db.session.commit()
+        flash("Seu perfil foi atualizado com sucesso")
+        return redirect(url_for('.user', username=current_user.username))
+    return render_template("perfil_usuario.html", form=form)
 
 @main.route("/perfil_administrador/", methods=['GET', 'POST'])
 def perfil_administrador():
