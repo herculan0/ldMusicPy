@@ -5,10 +5,10 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 from flask import current_app
 from flask_login import UserMixin, AnonymousUserMixin
-from geopy.geocoders import Nominatim as geolocalizacao
 from . import db
 from functools import partial
-
+# import geopy.distance
+from geopy.geocoders import Nominatim as geolocalizacao
 geolocalizacao = geolocalizacao(user_agent="app")
 geocode = partial(geolocalizacao.geocode, language="pt")
 
@@ -22,13 +22,16 @@ class Permissao:
 usuario_instrumento = db.Table(
     "usuario_instrumento",
     db.Column(
-        "usuario_id", db.Integer, db.ForeignKey("usuario.id"), primary_key=True
+        "usuario_id",
+        db.Integer,
+        db.ForeignKey("usuario.id"),
+        primary_key=True
     ),
     db.Column(
         "instrumento_id",
         db.Integer,
         db.ForeignKey("instrumento.id"),
-        primary_key=True,
+        primary_key=True
     ),
 )
 
@@ -47,11 +50,9 @@ class Usuario(UserMixin, db.Model):
     confirmado = db.Column(db.Boolean, default=1)
     endereco = db.Column(db.Text())
     tipoUsuario = db.Column(db.String(30), nullable=False)
-    localizacao = db.relationship(
-        "Localizacao",
-        backref="usuario",
-        uselist=False
-    )
+    localizacao = db.Column(db.Text())
+    latitude = db.Column(db.Numeric(10, 2))
+    longitude = db.Column(db.Numeric(10, 2))
     instrumentos = db.relationship(
         "Instrumento",
         secondary=usuario_instrumento,
@@ -65,6 +66,21 @@ class Usuario(UserMixin, db.Model):
     @property
     def senha(self):
         raise AttributeError("Senha não é um atributo legível.")
+
+# def gerar_localizacao(self,  endereco):
+# self.localizacao = geolocalizacao.geocode(self.endereco)
+# db.session.add(self)
+# return self.localizacao
+
+# def gerar_latitude(self, localizacao):
+# self.latitude = self.localizacao.latitude
+# db.session.add(self)
+# return self.latitude
+
+# def gerar_longitutde(self, localizacao):
+# self.longitude = self.localizacao.longitude
+# db.session.add(self)
+# return self.longitude
 
     # gera o hash da senha para guardar no banco #
     @senha.setter
@@ -137,7 +153,6 @@ class Usuario(UserMixin, db.Model):
         if self.query.filter_by(email=novo_email).first() is not None:
             return False
         self.email = novo_email
-        self.avatar_hash = self.gravatar_hash()
         db.session.add(self)
         return True
 
@@ -216,24 +231,3 @@ class Instrumento(db.Model):
     __tablename__ = "instrumento"
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(20))
-
-
-class Localizacao(db.Model):
-    __tablename__ = "localizacao"
-    id = db.Column(db.Integer, primary_key=True)
-    # endereco = db.Column(db.String, ForeignKey('usuario.endereco'))
-    latitude = db.Column(db.Float, nullable=False)
-    longitude = db.Column(db.Float, nullable=False)
-    usuario_id = db.Column(db.Integer, db.ForeignKey('usuario.id'))
-
-    def latitude(localizacao):
-        endereco = geolocalizacao.geocode(localizacao)
-        latitude = endereco.latitude
-        return latitude
-
-    def longitude(localizacao):
-        endereco = geolocalizacao.geocode(localizacao)
-        longitude = endereco.longitude
-        return longitude
-
-    # def calculaDistancia():
