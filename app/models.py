@@ -48,11 +48,10 @@ class Usuario(UserMixin, db.Model):
     sobre_mim = db.Column(db.Text())
     data_cadastro = db.Column(db.DateTime(), default=datetime.utcnow)
     confirmado = db.Column(db.Boolean, default=1)
-    endereco = db.Column(db.Text())
     tipoUsuario = db.Column(db.String(30), nullable=False)
-    localizacao = db.Column(db.Text())
-    latitude = db.Column(db.Numeric(10, 2))
-    longitude = db.Column(db.Numeric(10, 2))
+    endereco = db.Column(db.Text())
+    latitude = db.Column(db.Float())
+    longitude = db.Column(db.Float())
     instrumentos = db.relationship(
         "Instrumento",
         secondary=usuario_instrumento,

@@ -62,16 +62,21 @@ def logout():
 def cadastro():
     form = CadastroForm()
     if form.validate_on_submit():
-        localizacao, _= geolocalizacao.geocode("'{}'".format(form.endereco.data)),
+        localizacao = geolocalizacao.geocode("'{}'".format(
+                                    form.endereco.data),
+                                    exactly_one=True)
+        endereco = str(localizacao)
+        latitude = localizacao.latitude
+        longitude = localizacao.longitude
         usuario = Usuario(
             email=form.email.data.lower(),
             nome=form.nome.data,
             username=form.username.data,
             senha=form.senha.data,
-            tipoUsuario=form.tipoUsuario.data,
-            endereco=localizacao,
-            latitude=localizacao.latitude,
-            longitude=localizacao.longitude)
+            endereco=endereco,
+            latitude=latitude,
+            longitude=longitude,
+            tipoUsuario=form.tipoUsuario.data)
         db.session.add(usuario)
         db.session.commit()
         token = usuario.gerar_token_confirmar()
