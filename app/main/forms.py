@@ -4,14 +4,23 @@ from wtforms.validators import DataRequired, Length, Regexp, Email
 
 
 class EditarPerfilForm(FlaskForm):
-    nome = StringField("Nome", validators=[DataRequired()])
-    endereco = TextAreaField('Endereço')
+    endereco = TextAreaField("Endereço")
+    instrumento = SelectField(
+        "Instrumento",
+        choices=[
+            ("violao", "Violão"),
+            ("bateria", "Bateria"),
+            ("guitarra", "Guitarra"),
+        ],
+    )
     submit = SubmitField("Atualizar")
 
 
 class EditarPerfilInstrutor(FlaskForm):
-    urlVideo = StringField("Video de Apresentação")
-    sobre_mim = TextAreaField('Sobre mim')
+    urlVideo = StringField("Video de Apresentação(Youtube Link)")
+    sobre_mim = TextAreaField("Sobre mim")
+    submit = SubmitField("Atualizar")
+
 
 class Relatorio(FlaskForm):
     filtro = SelectField(
@@ -39,7 +48,8 @@ class PerfilAdministrador(FlaskForm):
             Regexp(
                 "^[A-Za-z][A-Za-z0-9.]*$",
                 0,
-                "Nomes de Usuário devem conter somente letras,números ou pontos",
+                """Nomes de Usuário devem conter somente letras,
+                números ou pontos""",
             ),
         ],
     )
@@ -62,7 +72,8 @@ class PerfilUsuario(FlaskForm):
             Regexp(
                 "^[A-Za-z][A-Za-z0-9.]*$",
                 0,
-                "Nomes de Usuário devem conter somente letras,números ou pontos",
+                """Nomes de Usuário devem conter somente letras,
+                números ou pontos""",
             ),
         ],
     )
