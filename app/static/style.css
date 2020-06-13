@@ -20,10 +20,19 @@
         grid-template-columns: auto auto;   
         max-width: 1024px;
         margin: 0 auto;
+        
     }
 }
+@media (min-width: 481px) and (max-width: 1024px) {
+    .card-text {  
+        margin-left: 10px;
+        margin-right: 10px;
+        min-width: 481px;
+        max-width: 1024px;
+        text-justify: left;
+    }
         
-
+}
     
 .avaliacoes {
     grid-area: avaliacoes;
