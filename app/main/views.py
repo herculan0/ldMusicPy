@@ -22,20 +22,6 @@ def index():
     return render_template("index.html")
 
 
-@main.route("/editar_perfil_usuario/", methods=['GET', 'POST'])
-def editar_perfil_usuario():
-    form = EditarPerfilForm()
-    formInstrutor = EditarPerfilInstrutor()
-    if form.validate_on_submit():
-        current_user.name = form.name.data
-        current_user.endereco = form.endereco.data
-        db.session.add(current_user)
-        db.session.commit()
-        flash("Seu perfil foi atualizado com sucesso")
-        return redirect(url_for('.user', username=current_user.username))
-    return render_template("editar_perfil_usuario.html",
-                           form=form,
-                           formInstrutor=formInstrutor)
 
 
 @main.route("/perfil_administrador/", methods=['GET', 'POST'])
@@ -51,7 +37,7 @@ def relatorio():
     if relatorio.validate_on_submit():
         filtro = relatorio.filtro.data,
         busca = relatorio.busca.data
-    return render_template("relatorio.html", relatorio=relatorio) 
+    return render_template("relatorio.html", relatorio=relatorio)
 
 
 @main.route("/home/")
@@ -76,6 +62,7 @@ def alterar_email(token):
         flash("Requisição inválida.")
     return redirect(url_for("main.index"))
 
+
 @main.route("/perfil/")
 def perfil():
     return render_template("perfil.html")
@@ -87,18 +74,31 @@ def usuario(username):
     return render_template("usuario.html", usuario=usuario)
 
 
-@main.route('/editar-perfil', methods=['GET', 'POST'])
-@login_required
-def editar_perfil():
+@main.route("/editar_pefil_instrutor/", methods=['GET', 'POST'])
+def editar_perfil_instrutor():
+    form = EditarPerfilInstrutor()
+    if form.validate_on_submit():
+        current_user.name = form.name.data
+        current_user.endereco = form.endereco.data
+        current_user.urlVideo = form.urlVideo.data
+        current_user.sobre_mim = form.sobre_mim.data
+        db.session.add(current_user)
+        db.session.commit()
+        flash("Seu perfil foi atualizado com sucesso")
+        return redirect(url_for('.user', username=current_user.username))
+    return render_template("editar_perfil_instrutor.html",
+                           form=form)
+
+
+@main.route("/editar_perfil_usuario/", methods=['GET', 'POST'])
+def editar_perfil_usuario():
     form = EditarPerfilForm()
     if form.validate_on_submit():
         current_user.name = form.name.data
         current_user.endereco = form.endereco.data
-        current_user.sobre_mim = form.sobre_mim.data
-        db.session.add(current_user._get_current_object())
-        db.serssion.commit()
+        db.session.add(current_user)
+        db.session.commit()
         flash("Seu perfil foi atualizado com sucesso")
-        return redirect(url_for('.user', username=current_user.username))
-    form.nome.data = current_user.nome
-    form.endereco.data = current_user.endereco
-    return render_template('editar_perfil.html', form=form)
+        return redirect(url_for('.usuario', username=current_user.username))
+    return render_template("editar_perfil_usuario.html",
+                           form=form)

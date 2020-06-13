@@ -6,6 +6,7 @@ from wtforms import (
     SubmitField,
     TextAreaField,
     RadioField,
+    IntegerField,
 )
 from wtforms.validators import DataRequired, Length, Email, Regexp, EqualTo
 from wtforms import ValidationError
@@ -43,9 +44,22 @@ class CadastroForm(FlaskForm):
         "Senha", validators=[DataRequired(), EqualTo("senha2")]
     )
     senha2 = PasswordField("Confirmar Senha", validators=[DataRequired()])
-    endereco = TextAreaField(
-        "Endereço", validators=[DataRequired(), Length(1, 180)]
-    )
+    rua = StringField(
+        "Rua",
+        validators=[DataRequired(), Length(1, 64), Regexp(
+            "^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]*$", 0,
+            "Rua deve conter somente letras")])
+    numero = TextAreaField(
+        "Número",
+        validators=[DataRequired(),
+                    Regexp("^[0-9]*$",
+                           0,
+                           "Deve Conter Apenas Números Inteiros")])
+    cidade = StringField(
+        "Cidade",
+        validators=[DataRequired(), Length(1, 64), Regexp(
+            "^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]*$", 0,
+            "Cidade deve conter somente letras")])
     tipoUsuario = RadioField(
         "Você é Aluno ou Instrutor?",
         choices=[("aluno", "Aluno"), ("instrutor", "Instrutor")],

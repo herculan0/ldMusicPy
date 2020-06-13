@@ -107,11 +107,13 @@
     </div>
 <div class="footer" margin-top = "05">
     <div class="col-sm-6" align = "center">
+        {% if current_user.is_anonymous %}
         <h4><a href="/perfil/">Cadastre-se </a> em nosso site e <br>conecte com instrutores bem perto de você!!!</h4></p>
     </div>
     <div class="col-sm-6" align = "center">
        
-        <h4><p>Entre em contato conosco!<br>
+        {% endif %}
+        <h4 class=justify-content-center"><p>Entre em contato conosco!<br>
             <a href="mailto:ldmusic@gmail.com" target="blank">ldmusic@gmail.com</a></h4></p><!--MAILTO: encaminha o usuário para uma pagina de envio de email-->
     </div>
 </div>

@@ -62,8 +62,14 @@ def logout():
 def cadastro():
     form = CadastroForm()
     if form.validate_on_submit():
+        localizacao = str("{} {} {}".format(
+                                         form.rua.data,
+                                         str(form.numero.data),
+                                         form.cidade.data,
+                                            )
+                          )
         localizacao = geolocalizacao.geocode("'{}'".format(
-                                    form.endereco.data),
+                                    localizacao),
                                     exactly_one=True)
         endereco = str(localizacao)
         latitude = localizacao.latitude
@@ -73,6 +79,9 @@ def cadastro():
             nome=form.nome.data,
             username=form.username.data,
             senha=form.senha.data,
+            rua=form.rua.data,
+            numero=form.numero.data,
+            cidade=form.cidade.data,
             endereco=endereco,
             latitude=latitude,
             longitude=longitude,
