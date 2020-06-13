@@ -3,7 +3,12 @@ from flask_login import current_user, login_required
 from ..models import UsuarioAnonimo, Usuario
 from .. import db, login_manager
 from . import main
-from .forms import Instrumentos, PerfilUsuario, PerfilAdministrador, Relatorio, EditarPerfilForm
+from .forms import (Instrumentos,
+                    PerfilUsuario,
+                    EditarPerfilInstrutor,
+                    PerfilAdministrador,
+                    Relatorio,
+                    EditarPerfilForm)
 login_manager.anonymous_user = UsuarioAnonimo
 
 
@@ -16,9 +21,11 @@ def carrega_usuario(id):
 def index():
     return render_template("index.html")
 
-@main.route("/perfil_usuario/", methods=['GET', 'POST'])
-def perfil_usuario():
+
+@main.route("/editar_perfil_usuario/", methods=['GET', 'POST'])
+def editar_perfil_usuario():
     form = EditarPerfilForm()
+    formInstrutor = EditarPerfilInstrutor()
     if form.validate_on_submit():
         current_user.name = form.name.data
         current_user.endereco = form.endereco.data
@@ -26,14 +33,19 @@ def perfil_usuario():
         db.session.commit()
         flash("Seu perfil foi atualizado com sucesso")
         return redirect(url_for('.user', username=current_user.username))
-    return render_template("perfil_usuario.html", form=form)
+    return render_template("editar_perfil_usuario.html",
+                           form=form,
+                           formInstrutor=formInstrutor)
+
 
 @main.route("/perfil_administrador/", methods=['GET', 'POST'])
 def perfil_administrador():
     administrador = PerfilAdministrador()
-    return render_template("perfil_administrador.html", administrador = administrador)
+    return render_template("perfil_administrador.html",
+                           administrador=administrador)
 
-@main.route("/relatorio/", methods=['GET', 'POST'])
+
+@main.route("/relatorio/", methods=['GET'])
 def relatorio():
     relatorio = Relatorio()
     if relatorio.validate_on_submit():
@@ -47,11 +59,13 @@ def home():
     usuarios = Usuario.query.order_by(Usuario.username).all()
     return render_template("home.html", usuarios=usuarios)
 
+
 @main.route("/instrutor/")
 def instrutor():
     instrumentos = Instrumentos()
     return render_template("instrutor.html", instrumentos=instrumentos)
-    
+
+
 @main.route("/alterar_email/<token>")
 @login_required
 def alterar_email(token):
