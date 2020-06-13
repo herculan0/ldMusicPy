@@ -30,13 +30,20 @@
                 {% if current_user.is_authenticated %}
                 <li><a href="{{ url_for('main.instrutor', username=current_user.username) }}">Instrutores</a></li>
                 <li><a href="{{ url_for('main.usuario', username=current_user.username) }}">Meu Perfil</a></li>
+                {% endif %}
+                {% if current_user.admin and current_user.is_authenticated %}
+                <li><a href="{{ url_for('main.perfil_administrador') }}">Alterar Perfil Admin</a></li>
                 <li><a href="{{ url_for('main.relatorio') }}">Relatorios</a></li>
                 {% endif %}
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 {% if current_user.is_authenticated %}
                 {% block instrumentos %}{% endblock %}
+                {% if current_user.tipoUsuario == 'instrutor' %} 
+                <li><a href="{{ url_for('main.editar_perfil_instrutor') }}">Editar Perfil</a></li>
+                {% else %}
                 <li><a href="{{ url_for('main.editar_perfil_usuario') }}">Editar Perfil</a></li>
+                {% endif %}
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         Minha Conta<b class="caret"></b>
@@ -44,7 +51,6 @@
                     <ul class="dropdown-menu">
                         <li><a href="{{ url_for('autenticacao.alterar_senha') }}">Alterar Senha</a></li>
                         <li><a href="{{ url_for('autenticacao.requisicao_alterar_email') }}">Alterar Email</a></li>
-                        <li><a href="{{ url_for('main.perfil_administrador') }}">Alterar Perfil Admin</a></li>
                         <li><a href="{{ url_for('autenticacao.logout') }}">Sair</a></li>
                     </ul>
                 </li>

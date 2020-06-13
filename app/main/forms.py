@@ -17,6 +17,16 @@ class EditarPerfilForm(FlaskForm):
 
 
 class EditarPerfilInstrutor(FlaskForm):
+    endereco = TextAreaField("Endereço")
+    instrumento = SelectField(
+        "Instrumento",
+        choices=[
+            ("violao", "Violão"),
+            ("bateria", "Bateria"),
+            ("guitarra", "Guitarra"),
+        ],
+    )
+    submit = SubmitField("Atualizar")
     urlVideo = StringField("Video de Apresentação(Youtube Link)")
     sobre_mim = TextAreaField("Sobre mim")
     submit = SubmitField("Atualizar")
