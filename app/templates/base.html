@@ -36,7 +36,7 @@
             <ul class="nav navbar-nav navbar-right">
                 {% if current_user.is_authenticated %}
                 {% block instrumentos %}{% endblock %}
-                <li><a href="{{ url_for('main.perfil_usuario') }}">Editar Perfil</a></li>
+                <li><a href="{{ url_for('main.editar_perfil_usuario') }}">Editar Perfil</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         Minha Conta<b class="caret"></b>
@@ -50,7 +50,7 @@
                 </li>
                 {% else %}
                 <li><a href="{{ url_for('autenticacao.login') }}">Entrar</a></li>
-                <li><a href="{{ url_for('autenticacao.cadastro') }}">Cadastrar</a></li>
+                <li><a href="/perfil/">Cadastrar</a></li>
                 {% endif %}
             </ul>
         </div>

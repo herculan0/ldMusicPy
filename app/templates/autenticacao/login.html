@@ -4,15 +4,20 @@
 {% block title %}ldMusic - Entrar{% endblock %}
 
 {% block page_content %}
+
+<div class="col-sm-8 mb-2" align = "center"><!--sm espaço ocupado na extremidade da tela-->
+    <br><br><a href=""><img src="../static/images/login3.png" width="390px"></a>
+</div>
+
 <div class="page-header">
     <h1>Entrar</h1>     
 </div>
 
-<div class="col-md-4">
+<div class="col-md-4" align = "auto">
     {{ wtf.quick_form(form) }}
     <br>
-    <p>Esqueceu sua Senha? <a href="{{ url_for('autenticacao.requisicao_reset_senha') }}">Clique aqui!</a>.</p>
-    <p>É Novo Aqui? <a href="{{ url_for('autenticacao.cadastro') }}">Cadastre-se</a>.</p>
+    <p >Esqueceu sua Senha? <a href="{{ url_for('autenticacao.requisicao_reset_senha') }}"  align = "center">Clique aqui!</a>.</p>
+    <p>É Novo Aqui? <a href="/perfil/">Cadastre-se</a>.</p>
    
 </div>
 {% endblock %}
