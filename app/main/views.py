@@ -63,7 +63,8 @@ def home():
 @main.route("/instrutor/")
 def instrutor():
     instrumentos = Instrumentos()
-    return render_template("instrutor.html", instrumentos=instrumentos)
+    user = Usuario.query.filter_by(tipoUsuario='instrutor').all()
+    return render_template("instrutor.html", instrumentos=instrumentos, user=user)
 
 
 @main.route("/alterar_email/<token>")
