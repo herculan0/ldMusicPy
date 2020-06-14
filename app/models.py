@@ -147,6 +147,7 @@ class UsuarioAnonimo(AnonymousUserMixin):
 
 class Funcao(db.Model):
     __tablename__ = "funcao"
+    table_args__ = {"useexisting": True}
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(64), unique=True)
     padrao = db.Column(db.Boolean, default=False, index=True)

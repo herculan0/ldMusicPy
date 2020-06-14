@@ -11,8 +11,8 @@ from .forms import (LoginForm,
                     SenhaResetaForm)
 from .. import db
 from functools import partial
-from geopy.geocoders import Nominatim as geolocalizacao
-geolocalizacao = geolocalizacao(user_agent="app")
+from geopy.geocoders import Nominatim as geolocalizacao # Aqui eu importo a biblioteca...
+geolocalizacao = geolocalizacao(user_agent="app") # aqui eu crio um objeto
 geocode = partial(geolocalizacao.geocode, language="pt")
 
 
@@ -57,7 +57,7 @@ def logout():
     flash("Você se deslogou com sucesso.")
     return redirect(url_for("main.index"))
 
-
+#rota de geolocalização
 @autenticacao.route("/cadastro", methods=["GET", "POST"])
 def cadastro():
     form = CadastroForm()
@@ -70,7 +70,7 @@ def cadastro():
                           )
         localizacao = geolocalizacao.geocode("'{}'".format(
                                     localizacao),
-                                    exactly_one=True)
+                                    exactly_one=True) # olha o trampo ..
         endereco = str(localizacao)
         latitude = localizacao.latitude
         longitude = localizacao.longitude
