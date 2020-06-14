@@ -22,8 +22,6 @@ def index():
     return render_template("index.html")
 
 
-
-
 @main.route("/perfil_administrador/", methods=['GET', 'POST'])
 def perfil_administrador():
     administrador = PerfilAdministrador()
@@ -78,14 +76,15 @@ def usuario(username):
 def editar_perfil_instrutor():
     form = EditarPerfilInstrutor()
     if form.validate_on_submit():
-        current_user.name = form.name.data
         current_user.endereco = form.endereco.data
         current_user.urlVideo = form.urlVideo.data
         current_user.sobre_mim = form.sobre_mim.data
+        current_user.instrumento = form.instrumento.data
         db.session.add(current_user)
         db.session.commit()
         flash("Seu perfil foi atualizado com sucesso")
-        return redirect(url_for('.user', username=current_user.username))
+        return redirect(url_for('main.usuario',
+                                username=current_user.username))
     return render_template("editar_perfil_instrutor.html",
                            form=form)
 
@@ -94,11 +93,12 @@ def editar_perfil_instrutor():
 def editar_perfil_usuario():
     form = EditarPerfilForm()
     if form.validate_on_submit():
-        current_user.name = form.name.data
         current_user.endereco = form.endereco.data
+        current_user.instrumento = form.instrumento.data
         db.session.add(current_user)
         db.session.commit()
         flash("Seu perfil foi atualizado com sucesso")
-        return redirect(url_for('.usuario', username=current_user.username))
+        return redirect(url_for('main.usuario',
+                                username=current_user.username))
     return render_template("editar_perfil_usuario.html",
                            form=form)

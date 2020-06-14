@@ -8,7 +8,6 @@
 <div class="page-header">
     <div class="profile-header">
         <h1>{{ usuario.username }}</h1>
-        {% if usuario.sobre_mim %}<p> {{ usuario.sobre_mim }}</p>{% endif %}
     </div>
 </div>
 
@@ -16,30 +15,15 @@
     <div class="alinhamento-centro">
         <div class="comentarios">
             <div class="video-flex">
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/vjHynWCMbFA" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                {% if usuario.urlVideo %}
+                <iframe width="560" height="315" src="{{ usuario.urlVideo }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
             <div>
                 <h3>Sobre mim</h3>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non necessitatibus perspiciatis obcaecati, aliquid tempora libero nisi? Qui eos facere accusamus. Asperiores exercitationem nam, repellendus tempore minus voluptas hic quos facilis?</div>
+                {% if usuario.sobre_mim %}<p> {{ usuario.sobre_mim }}</p>{% endif %}
+                <h3>Email para Contato</h3>
+                <p>{{ usuario.email }}</p>
             <hr>
-            <div class="comentario">
-                <h4>Nome da Pessoa</h4>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus sequi optio, dolorem laudantium
-                    fugiat, nobis omnis sunt libero doloremque dolore tempora ipsum nihil laborum quod consectetur
-                    aspernatur cum, ex voluptatem?</p>
-            </div>
-            <div class="comentario">
-                <h4>Nome da Pessoa</h4>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus sequi optio, dolorem laudantium
-                    fugiat, nobis omnis sunt libero doloremque dolore tempora ipsum nihil laborum quod consectetur
-                    aspernatur cum, ex voluptatem?</p>
-            </div>
-            <div class="comentario">
-                <h4>Nome da Pessoa</h4>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus sequi optio, dolorem laudantium
-                    fugiat, nobis omnis sunt libero doloremque dolore tempora ipsum nihil laborum quod consectetur
-                    aspernatur cum, ex voluptatem?</p>
-            </div>
         </div>
     </div>
 </div>
