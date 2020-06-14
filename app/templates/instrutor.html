@@ -13,45 +13,31 @@
     {{ instrumentos.instrumento }}
 </div>
 <div class="body conteudo-cards">
-    <div class="card">
-        <ul style="margin-top: 30px;">
-            
-            <li><b>Nome</b></li>            
-            <li><b>Instrumento</b></li>
-            <li><b>Distância</b></li>
-
-        </ul>
-        <ul>
-            <li>Fulaninho</li>
-            <li>TocaToca</li>
-            <li>Leguas</li>
-        </ul>
-        <hr>
-        <ul> 
-            <li><input type="button" value="Solicitar Contato"></li>
-            <li><input type="reset" value="Contato"></li>
-        </ul>
-    </div>
-    <div class="card">
-        <ul style="margin-top: 30px;">
-            
-            <li><b>Nome</b></li>            
-            <li><b>Instrumento</b></li>
-            <li><b>Distância</b></li>
-
-        </ul>
-        <ul>
-            <li>Fulaninho</li>
-            <li>TocaToca</li>
-            <li>Leguas</li>
-        </ul>
-        <hr>
-        <ul>
-            <li><input type="button" value="Solicitar Contato"></li>
-            <li><input type="reset" value="Contato"></li>
-        </ul>
-    </div>
+    {% for user in user %}
+        <div class="card">
+            <ul style="margin-top: 30px;">
+                
+                <li><b>nome</b></li>            
+                <li><b>Instrumento</b></li>
+                <li><b>Distância</b></li>
+    
+            </ul>
+            <ul>
+                <li>{{ user.nome }}</li>
+                <li>{{ user.instrumento }}</li>
+                <li>{{ user.longitude }}</li>
+            </ul>
+            <hr>
+            <ul> 
+                <li><input type="button" value="Solicitar Contato"></li>
+                <li><input type="reset" value="Contato"></li>
+            </ul>
+        </div>
+        {% endfor %}
    
 </div>
 
 {% endblock %}
+
+
+
