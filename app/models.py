@@ -39,6 +39,7 @@ class Usuario(UserMixin, db.Model):
     longitude = db.Column(db.Float())
     instrumento = db.Column(db.String(32))
     admin = db.Column(db.Boolean, default=0)
+    urlVideo = db.Column(db.String(64))
 
     def __init__(self, **kwargs):
         super(Usuario, self).__init__(**kwargs)

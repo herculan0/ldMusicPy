@@ -11,9 +11,9 @@ from .forms import (LoginForm,
                     SenhaResetaForm)
 from .. import db
 from functools import partial
-from geopy.geocoders import Nominatim as geolocalizacao
-geolocalizacao = geolocalizacao(user_agent="app")
-geocode = partial(geolocalizacao.geocode, language="pt")
+import os
+from geopy import geocoders as geolocalizacao
+geolocalizacao = geolocalizacao.GoogleV3(api_key=os.environ.get('API_MAPS'))
 
 
 @autenticacao.before_request
