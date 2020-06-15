@@ -20,6 +20,7 @@ class LoginForm(FlaskForm):
     senha = PasswordField("Senha", validators=[DataRequired()])
     remember_me = BooleanField("Lembrar de mim")
     submit = SubmitField("Entrar")
+    
 
 
 class CadastroForm(FlaskForm):
