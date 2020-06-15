@@ -10,7 +10,6 @@
 
 <div class="titulo-instrutor">
     <h1>Instrutores</h1>  
-    {{ instrumentos.instrumento }}
 </div>
 <div class="body conteudo-cards">
     {% for user in user %}
@@ -25,7 +24,7 @@
             <ul>
                 <li>{{ user.nome }}</li>
                 <li>{{ user.instrumento }}</li>
-                <li>{{ user.longitude }}</li>
+                <li>{{ distancia }}</li>
             </ul>
             <hr>
             <ul> 

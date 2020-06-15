@@ -12,6 +12,7 @@ from .forms import (LoginForm,
 from .. import db
 from functools import partial
 from geopy.geocoders import Nominatim as geolocalizacao # Aqui eu importo a biblioteca...
+from geopy.distance import geodesic as distancia
 geolocalizacao = geolocalizacao(user_agent="app") # aqui eu crio um objeto
 geocode = partial(geolocalizacao.geocode, language="pt")
 

@@ -3,6 +3,7 @@ from flask_login import current_user, login_required
 from ..models import UsuarioAnonimo, Usuario
 from .. import db, login_manager
 from . import main
+from geopy.distance import geodesic
 from .forms import (Instrumentos,
                     PerfilUsuario,
                     EditarPerfilInstrutor,
@@ -46,10 +47,12 @@ def home():
 
 @main.route("/instrutor/")
 def instrutor():
-    instrumentos = Instrumentos()
     user = Usuario.query.filter_by(tipoUsuario='instrutor').all()
-    return render_template("instrutor.html", instrumentos=instrumentos, user=user)
+    newport_ri = (Usuario.latitude, Usuario.longitude)
+    cleveland_oh = (Usuario.latitude, Usuario.longitude)
+    distancia = geodesic(newport_ri, cleveland_oh).miles
 
+    return render_template("instrutor.html", user=user, distancia=distancia )
 
 @main.route("/alterar_email/<token>")
 @login_required

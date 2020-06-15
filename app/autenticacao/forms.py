@@ -49,7 +49,7 @@ class CadastroForm(FlaskForm):
         validators=[DataRequired(), Length(1, 64), Regexp(
             "^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]*$", 0,
             "Rua deve conter somente letras")])
-    numero = TextAreaField(
+    numero = StringField(
         "Número",
         validators=[DataRequired(),
                     Regexp("^[0-9]*$",
