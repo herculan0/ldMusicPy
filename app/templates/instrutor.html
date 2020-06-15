@@ -6,25 +6,30 @@
 {% block instrumentos %}
 
 {% endblock  %}
+
+{% if current_user == "aluno" %}
+    {% block instrutor %}
+        
+    {% endblock  %}
+{% endif %}
 {% block content %}
 
 <div class="titulo-instrutor">
     <h1>Instrutores</h1>  
 </div>
+
 <div class="body conteudo-cards">
     {% for user in user %}
         <div class="card">
             <ul style="margin-top: 30px;">
-                
                 <li><b>nome</b></li>            
                 <li><b>Instrumento</b></li>
                 <li><b>Distância</b></li>
-    
             </ul>
             <ul>
                 <li>{{ user.nome }}</li>
                 <li>{{ user.instrumento }}</li>
-                <li>{{ distancia }}</li>
+                <li>{{ user.latitude }}</li>
             </ul>
             <hr>
             <ul> 

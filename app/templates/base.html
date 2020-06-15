@@ -29,7 +29,9 @@
             <ul class="nav navbar-nav">
                 {% if current_user.is_authenticated %}
                 <li><a href="{{ url_for('main.instrutor', username=current_user.username) }}">Instrutores</a></li>
+                {% if current_user.tipoUsuario == 'instrutor' %}
                 <li><a href="{{ url_for('main.usuario', username=current_user.username) }}">Meu Perfil</a></li>
+                {% endif %}
                 {% endif %}
                 {% if current_user.admin and current_user.is_authenticated %}
                 <li><a href="{{ url_for('main.perfil_administrador') }}">Alterar Perfil Admin</a></li>

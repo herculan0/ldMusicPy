@@ -48,11 +48,7 @@ def home():
 @main.route("/instrutor/")
 def instrutor():
     user = Usuario.query.filter_by(tipoUsuario='instrutor').all()
-    newport_ri = (Usuario.latitude, Usuario.longitude)
-    cleveland_oh = (Usuario.latitude, Usuario.longitude)
-    distancia = geodesic(newport_ri, cleveland_oh).miles
-
-    return render_template("instrutor.html", user=user, distancia=distancia )
+    return render_template("instrutor.html", usuario =current_user, user=user)
 
 @main.route("/alterar_email/<token>")
 @login_required
