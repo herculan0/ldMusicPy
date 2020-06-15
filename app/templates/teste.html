@@ -1,8 +1,21 @@
-{% extends "base.html" %}
-{% import "bootstrap/wtf.html" as wtf %}
-{% import "_macros.html" as macros %}
+<!--importando a biblioteca SQLAlchemy-->
+{% __init__.py%}
+import SQLAlchemy
 
 
-{% block page_content %}
 
-{% endblock %}
+<!--conexão ao servidor-->
+conexao = SQLAlchemy.connect(
+    host = "localhost"
+    user = "root"
+    password = ""
+    database = "ldmusic"
+
+)
+
+cursor = conexao.cursor()
+cursor.execute("SELECT * FROM usuario")
+resultado = cursor.fatchall()
+
+for x in resultado:
+print(x)

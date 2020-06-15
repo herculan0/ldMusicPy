@@ -12,11 +12,11 @@
 </div>
 
 <div class="body">
-    <div class="alinhamento-centro">
+    <div>
         <div class="comentarios">
-            <div class="video-flex">
+            <div class="embed">
                 {% if usuario.urlVideo %}
-                <iframe width="560" height="315" src="{{ usuario.urlVideo }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <iframe src="{{ usuario.urlVideo }}"></iframe>
                 {% endif %}
             </div>
             <div>

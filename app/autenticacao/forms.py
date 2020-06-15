@@ -20,6 +20,7 @@ class LoginForm(FlaskForm):
     senha = PasswordField("Senha", validators=[DataRequired()])
     remember_me = BooleanField("Lembrar de mim")
     submit = SubmitField("Entrar")
+    
 
 
 class CadastroForm(FlaskForm):
@@ -49,7 +50,7 @@ class CadastroForm(FlaskForm):
         validators=[DataRequired(), Length(1, 64), Regexp(
             "^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]*$", 0,
             "Rua deve conter somente letras")])
-    numero = TextAreaField(
+    numero = StringField(
         "Número",
         validators=[DataRequired(),
                     Regexp("^[0-9]*$",
