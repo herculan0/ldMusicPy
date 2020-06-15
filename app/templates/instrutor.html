@@ -6,27 +6,35 @@
 {% block instrumentos %}
 
 {% endblock  %}
+
+{% if current_user == "aluno" %}
+    {% block instrutor %}
+        
+    {% endblock  %}
+{% endif %}
 {% block content %}
 
 <div class="titulo-instrutor">
     <h1>Instrutores</h1>  
+<<<<<<< HEAD
     {{ instrumentos.instrumento }}
     
+=======
+>>>>>>> 57eff12f89aea3028d584cf847a31e5ec7e8948a
 </div>
+
 <div class="body conteudo-cards">
     {% for user in user %}
         <div class="card">
             <ul style="margin-top: 30px;">
-                
                 <li><b>nome</b></li>            
                 <li><b>Instrumento</b></li>
                 <li><b>Distância</b></li>
-    
             </ul>
             <ul>
                 <li>{{ user.nome }}</li>
                 <li>{{ user.instrumento }}</li>
-                <li>{{ user.longitude }}</li>
+                <li>{{ user.latitude }}</li>
             </ul>
             <hr>
             <ul> 
