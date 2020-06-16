@@ -2,44 +2,35 @@
 {% import "bootstrap/wtf.html" as wtf %}
 {% import "_macros.html" as macros %}
 
-{% block title %}ldMusic{% endblock %}
+{% block title %}ldMusic - instrutores{% endblock %}
 {% block instrumentos %}
 
 {% endblock  %}
 
-{% if current_user == "aluno" %}
-    {% block instrutor %}
-        
-    {% endblock  %}
-{% endif %}
 {% block content %}
 
 <div class="titulo-instrutor">
-    <h1>Instrutores</h1>  
-    
+    <h1>Instrutores</h1>
 </div>
-
 <div class="body conteudo-cards">
-    {% for user in user %}
+    {% for subusuario in instrutores %}
         <div class="card">
             <ul style="margin-top: 30px;">
-                <li><b>nome</b></li>            
+                <li><b>Nome</b></li>            
                 <li><b>Instrumento</b></li>
                 <li><b>Distância</b></li>
             </ul>
             <ul>
-                <li>{{ user.nome }}</li>
-                <li>{{ user.instrumento }}</li>
-                <li>{{ user.latitude }}</li>
+                <li>{{ subusuario.usuario.nome }}</li>
+                <li>{{ subusuario.usuario.instrumento }}</li>
+                <li>{{ subusuario.km }}</li> 
             </ul>
             <hr>
             <ul> 
-                <li><input type="button" value="Solicitar Contato"></li>
-                <li><input type="reset" value="Contato"></li>
+                <li><input type="button" value="{{ subusuario.usuario.email }}"></li>
             </ul>
         </div>
         {% endfor %}
-   
 </div>
 
 {% endblock %}

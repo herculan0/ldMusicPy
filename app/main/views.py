@@ -1,16 +1,18 @@
+import googlemaps
 import os
 from flask import render_template, flash, url_for, redirect
 from flask_login import current_user, login_required
 from ..models import UsuarioAnonimo, Usuario
 from .. import db, login_manager
 from . import main
-from geopy.distance import geodesic
 from .forms import (Instrumentos,
                     PerfilUsuario,
                     EditarPerfilInstrutor,
                     PerfilAdministrador,
                     Relatorio,
                     EditarPerfilForm)
+
+gmaps = googlemaps.Client(key=os.environ.get('API_DISTANCIA'))
 login_manager.anonymous_user = UsuarioAnonimo
 
 
@@ -48,8 +50,14 @@ def home():
 
 @main.route("/instrutor/")
 def instrutor():
-    user = Usuario.query.filter_by(tipoUsuario='instrutor').all()
-    return render_template("instrutor.html", usuario =current_user, user=user)
+    usuarios = Usuario.query.filter_by(tipoUsuario='instrutor').all()
+    instrutores = []
+    for instrutor in usuarios:
+        dist = gmaps.distance_matrix(current_user.endereco, instrutor.endereco)
+        km = dist.get("rows")[0].get("elements")[0].get("distance").get("text")
+        instrutores.append({'usuario': instrutor, 'dist': dist, 'km': km})
+    return render_template("instrutor.html", instrutores=instrutores)
+
 
 @main.route("/alterar_email/<token>")
 @login_required
