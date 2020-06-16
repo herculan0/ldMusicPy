@@ -5,7 +5,7 @@ from flask_login import current_user, login_required
 from ..models import UsuarioAnonimo, Usuario
 from .. import db, login_manager
 from . import main
-from .forms import (Instrumentos,
+from .forms import (Relatorio,
                     PerfilUsuario,
                     EditarPerfilInstrutor,
                     PerfilAdministrador,
@@ -30,31 +30,29 @@ def index():
 def perfil_administrador():
     administrador = PerfilAdministrador()
     return render_template("perfil_administrador.html",
-                           administrador=administrador)
+                            administrador=administrador)
 
 
-@main.route("/relatorio/", methods=['GET'])
+@main.route("/relatorio/", methods=['GET', 'POST'])
 def relatorio():
-    return render_template("relatorio.html")
-
-@main.route("/resultado", methods = ["GET", "POST"])
-def resultado():
-
+    form = Relatorio(request.form)
+    busca = form.busca.data
+    filtro = form.filtro.data
+    tipo_usuario = form.tipo_usuario.data
     if request.method == "POST":
-        tipo = request.form.get("tipo")
-        _tipoUsuario = Usuario.query.filter_by(tipoUsuario=tipo).all()
-        
-        
-        filtro = request.form.get("filtro")
-    
-        if filtro == "nome":
-            _filtro = Usuario.query.order_by(Usuario.nome).all()
-        elif filtro == "instrumento":
-            _filtro = Usuario.query.order_by(Usuario.instrumento).all()
-        else:
-            _filtro = Usuario.query.order_by(Usuario.cidade).all()
-
-        return render_template("relatorio_resultado.html", _tipoUsuario=_tipoUsuario, _filtro=_filtro)
+        if busca == "":
+            usuarios = Usuario.query.filter_by(tipoUsuario=tipo_usuario).all()
+            return render_template('relatorio.html', form=form, usuarios=usuarios)
+        elif filtro =='nome':
+            usuarios = Usuario.query.filter_by(tipoUsuario=tipo_usuario, nome=busca).all()
+            return render_template('relatorio.html', form=form, usuarios=usuarios)
+        elif filtro == 'cidade':
+            usuarios = Usuario.query.filter_by(tipoUsuario=tipo_usuario, cidade=busca).all()
+            return render_template('relatorio.html', form=form, usuarios=usuarios)
+        elif filtro == 'instrumento':
+            usuarios = Usuario.query.filter_by(tipoUsuario=tipo_usuario, instrumento=busca).all()
+            return render_template('relatorio.html', form=form, usuarios=usuarios)
+    return render_template('relatorio.html', form=form)
 
 
 @main.route("/home/")
@@ -125,4 +123,4 @@ def editar_perfil_usuario():
         return redirect(url_for('main.usuario',
                                 username=current_user.username))
     return render_template("editar_perfil_usuario.html",
-                           form=form)
+                        form=form)

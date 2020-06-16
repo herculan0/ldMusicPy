@@ -41,10 +41,13 @@ class Relatorio(FlaskForm):
             ("cidade", "Cidade"),
         ],
     )
-    usuario = SelectField(
-        "Usuario", choices=[("aluno", "Aluno"), ("instrutor", "Instrutor")]
+    tipo_usuario = SelectField(
+        "Tipo Usuario", choices=[("aluno", "Aluno"),
+                                ("instrutor", "Instrutor")]
     )
     busca = StringField("Busca", validators=[Length(1, 180)])
+    submit = SubmitField("Pesquisar")
+
 
 
 class PerfilAdministrador(FlaskForm):
