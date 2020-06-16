@@ -1,6 +1,6 @@
 import googlemaps
 import os
-from flask import render_template, flash, url_for, redirect
+from flask import render_template, flash, url_for, redirect, request
 from flask_login import current_user, login_required
 from ..models import UsuarioAnonimo, Usuario
 from .. import db, login_manager
@@ -35,11 +35,15 @@ def perfil_administrador():
 
 @main.route("/relatorio/", methods=['GET'])
 def relatorio():
-    relatorio = Relatorio()
-    if relatorio.validate_on_submit():
-        filtro = relatorio.filtro.data,
-        busca = relatorio.busca.data
-    return render_template("relatorio.html", relatorio=relatorio)
+    return render_template("relatorio.html")
+
+@main.route("/resultado", methods = ["GET", "POST"])
+def resultado():
+
+    if request.method == "POST":
+        tipo = request.form.get("tipo")
+        _tipoUsuario = Usuario.query.filter_by(tipoUsuario=tipo).all()
+        return render_template("relatorio_resultado.html", _tipoUsuario=_tipoUsuario)
 
 
 @main.route("/home/")
@@ -95,7 +99,7 @@ def editar_perfil_instrutor():
         return redirect(url_for('main.usuario',
                                 username=current_user.username))
     return render_template("editar_perfil_instrutor.html",
-                           form=form)
+                            form=form)
 
 
 @main.route("/editar_perfil_usuario/", methods=['GET', 'POST'])

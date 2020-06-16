@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "_macros.html" as macros %}
+
+
+{% block page_content %}
+    
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">id</th>
+        <th scope="col">Nome</th>
+        <th scope="col">e-mail</th>
+        <th scope="col">Perfil</th>
+      </tr>
+    </thead>
+    <tbody>
+  
+      {% for _tipoUsuario in _tipoUsuario %}        
+      <tr>
+        <th scope="row"> {{ _tipoUsuario.id }}</th>
+        <td>{{ _tipoUsuario.id }}</td>
+        <td>{{ _tipoUsuario.nome }}</td>
+        <td>{{ _tipoUsuario.email }}</td>
+        <td>{{ _tipoUsuario.username }}</td>
+      </tr>
+      {% endfor %}
+            
+    </tbody>
+  </table>
+
+{% endblock %}

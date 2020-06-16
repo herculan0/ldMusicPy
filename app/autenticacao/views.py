@@ -65,11 +65,11 @@ def cadastro():
     form = CadastroForm()
     if form.validate_on_submit():
         localizacao = str("{} {} {}".format(
-                                         form.rua.data,
-                                         str(form.numero.data),
-                                         form.cidade.data,
+                                            form.rua.data,
+                                            str(form.numero.data),
+                                            form.cidade.data,
                                             )
-                          )
+                        )
         localizacao = geolocalizacao.geocode("'{}'".format(
                                     localizacao),
                                     exactly_one=True) # olha o trampo ..

@@ -9,10 +9,21 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
-      <form class="navbar-form navbar-left">
-        {{ relatorio.usuario }}
-        {{ relatorio.filtro }}
-        {{ relatorio.busca }}
+      <form action="/resultado" method="POST" class="navbar-form navbar-left">
+
+        <select name="tipo">
+          <option value="aluno">Aluno</option>
+          <option value="instrutor">Instrutor</option>
+        </select>
+
+        <select name="filtro">
+          <option value="nome">Nome</option>
+          <option value="instrumento">Instrumento</option>
+          <option value="cidade">Cidade</option>
+        </select>
+
+        <input type="search" name="busca">
+
         <button type="submit" class="btn btn-default">Submit</button>
       </form>
       <ul class="nav nav-pills navbar-right total-relatorio" role="tablist">
@@ -22,49 +33,6 @@
   </div><!-- /.container-fluid -->
 </nav>
 
-<table class="table">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">id</th>
-      <th scope="col">Nome</th>
-      <th scope="col">e-mail</th>
-      <th scope="col">Perfil</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">1</th>
 
-      <td>Joao</td>
-      <td>Silva</td>
-      <td>silva@gmail.com</td>
-      <td>silva_93</td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>João</td>
-      <td>Silva</td>
-      <td>silva@gmail.com</td>
-      <td>silva_93</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td>João</td>
-      <td>Silva</td>
-      <td>silva@gmail.com</td>
-      <td>silva_93</td>
-    </tr>
-  </tbody>
-</table>
-
-<div class="btn-group btn-group-justified" role="group" aria-label="...">
-  <div class="btn-group" role="group">
-    <button type="button" class="btn btn-default">Voltar</button>
-  </div>
-
-  <div class="btn-group" role="group">
-    <button type="button" class="btn btn-default">Sair</button>
-  </div>
 </div>
 {% endblock %}
