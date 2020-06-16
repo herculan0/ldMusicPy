@@ -41,10 +41,13 @@ class Relatorio(FlaskForm):
             ("cidade", "Cidade"),
         ],
     )
-    usuario = SelectField(
-        "Usuario", choices=[("aluno", "Aluno"), ("instrutor", "Instrutor")]
+    tipo_usuario = SelectField(
+        "Tipo Usuario", choices=[("aluno", "Aluno"),
+                                ("instrutor", "Instrutor")]
     )
     busca = StringField("Busca", validators=[Length(1, 180)])
+    submit = SubmitField("Pesquisar")
+
 
 
 class PerfilAdministrador(FlaskForm):
@@ -97,18 +100,18 @@ class PerfilUsuario(FlaskForm):
     instrumento = SelectField(
         "Instrumento",
         choices=[
-            ("violao", "violao"),
-            ("bateria", "bateria"),
-            ("guitarra", "guitarra"),
+            ("Violão", "violao"),
+            ("Bateria", "bateria"),
+            ("Guitarra", "guitarra"),
         ],
     )
     nivel_conhecimento = SelectField(
         "Nivel",
         choices=[
             ("nenhum", "nenhum"),
-            ("basico", "basico"),
-            ("medio", "medio"),
-            ("avancado", "avancado"),
+            ("Iniciante", "iniciante"),
+            ("Intermediário", "intermediario"),
+            ("Avançado", "avancado"),
         ],
     )
 

@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "_macros.html" as macros %}
+
+
+{% block page_content %}
+
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+  
+        <form action="/resultado" method="POST" class="navbar-form navbar-left">
+  
+          <select name="tipo">
+            <option value="aluno">Aluno</option>
+            <option value="instrutor">Instrutor</option>
+          </select>
+  
+          <select name="filtro">
+            <option value="nome">Nome</option>
+            <option value="instrumento">Instrumento</option>
+            <option value="cidade">Cidade</option>
+          </select>
+  
+          
+  
+          <button type="submit" class="btn btn-default">Submit</button>
+        </form>
+      </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+  </nav>
+    
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">id</th>
+        <th scope="col">Nome</th>
+        <th scope="col">e-mail</th>
+        <th scope="col">Instrumento</th>
+        <th scope="col">Perfil</th>
+        <th scope="col">Cidade</th>
+      </tr>
+    </thead>
+    <tbody>
+  
+      {% for _tipoUsuario in _tipoUsuario %}
+      <tr>
+        <th scope="row"> {{ _tipoUsuario.id }}</th>
+        <td>{{ _tipoUsuario.id }}</td>
+        <td>{{ _tipoUsuario.nome }}</td>
+        <td>{{ _tipoUsuario.email }}</td>
+        <td>{{ _tipoUsuario.instrumento }}</td>
+        <td>{{ _tipoUsuario.username }}</td>
+        <td>{{ _tipoUsuario.cidade }}</td>
+      </tr>
+      {% endfor %}
+            
+    </tbody>
+  </table>
+
+{% endblock %}

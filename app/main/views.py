@@ -1,14 +1,18 @@
-from flask import render_template, flash, url_for, redirect
+import googlemaps
+import os
+from flask import render_template, flash, url_for, redirect, request
 from flask_login import current_user, login_required
 from ..models import UsuarioAnonimo, Usuario
 from .. import db, login_manager
 from . import main
-from .forms import (Instrumentos,
+from .forms import (Relatorio,
                     PerfilUsuario,
                     EditarPerfilInstrutor,
                     PerfilAdministrador,
                     Relatorio,
                     EditarPerfilForm)
+
+gmaps = googlemaps.Client(key=os.environ.get('API_DISTANCIA'))
 login_manager.anonymous_user = UsuarioAnonimo
 
 
@@ -26,16 +30,29 @@ def index():
 def perfil_administrador():
     administrador = PerfilAdministrador()
     return render_template("perfil_administrador.html",
-                           administrador=administrador)
+                            administrador=administrador)
 
 
-@main.route("/relatorio/", methods=['GET'])
+@main.route("/relatorio/", methods=['GET', 'POST'])
 def relatorio():
-    relatorio = Relatorio()
-    if relatorio.validate_on_submit():
-        filtro = relatorio.filtro.data,
-        busca = relatorio.busca.data
-    return render_template("relatorio.html", relatorio=relatorio)
+    form = Relatorio(request.form)
+    busca = form.busca.data
+    filtro = form.filtro.data
+    tipo_usuario = form.tipo_usuario.data
+    if request.method == "POST":
+        if busca == "":
+            usuarios = Usuario.query.filter_by(tipoUsuario=tipo_usuario).all()
+            return render_template('relatorio.html', form=form, usuarios=usuarios)
+        elif filtro =='nome':
+            usuarios = Usuario.query.filter_by(tipoUsuario=tipo_usuario, nome=busca).all()
+            return render_template('relatorio.html', form=form, usuarios=usuarios)
+        elif filtro == 'cidade':
+            usuarios = Usuario.query.filter_by(tipoUsuario=tipo_usuario, cidade=busca).all()
+            return render_template('relatorio.html', form=form, usuarios=usuarios)
+        elif filtro == 'instrumento':
+            usuarios = Usuario.query.filter_by(tipoUsuario=tipo_usuario, instrumento=busca).all()
+            return render_template('relatorio.html', form=form, usuarios=usuarios)
+    return render_template('relatorio.html', form=form)
 
 
 @main.route("/home/")
@@ -46,8 +63,13 @@ def home():
 
 @main.route("/instrutor/")
 def instrutor():
-    instrumentos = Instrumentos()
-    return render_template("instrutor.html", instrumentos=instrumentos)
+    usuarios = Usuario.query.filter_by(tipoUsuario='instrutor').all()
+    instrutores = []
+    for instrutor in usuarios:
+        dist = gmaps.distance_matrix(current_user.endereco, instrutor.endereco)
+        km = dist.get("rows")[0].get("elements")[0].get("distance").get("text")
+        instrutores.append({'usuario': instrutor, 'dist': dist, 'km': km})
+    return render_template("instrutor.html", instrutores=instrutores)
 
 
 @main.route("/alterar_email/<token>")
@@ -86,7 +108,7 @@ def editar_perfil_instrutor():
         return redirect(url_for('main.usuario',
                                 username=current_user.username))
     return render_template("editar_perfil_instrutor.html",
-                           form=form)
+                            form=form)
 
 
 @main.route("/editar_perfil_usuario/", methods=['GET', 'POST'])
@@ -101,4 +123,4 @@ def editar_perfil_usuario():
         return redirect(url_for('main.usuario',
                                 username=current_user.username))
     return render_template("editar_perfil_usuario.html",
-                           form=form)
+                        form=form)

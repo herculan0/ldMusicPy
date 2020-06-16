@@ -10,10 +10,12 @@ from .forms import (LoginForm,
                     RequisicaoResetaSenhaForm,
                     SenhaResetaForm)
 from .. import db
-from functools import partial
-from geopy.geocoders import Nominatim as geolocalizacao # Aqui eu importo a biblioteca...
-geolocalizacao = geolocalizacao(user_agent="app") # aqui eu crio um objeto
-geocode = partial(geolocalizacao.geocode, language="pt")
+import os
+# Aqui eu importo a biblioteca...
+from geopy import geocoders as geolocalizacao
+
+geolocalizacao = geolocalizacao.GoogleV3(
+    api_key=os.environ.get('API_MAPS'))
 
 
 @autenticacao.before_request
@@ -57,46 +59,56 @@ def logout():
     flash("Você se deslogou com sucesso.")
     return redirect(url_for("main.index"))
 
-#rota de geolocalização
+
 @autenticacao.route("/cadastro", methods=["GET", "POST"])
 def cadastro():
     form = CadastroForm()
     if form.validate_on_submit():
-        localizacao = str("{} {} {}".format(
-                                         form.rua.data,
-                                         str(form.numero.data),
-                                         form.cidade.data,
-                                            )
-                          )
-        localizacao = geolocalizacao.geocode("'{}'".format(
-                                    localizacao),
-                                    exactly_one=True) # olha o trampo ..
-        endereco = str(localizacao)
-        latitude = localizacao.latitude
-        longitude = localizacao.longitude
-        usuario = Usuario(
-            email=form.email.data.lower(),
-            nome=form.nome.data,
-            username=form.username.data,
-            senha=form.senha.data,
-            rua=form.rua.data,
-            numero=form.numero.data,
-            cidade=form.cidade.data,
-            endereco=endereco,
-            latitude=latitude,
-            longitude=longitude,
-            tipoUsuario=form.tipoUsuario.data)
-        db.session.add(usuario)
-        db.session.commit()
-        token = usuario.gerar_token_confirmar()
-        enviar_email(
-            usuario.email,
-            "Confirme sua conta",
-            "autenticacao/email/confirmar",
-            usuario=usuario,
-            token=token)
-        flash("Um email de confirmação foi enviado para o seu email.")
-        return redirect(url_for("autenticacao.login"))
+        
+        if Usuario.query.filter_by(
+                username=form.username.data.lower()).first():
+            flash('Username já em uso, favor utilizar outro')
+            return render_template("autenticacao/cadastro.html", form=form)
+        elif Usuario.query.filter_by(email=form.email.data.lower()).first():
+            flash('Email Já está em uso, favor utilizar outro')
+            return render_template("autenticacao/cadastro.html", form=form)
+        else:
+            localizacao = str("{} {} {}".format(
+                                                form.rua.data,
+                                                str(form.numero.data),
+                                                form.cidade.data,
+                                                )
+                            )
+            localizacao = geolocalizacao.geocode("'{}'".format(
+                                        localizacao),
+                                        exactly_one=True)
+            endereco = str(localizacao)
+            latitude = localizacao.latitude
+            longitude = localizacao.longitude
+            usuario = Usuario(
+                email=form.email.data.lower(),
+                nome=form.nome.data,
+                username=form.username.data,
+                senha=form.senha.data,
+                rua=form.rua.data,
+                numero=form.numero.data,
+                cidade=form.cidade.data,
+                endereco=endereco,
+                latitude=latitude,
+                longitude=longitude,
+                tipoUsuario=form.tipoUsuario.data,
+                instrumento=form.instrumento.data)
+            db.session.add(usuario)
+            db.session.commit()
+            token = usuario.gerar_token_confirmar()
+            enviar_email(
+                usuario.email,
+                "Confirme sua conta",
+                "autenticacao/email/confirmar",
+                usuario=usuario,
+                token=token)
+            flash("Um email de confirmação foi enviado para o seu email.")
+            return redirect(url_for("autenticacao.login"))
     return render_template("autenticacao/cadastro.html", form=form)
 
 
