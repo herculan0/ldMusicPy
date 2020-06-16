@@ -1,3 +1,4 @@
+import os
 from flask import render_template, flash, url_for, redirect
 from flask_login import current_user, login_required
 from ..models import UsuarioAnonimo, Usuario
