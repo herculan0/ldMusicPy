@@ -97,18 +97,18 @@ class PerfilUsuario(FlaskForm):
     instrumento = SelectField(
         "Instrumento",
         choices=[
-            ("violao", "violao"),
-            ("bateria", "bateria"),
-            ("guitarra", "guitarra"),
+            ("Violão", "violao"),
+            ("Bateria", "bateria"),
+            ("Guitarra", "guitarra"),
         ],
     )
     nivel_conhecimento = SelectField(
         "Nivel",
         choices=[
             ("nenhum", "nenhum"),
-            ("basico", "basico"),
-            ("medio", "medio"),
-            ("avancado", "avancado"),
+            ("Iniciante", "iniciante"),
+            ("Intermediário", "intermediario"),
+            ("Avançado", "avancado"),
         ],
     )
 
