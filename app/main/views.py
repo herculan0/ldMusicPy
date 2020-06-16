@@ -43,7 +43,17 @@ def resultado():
     if request.method == "POST":
         tipo = request.form.get("tipo")
         _tipoUsuario = Usuario.query.filter_by(tipoUsuario=tipo).all()
-        return render_template("relatorio_resultado.html", _tipoUsuario=_tipoUsuario)
+        
+        filtro = request.form.get("filtro")
+    
+        if filtro == "nome":
+            _filtro = Usuario.query.order_by(Usuario.nome)
+        elif filtro == "instrumento":
+            _filtro = Usuario.query.order_by(Usuario.instrumento)
+        else:
+            _filtro = Usuario.query.order_by(Usuario.cidade)
+            
+        return render_template("relatorio_resultado.html", _tipoUsuario=_tipoUsuario, _filtro=_filtro)
 
 
 @main.route("/home/")
