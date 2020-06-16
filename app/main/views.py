@@ -1,5 +1,6 @@
 import googlemaps
 import os
+import re
 from flask import render_template, flash, url_for, redirect, request
 from flask_login import current_user, login_required
 from ..models import UsuarioAnonimo, Usuario
@@ -68,7 +69,10 @@ def instrutor():
     for instrutor in usuarios:
         dist = gmaps.distance_matrix(current_user.endereco, instrutor.endereco)
         km = dist.get("rows")[0].get("elements")[0].get("distance").get("text")
-        instrutores.append({'usuario': instrutor, 'dist': dist, 'km': km})
+        km = str(re.findall(r"[-+]?\d*\.\d+|\d+", km)).strip('[]').strip("\'")
+        km = float(km)
+        if km <= 15:
+            instrutores.append({'usuario': instrutor, 'dist': dist, 'km': km})
     return render_template("instrutor.html", instrutores=instrutores)
 
 

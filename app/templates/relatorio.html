@@ -31,7 +31,7 @@
         <th scope="col">Nome</th>
         <th scope="col">e-mail</th>
         <th scope="col">Instrumento</th>
-        <th scope="col">Perfil</th>
+        <th scope="col">Username</th>
         <th scope="col">Cidade</th>
         <th scope="col">Tipo Usuario</th>
       </tr>
@@ -40,7 +40,6 @@
   
       {% for usuario in usuarios %}
       <tr>
-        <th scope="row"> {{ usuario.id }}</th>
         <td>{{ usuario.id }}</td>
         <td>{{ usuario.nome }}</td>
         <td>{{ usuario.email }}</td>
