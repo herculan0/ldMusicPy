@@ -10,11 +10,12 @@ from .forms import (LoginForm,
                     RequisicaoResetaSenhaForm,
                     SenhaResetaForm)
 from .. import db
-from functools import partial
-from geopy.geocoders import Nominatim as geolocalizacao # Aqui eu importo a biblioteca...
-from geopy.distance import geodesic as distancia
-geolocalizacao = geolocalizacao(user_agent="app") # aqui eu crio um objeto
-geocode = partial(geolocalizacao.geocode, language="pt")
+import os
+# Aqui eu importo a biblioteca...
+from geopy import geocoders as geolocalizacao
+
+geolocalizacao = geolocalizacao.GoogleV3(
+    api_key=os.environ.get('API_MAPS'))
 
 
 @autenticacao.before_request
