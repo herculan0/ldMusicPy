@@ -7,6 +7,7 @@ from wtforms import (
     TextAreaField,
     RadioField,
     IntegerField,
+    SelectField,
 )
 from wtforms.validators import DataRequired, Length, Email, Regexp, EqualTo
 from wtforms import ValidationError
@@ -20,7 +21,6 @@ class LoginForm(FlaskForm):
     senha = PasswordField("Senha", validators=[DataRequired()])
     remember_me = BooleanField("Lembrar de mim")
     submit = SubmitField("Entrar")
-    
 
 
 class CadastroForm(FlaskForm):
@@ -65,15 +65,16 @@ class CadastroForm(FlaskForm):
         "Você é Aluno ou Instrutor?",
         choices=[("aluno", "Aluno"), ("instrutor", "Instrutor")],
     )
+    instrumento = SelectField(
+        "Instrumento",
+        choices=[
+            ("violao", "Violão"),
+            ("bateria", "Bateria"),
+            ("guitarra", "Guitarra"),
+        ]
+    )
+
     submit = SubmitField("Cadastrar")
-
-    def validar_email(self, field):
-        if Usuario.query.filter_by(email=field.data.lower()).first():
-            raise ValidationError("Email já em está em uso.")
-
-    def validar_username(self, field):
-        if Usuario.query.filter_by(username=field.data.lower()).first():
-            raise ValidationError("Usuario já cadastrado")
 
 
 class AlterarSenhaForm(FlaskForm):
