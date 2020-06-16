@@ -44,15 +44,16 @@ def resultado():
         tipo = request.form.get("tipo")
         _tipoUsuario = Usuario.query.filter_by(tipoUsuario=tipo).all()
         
+        
         filtro = request.form.get("filtro")
     
         if filtro == "nome":
-            _filtro = Usuario.query.order_by(Usuario.nome)
+            _filtro = Usuario.query.order_by(Usuario.nome).all()
         elif filtro == "instrumento":
-            _filtro = Usuario.query.order_by(Usuario.instrumento)
+            _filtro = Usuario.query.order_by(Usuario.instrumento).all()
         else:
-            _filtro = Usuario.query.order_by(Usuario.cidade)
-            
+            _filtro = Usuario.query.order_by(Usuario.cidade).all()
+
         return render_template("relatorio_resultado.html", _tipoUsuario=_tipoUsuario, _filtro=_filtro)
 
 

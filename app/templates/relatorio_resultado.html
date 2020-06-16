@@ -27,9 +27,6 @@
   
           <button type="submit" class="btn btn-default">Submit</button>
         </form>
-        <ul class="nav nav-pills navbar-right total-relatorio" role="tablist">
-          <li role="presentation" class="active"><a href="#">Total <span class="badge">42</span></a></li>
-        </ul>
       </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
   </nav>
@@ -48,15 +45,15 @@
     </thead>
     <tbody>
   
-      {% for _filtro in _filtro %}
+      {% for _tipoUsuario in _tipoUsuario %}
       <tr>
-        <th scope="row"> {{ _filtro.id }}</th>
-        <td>{{ _filtro.id }}</td>
-        <td>{{ _filtro.nome }}</td>
-        <td>{{ _filtro.email }}</td>
-        <td>{{ _filtro.instrumento }}</td>
-        <td>{{ _filtro.username }}</td>
-        <td>{{ _filtro.cidade }}</td>
+        <th scope="row"> {{ _tipoUsuario.id }}</th>
+        <td>{{ _tipoUsuario.id }}</td>
+        <td>{{ _tipoUsuario.nome }}</td>
+        <td>{{ _tipoUsuario.email }}</td>
+        <td>{{ _tipoUsuario.instrumento }}</td>
+        <td>{{ _tipoUsuario.username }}</td>
+        <td>{{ _tipoUsuario.cidade }}</td>
       </tr>
       {% endfor %}
             
