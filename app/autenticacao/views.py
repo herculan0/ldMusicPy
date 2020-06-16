@@ -64,18 +64,7 @@ def logout():
 def cadastro():
     form = CadastroForm()
     if form.validate_on_submit():
-        localizacao = str("{} {} {}".format(
-                                            form.rua.data,
-                                            str(form.numero.data),
-                                            form.cidade.data,
-                                            )
-                        )
-        localizacao = geolocalizacao.geocode("'{}'".format(
-                                    localizacao),
-                                    exactly_one=True)
-        endereco = str(localizacao)
-        latitude = localizacao.latitude
-        longitude = localizacao.longitude
+        
         if Usuario.query.filter_by(
                 username=form.username.data.lower()).first():
             flash('Username já em uso, favor utilizar outro')
@@ -84,6 +73,18 @@ def cadastro():
             flash('Email Já está em uso, favor utilizar outro')
             return render_template("autenticacao/cadastro.html", form=form)
         else:
+            localizacao = str("{} {} {}".format(
+                                                form.rua.data,
+                                                str(form.numero.data),
+                                                form.cidade.data,
+                                                )
+                            )
+            localizacao = geolocalizacao.geocode("'{}'".format(
+                                        localizacao),
+                                        exactly_one=True)
+            endereco = str(localizacao)
+            latitude = localizacao.latitude
+            longitude = localizacao.longitude
             usuario = Usuario(
                 email=form.email.data.lower(),
                 nome=form.nome.data,
