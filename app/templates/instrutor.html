@@ -27,7 +27,7 @@
             </ul>
             <hr>
             <ul> 
-                <li><input type="button" value="{{ subusuario.usuario.email }}"></li>
+                <li><a href="/usuario/{{ subusuario.usuario.username }}"><input type="button" value="{{ subusuario.usuario.email }}"></li></a>
             </ul>
         </div>
         {% endfor %}
