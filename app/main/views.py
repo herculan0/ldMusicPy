@@ -102,10 +102,14 @@ def usuario(username):
 def editar_perfil_instrutor():
     form = EditarPerfilInstrutor()
     if form.validate_on_submit():
-        current_user.endereco = form.endereco.data
-        current_user.urlVideo = form.urlVideo.data
-        current_user.sobre_mim = form.sobre_mim.data
-        current_user.instrumento = form.instrumento.data
+        if form.endereco.data is not "":
+            current_user.endereco = form.endereco.data
+        if form.urlVideo.data is not "":
+            current_user.urlVideo = form.urlVideo.data
+        if form.sobre_mim.data is not "":
+            current_user.sobre_mim = form.sobre_mim.data
+        if form.instrumento.data is not "":
+            current_user.instrumento = form.instrumento.data
         db.session.add(current_user)
         db.session.commit()
         flash("Seu perfil foi atualizado com sucesso")
