@@ -18,16 +18,16 @@
             <ul style="margin-top: 30px;">
                 <li><b>Nome</b></li>            
                 <li><b>Instrumento</b></li>
-                <li><b>Distância</b></li>
+                <li><b>Distância aproximada</b>(em KM)</li>
             </ul>
             <ul>
-                <li>{{ subusuario.usuario.nome }}</li>
+		    <li><a href="{{ url_for("main.usuario", username=subusuario.usuario.username )}}">{{ subusuario.usuario.nome }}</a></li>
                 <li>{{ subusuario.usuario.instrumento }}</li>
                 <li>{{ subusuario.km }}</li> 
             </ul>
             <hr>
             <ul> 
-                <li><input type="button" value="{{ subusuario.usuario.email }}"></li>
+		    <li><input type="button" value="{{ subusuario.usuario.email }}"></a></li>
             </ul>
         </div>
         {% endfor %}

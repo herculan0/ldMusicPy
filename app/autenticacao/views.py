@@ -11,7 +11,6 @@ from .forms import (LoginForm,
                     SenhaResetaForm)
 from .. import db
 import os
-# Aqui eu importo a biblioteca...
 from geopy import geocoders as geolocalizacao
 
 geolocalizacao = geolocalizacao.GoogleV3(
