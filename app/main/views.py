@@ -67,7 +67,7 @@ def instrutor():
     usuarios = Usuario.query.filter_by(tipoUsuario='instrutor').all()
     instrutores = []
     for instrutor in usuarios:
-        dist = gmaps.distance_matrix(current_user.endereco, instrutor.endereco)
+        dist = gmaps.distance_matrix(current_user.endereco, instrutor.endereco, mode="walking")
         km = dist.get("rows")[0].get("elements")[0].get("distance").get("text")
         km = str(re.findall(r"[-+]?\d*\.\d+|\d+", km)).strip('[]').strip("\'")
         km = float(km)

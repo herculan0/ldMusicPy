@@ -7,9 +7,6 @@ from flask import current_app
 from flask_login import UserMixin, AnonymousUserMixin
 from . import db
 from functools import partial
-from geopy.geocoders import Nominatim as geolocalizacao
-geolocalizacao = geolocalizacao(user_agent="app")
-geocode = partial(geolocalizacao.geocode, language="pt")
 
 
 class Permissao:
