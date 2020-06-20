@@ -21,8 +21,15 @@
                 <li><b>Distância</b></li>
             </ul>
             <ul>
-		        <li><a href="{{ url_for("main.usuario", username=subusuario.usuario.username )}}">{{ subusuario.usuario.nome }}</a></li>
+		<li><a href="{{ url_for("main.usuario", username=subusuario.usuario.username )}}">{{ subusuario.usuario.nome }}</a></li>
                 <li>{{ subusuario.usuario.instrumento }}</li>
+		{% if violao == subusuario.usuario.instrumento  %}
+                <img class="card-img-top" src="https://image.flaticon.com/icons/svg/1836/1836514.svg" width = "20px">
+                {% elif bateria == subusuario.usuario.instrumento %}
+                <img class="card-img-top" src="https://image.flaticon.com/icons/svg/860/860310.svg" width = "20px">
+                {% elif guitarra == subusuario.usuario.instrumento %}
+                <img class="card-img-top" src="https://image.flaticon.com/icons/svg/2966/2966010.svg" width = "20px">
+                {% endif %}
                 <li>{{ subusuario.km }}</li> 
             </ul>
             <hr>

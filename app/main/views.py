@@ -66,6 +66,9 @@ def home():
 def instrutor():
     usuarios = Usuario.query.filter_by(tipoUsuario='instrutor').all()
     instrutores = []
+    violao = 'violao'
+    guitarra = 'guitarra'
+    bateria = 'bateria'
     for instrutor in usuarios:
         dist = gmaps.distance_matrix(current_user.endereco, instrutor.endereco, mode="walking")
         km = dist.get("rows")[0].get("elements")[0].get("distance").get("text")
@@ -73,7 +76,7 @@ def instrutor():
         km = float(km)
         if km <= 15:
             instrutores.append({'usuario': instrutor, 'dist': dist, 'km': km})
-    return render_template("instrutor.html", instrutores=instrutores)
+    return render_template("instrutor.html", instrutores=instrutores, guitarra=guitarra, bateria=bateria, violao=violao)
 
 
 @main.route("/alterar_email/<token>")
