@@ -8,21 +8,14 @@
 
     <div class="page-header" align="center">
         <h2>Seja bem vindo ao ldMusic, {% if current_user.is_authenticated %}{{ current_user.username }}{% else %}sinta-se a vontade{% endif %}!</h2>
-
-        
-                   <br><br> <img class="card-img-top" src="../static/images/imagem1.jpeg" whidth = "200px"> <!--Adicionando imagen a página-->
-                    
-            
+                   <br><br> <img class="card-img-top" src="../static/compose.svg" whidth = "200px"> <!--Adicionando imagen a página-->
         </div>
-                   
 <div class="footer" margin-top = "05" align = "center">
-   
         {% if current_user.is_anonymous %}
     <div class="col-sm-6" align = "center">
-       
         {% endif %}
         <h4 class=justify-content-center"><p>Entre em contato conosco!<br>
-            E-mail: <a href="#">ldmusic@gmail.com</a></h4></p><!--MAILTO: encaminha o usuário para uma pagina de envio de email-->
+            E-mail: <a href="#">ldmusic00@gmail.com</a></h4></p><!--MAILTO: encaminha o usuário para uma pagina de envio de email-->
     </div>
 </div>
     

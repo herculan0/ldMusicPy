@@ -21,7 +21,7 @@
                 <li><b>Distância</b></li>
             </ul>
             <ul>
-                <li>{{ subusuario.usuario.nome }}</li>
+                <li><a href="{{ url_for("main.usuario" , username=subusuario.usuario.username) }}">{{ subusuario.usuario.nome }}</li>
                 <li>{{ subusuario.usuario.instrumento }}</li>
                 <li>{{ subusuario.km }}</li> 
             </ul>
