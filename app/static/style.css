@@ -1,4 +1,5 @@
 .body {
+    background-image: url('/static/images/music.wepb');
     display: grid;
     margin: 30px;
     gap: 25px;
